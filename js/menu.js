@@ -11,6 +11,8 @@ let game1Blue = {
   height: 180,
   maxY: 280,
   minY: 200,
+  maxX: 480,
+  minX: 420,
 };
 
 let game2Green = {
@@ -42,19 +44,32 @@ let game4Yellow = {
 
 ///////////////////////////CINEMATIC variables////////////////////////////////////
 /////////////////////////////CINEMATIC variables////////////////////////////////////
-menuTitleTimer = 0; ////starts at zero will go up to the limit that will trigger titleOn = false////
+let menuTitleTimer = 0; ////starts at zero will go up to the limit that will trigger titleOn = false////
+let menuClicked = false; ////will be true when mouse is clicked to trigger next event////
 let menuInputEnabled = false; //WHEN false will start opacity7 going Down.
 let menuOpacityImg7 = 255;
+let othertOUCHED = false;
 
 let goGameTimer = 0; ////timer to go to the game after click////
 let fadeOutToGame = 0; ////overall fade to black////
-let fadeOutToGame1 = 0; ////actually a fade in to black////
+let menuOver = false; ///will trigger the next page when true////
+
+let fadeOutToGame1 = 0; ////actually a fade in to black when click on icon////
+let fadeInToGame1 = 0; //this will make a glowing version of the icon when hovering//
+
 let fadeOutToGame2 = 0;
+let fadeInToGame2 = 0;
+
 let fadeOutToGame3 = 0;
+let fadeInToGame3 = 0;
+
 let fadeOutToGame4 = 0;
+let fadeInToGame4 = 0;
 
 ////for the mouvement of the 4 menu icons////
-let speed = 0.2;
+let menuSpeed = 0.2;
+let menuSpeed2 = 0.08;
+let menuSpeed3 = 0.6;
 let direction = 1;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
@@ -68,17 +83,24 @@ let menuImg4;
 let menuImg5;
 let menuImg6;
 let menuImg7;
-
+let menuImg8;
+let menuImg9;
+let menuImg10;
+let menuImg11;
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
   ////////////////////menu images//////////////////////
-  menuImg1 = loadImage("./assets/images/jeu1.png");
-  menuImg2 = loadImage("./assets/images/jeu22.png");
-  menuImg3 = loadImage("./assets/images/jeu32.png");
-  menuImg4 = loadImage("./assets/images/jeu42.png");
+  menuImg1 = loadImage("./assets/images/jeu11.png");
+  menuImg2 = loadImage("./assets/images/jeu21.png");
+  menuImg3 = loadImage("./assets/images/jeu31.png");
+  menuImg4 = loadImage("./assets/images/jeu41.png");
   menuImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
   menuImg6 = loadImage("./assets/images/godhand.png");
-  menuImg7 = loadImage("./assets/images/ecrandaccueil1.jpg");
+  menuImg7 = loadImage("./assets/images/ecrandaccueil1.png");
+  menuImg8 = loadImage("./assets/images/jeu22.png");
+  menuImg9 = loadImage("./assets/images/jeu32.png");
+  menuImg10 = loadImage("./assets/images/jeu42.png");
+  menuImg11 = loadImage("./assets/images/jeu1.png");
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.jpg");
@@ -129,39 +151,79 @@ function menuDraw() {
   fill(0, 255, 0, 0);
   noStroke();
   image(menuImg5, 0, 0);
+  pop();
 
-  //1TEETHblue-variation//
+  //////////////////////1TEETHblue-variation////////////////////////////
+  pop();
+  tint(255, 255);
   image(menuImg1, game1Blue.x - 195, game1Blue.y - 155);
+  noStroke();
+  fill(0, 0);
   ellipse(game1Blue.x, game1Blue.y, game1Blue.width, game1Blue.height);
+  tint(255, fadeInToGame1);
+  image(menuImg11, game1Blue.x - 195, game1Blue.y - 155);
+  push();
 
-  game1Blue.y += speed * direction;
+  game1Blue.y += menuSpeed * direction;
   if (game1Blue.y > game1Blue.maxY || game1Blue.y < game1Blue.minY) {
     direction *= -1;
   }
 
-  //2OPALgreen-variation//
-  image(menuImg2, game2Green.x - 195, game2Green.y - 155);
+  game1Blue.x += menuSpeed * direction;
+  if (game1Blue.x > game1Blue.maxX || game1Blue.x < game1Blue.minX) {
+    direction *= -1;
+  }
+
+  ///////////////////////2OPALgreen-variation////////////////////////////
+  pop();
+  tint(255, 255);
+  noStroke();
+  fill(0, 0);
+  image(menuImg2, game2Green.x - 195, game2Green.y - 105);
   ellipse(game2Green.x, game2Green.y, game2Green.width, game2Green.height);
+  tint(255, fadeInToGame2);
+  image(menuImg8, game2Green.x - 195, game2Green.y - 105);
+  push();
 
-  game2Green.y += speed * direction;
+  game2Green.y -= menuSpeed2 * direction;
+  game2Green.x -= menuSpeed3 * direction;
 
-  //3LIGHTred-variation//
+  ///////////////////////////3LIGHTred-variation/////////////////////////////
+  pop();
+  tint(255, 255);
   image(menuImg3, game3Red.x - 190, game3Red.y - 225);
+  noStroke();
+  fill(0, 0);
   ellipse(game3Red.x, game3Red.y, game3Red.width, game3Red.height);
+  tint(255, fadeInToGame3);
+  image(menuImg9, game3Red.x - 190, game3Red.y - 225);
+  push();
 
-  game3Red.y += speed * direction;
+  game3Red.y += menuSpeed * direction;
+  game3Red.x -= menuSpeed * direction;
 
-  //4DEVOUTyellow-variation//
+  ////////////////////////4DEVOUTyellow-variation//////////////////////////
+  pop();
+  tint(255, 255);
   image(menuImg4, game4Yellow.x - 190, game4Yellow.y - 155);
+  noStroke();
+  fill(0, 0);
   ellipse(game4Yellow.x, game4Yellow.y, game4Yellow.width, game4Yellow.height);
+  tint(255, fadeInToGame4);
+  image(menuImg10, game4Yellow.x - 190, game4Yellow.y - 155);
+  push();
 
-  game4Yellow.y += speed * direction;
+  game4Yellow.y += menuSpeed2 * direction;
+  game4Yellow.x += menuSpeed2 * direction;
 
+  push();
+  tint(255, 255);
   image(menuImg6, mouseX - 60, mouseY - 60);
   pop();
 
   menuCinematic();
   menuGoToGame();
+  menuCheckInput();
 
   push();
   fill(0, fadeOutToGame);
@@ -171,8 +233,14 @@ function menuDraw() {
 
   text(fadeOutToGame1, 100, 100);
   text(fadeOutToGame2, 200, 100);
-  text(fadeOutToGame3, 300, 100);
-  text(fadeOutToGame4, 400, 100);
+  text(menuInputEnabled, 300, 100);
+  fill(0, 255, 0);
+  text(menuClicked, 400, 100);
+  fill(255);
+  text(fadeInToGame4, 100, 400);
+  text(fadeInToGame3, 200, 400);
+  text(fadeInToGame2, 300, 400);
+  text(othertOUCHED, 400, 400);
   pop();
 }
 
@@ -183,7 +251,7 @@ function menuCinematic() {
   if (menuTitleTimer >= 100) {
     menuOpacityImg7 -= 1.5;
   }
-  if (menuTitleTimer >= 150) {
+  if (menuTitleTimer >= 250) {
     menuInputEnabled = true;
   }
   if (fadeOutToGame1 >= 1) {
@@ -200,6 +268,7 @@ function menuCinematic() {
   }
   if (fadeOutToGame >= 1) {
     fadeOutToGame += 1.5;
+    menuClicked = true;
   }
 }
 
@@ -237,11 +306,68 @@ function menuGoToGame() {
   }
 }
 
+function menuCheckInput() {
+  ///////////////////////////blue icon/////////////////////////
+  let d1Blue = dist(mouseX, mouseY, game1Blue.x, game1Blue.y); //distance from mouse to center of icon
+  if (d1Blue < game1Blue.width / 2) {
+    //if mouse is inside the icon
+    fadeInToGame1 += 15; //increase the glow
+    if (fadeInToGame1 > 255) {
+      //cap the glow to 255
+      fadeInToGame1 = 255;
+    }
+  } else {
+    fadeInToGame1 -= 5; //decrease the glow when mouse is out
+    if (fadeInToGame1 < 0) {
+      //cap the glow to 0
+      fadeInToGame1 = 0;
+    }
+  }
+  //////////////////////////green icon/////////////////////////
+  let d2Green = dist(mouseX, mouseY, game2Green.x, game2Green.y); //
+  if (d2Green < game2Green.width / 2) {
+    fadeInToGame2 += 15;
+    if (fadeInToGame2 > 255) {
+      fadeInToGame2 = 255;
+    }
+  } else {
+    fadeInToGame2 -= 5;
+    if (fadeInToGame2 < 0) {
+      fadeInToGame2 = 0;
+    }
+  }
+  ////////////////////////////////red icon//////////
+  let d3Red = dist(mouseX, mouseY, game3Red.x, game3Red.y);
+  if (d3Red < game3Red.width / 2) {
+    fadeInToGame3 += 15;
+    if (fadeInToGame3 > 255) {
+      fadeInToGame3 = 255;
+    }
+  } else {
+    fadeInToGame3 -= 5;
+    if (fadeInToGame3 < 0) {
+      fadeInToGame3 = 0;
+    }
+  }
+  /////////////////////////yellow icon/////////////////////////
+  let d4Yellow = dist(mouseX, mouseY, game4Yellow.x, game4Yellow.y);
+  if (d4Yellow < game4Yellow.width / 2) {
+    fadeInToGame4 += 15;
+    if (fadeInToGame4 > 255) {
+      fadeInToGame4 = 255;
+    }
+  } else {
+    fadeInToGame4 -= 5;
+    if (fadeInToGame4 < 0) {
+      fadeInToGame4 = 0;
+    }
+  }
+}
 /**
  * This will be called whenever the mouse is pressed while the menu is active
  */
 function menuMousePressed() {
-  if (menuInputEnabled) {
+  if (menuInputEnabled === true || menuClicked === false) {
     //1 blue game//
     let d1Blue = dist(mouseX, mouseY, game1Blue.x, game1Blue.y);
     if (d1Blue < game1Blue.width / 2) {
@@ -254,6 +380,7 @@ function menuMousePressed() {
     if (d2Green < game2Green.width / 2) {
       fadeOutToGame2 += 1;
       fadeOutToGame += 1;
+      othertOUCHED = true;
     }
 
     //3 red game//
@@ -264,8 +391,8 @@ function menuMousePressed() {
     }
 
     //4 yellow game//
-    let d4Blue = dist(mouseX, mouseY, game4Yellow.x, game4Yellow.y);
-    if (d4Blue < game4Yellow.width / 2) {
+    let d4Yellow = dist(mouseX, mouseY, game4Yellow.x, game4Yellow.y);
+    if (d4Yellow < game4Yellow.width / 2) {
       fadeOutToGame4 += 1;
       fadeOutToGame += 1;
     }
@@ -273,7 +400,7 @@ function menuMousePressed() {
 }
 /**
  * Listen to the keyboard
- */ 3;
+ */
 function menuKeyPressed(event) {
   switch (event.keyCode) {
     case 51:
