@@ -15,7 +15,7 @@ let state = "menu";
  * Create the canvas
  */
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(1600, 900);
 }
 
 /**
@@ -26,16 +26,16 @@ function draw() {
     case "menu":
       menuDraw();
       break;
-    case "red-variation":
+    case "3LIGHTred-variation":
       redDraw();
       break;
-    case "green-variation":
+    case "2OPALgreen-variation":
       greenDraw();
       break;
-    case "blue-variation":
+    case "1TEETHblue-variation":
       blueDraw();
       break;
-    case "yellow-variation":
+    case "4DEVOUTyellow-variation":
       yellowDraw();
       break;
   }
@@ -50,16 +50,16 @@ function mousePressed() {
     case "menu":
       menuMousePressed();
       break;
-    case "red-variation":
+    case "3LIGHTred-variation":
       redMousePressed();
       break;
-    case "green-variation":
+    case "2OPALgreen-variation":
       greenMousePressed();
       break;
-    case "blue-variation":
+    case "1TEETHblue-variation":
       blueMousePressed();
       break;
-    case "yellow-variation":
+    case "4DEVOUTyellow-variation":
       yellowMousePressed();
       break;
   }
@@ -74,16 +74,16 @@ function keyPressed(event) {
     case "menu":
       menuKeyPressed(event);
       break;
-    case "red-variation":
+    case "3LIGHTred-variation":
       redKeyPressed(event);
       break;
-    case "green-variation":
+    case "2OPALgreen-variation":
       greenKeyPressed(event);
       break;
-    case "blue-variation":
+    case "1TEETHblue-variation":
       blueKeyPressed(event);
       break;
-    case "yellow-variation":
+    case "4DEVOUTyellow-variation":
       yellowKeyPressed(event);
       break;
   }
