@@ -4,10 +4,33 @@
  * This keeps the stuff the menu needs to do *separate* from the rest of the program.
  */
 
-///////////////////mouvement,opacity,suites///////////////////
+///////////////////mouvement,opacity,fadeINandOUT///////////////////
 let blueFadeIn = 255; //starts black and will go down to 0
 let fondJeu1opacity = 255; //opacity of the background image when at 0 trigger next event
 let grotteOpacity = 0; //opacity of the cave image, goes up when fondJeu1opacity is 0
+let gameSpeedESC = 0.08;
+
+////////////////////////menu frame (divided in 3)///////////////////////////
+
+let leftSideFraming = {
+  x: -1600,
+  y: 0,
+  width: 1600,
+  height: 900,
+  maxX: 800,
+  minX: 0,
+  speed: 4,
+};
+
+let rightSideFraming = {
+  x: 1600,
+  y: 0,
+  width: 1600,
+  height: 900,
+  maxX: 1600,
+  minx: 800,
+  speed: 4,
+};
 
 ////////////////////images//////////////////////
 let blueImg1;
@@ -46,8 +69,42 @@ function blueDraw() {
   rect(0, 0, width, height);
 
   push();
+  1;
   fill(255);
   text(blueFadeIn, 200, 300);
+  pop();
+
+  push();
+  tint(255, 255);
+  image(blueImg9, leftSideFraming.x, leftSideFraming.y);
+
+  if (leftSideFraming.x >= 0) {
+    leftSideFraming.x = leftSideFraming.x;
+  } else {
+    leftSideFraming.x += leftSideFraming.speed;
+  }
+
+  image(blueImg10, rightSideFraming.x, rightSideFraming.y);
+  if (rightSideFraming.x <= 0) {
+    rightSideFraming.x = rightSideFraming.x;
+  } else {
+    rightSideFraming.x -= rightSideFraming.speed;
+  }
+
+  image(blueImg8, leftSideFraming.x, leftSideFraming.y);
+  pop();
+
+  push();
+  tint(255, 255);
+  image(blueImg2, rightSideFraming.x + 1275, escIcon.y - 110, 300, 200);
+  fill(255, 0, 0, 0);
+  ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
+  escIcon.y += gameSpeedESC * direction;
+
+  if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
+    direction *= -1;
+  }
+
   pop();
 }
 
@@ -68,6 +125,7 @@ function blueKeyPressed(event) {
   if (event.keyCode === 27) {
     state = "menu";
     blueFadeIn = 255;
+    menuClicked = false;
   }
 }
 

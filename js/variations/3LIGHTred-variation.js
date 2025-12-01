@@ -63,6 +63,7 @@ function redKeyPressed(event) {
   if (event.keyCode === 27) {
     state = "menu";
     redFadeIn = 255;
+    menuClicked = false;
   }
 }
 

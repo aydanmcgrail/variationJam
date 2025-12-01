@@ -55,6 +55,7 @@ function yellowCinematic() {
 function yellowKeyPressed(event) {
   if (event.keyCode === 27) {
     state = "menu";
+    menuClicked = false;
   }
 }
 

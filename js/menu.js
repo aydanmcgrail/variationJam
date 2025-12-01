@@ -42,35 +42,47 @@ let game4Yellow = {
   minY: 520,
 };
 
+let escIcon = {
+  x: 1415,
+  y: 830,
+  width: 190,
+  height: 120,
+  maxY: 840,
+  minY: 820,
+};
+
 ///////////////////////////CINEMATIC variables////////////////////////////////////
 /////////////////////////////CINEMATIC variables////////////////////////////////////
 let menuTitleTimer = 0; ////starts at zero will go up to the limit that will trigger titleOn = false////
 let menuClicked = false; ////will be true when mouse is clicked to trigger next event////
 let menuInputEnabled = false; //WHEN false will start opacity7 going Down.
 let menuOpacityImg7 = 255;
-let othertOUCHED = false;
 
 let goGameTimer = 0; ////timer to go to the game after click////
 let fadeOutToGame = 0; ////overall fade to black////
-let menuOver = false; ///will trigger the next page when true////
 
 let fadeOutToGame1 = 0; ////actually a fade in to black when click on icon////
 let fadeInToGame1 = 0; //this will make a glowing version of the icon when hovering//
+let readyGame1 = false; ///will trigger the next page when true////
 
 let fadeOutToGame2 = 0;
 let fadeInToGame2 = 0;
+let readyGame2 = false;
 
 let fadeOutToGame3 = 0;
 let fadeInToGame3 = 0;
+let readyGame3 = false;
 
 let fadeOutToGame4 = 0;
 let fadeInToGame4 = 0;
+let readyGame4 = false;
 
 ////for the mouvement of the 4 menu icons////
 let menuSpeed = 0.2;
 let menuSpeed2 = 0.08;
 let menuSpeed3 = 0.6;
 let direction = 1;
+let easing = 0.5;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
@@ -103,13 +115,16 @@ function preload() {
   menuImg11 = loadImage("./assets/images/jeu1.png");
 
   ////////////////////blue variation images//////////////////////
-  blueImg1 = loadImage("./assets/images/auto.jpg");
-  blueImg2 = loadImage("./assets/images/jeu2.png");
+  blueImg1 = loadImage("./assets/images/auto.png");
+  blueImg2 = loadImage("./assets/images/escbutton.png");
   blueImg3 = loadImage("./assets/images/jeu3.png");
   blueImg4 = loadImage("./assets/images/jeu4.png");
   blueImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
   blueImg6 = loadImage("./assets/images/godhand.png");
   blueImg7 = loadImage("./assets/images/fondjeu12.png");
+  blueImg8 = loadImage("./assets/images/cadregauchedevant2.png");
+  blueImg9 = loadImage("./assets/images/cadregauche2.png");
+  blueImg10 = loadImage("./assets/images/cadredroit2.png");
 
   ////////////////////green variation images//////////////////////
   greenImg1 = loadImage("./assets/images/jeu1.png");
@@ -232,15 +247,16 @@ function menuDraw() {
   text(fadeOutToGame, 100, 200);
 
   text(fadeOutToGame1, 100, 100);
+  fill(255, 0, 0);
   text(fadeOutToGame2, 200, 100);
   text(menuInputEnabled, 300, 100);
   fill(0, 255, 0);
   text(menuClicked, 400, 100);
+  fill(255, 255, 0);
   fill(255);
   text(fadeInToGame4, 100, 400);
   text(fadeInToGame3, 200, 400);
   text(fadeInToGame2, 300, 400);
-  text(othertOUCHED, 400, 400);
   pop();
 }
 
@@ -251,7 +267,7 @@ function menuCinematic() {
   if (menuTitleTimer >= 100) {
     menuOpacityImg7 -= 1.5;
   }
-  if (menuTitleTimer >= 250) {
+  if (menuTitleTimer >= 350) {
     menuInputEnabled = true;
   }
   if (fadeOutToGame1 >= 1) {
@@ -270,10 +286,30 @@ function menuCinematic() {
     fadeOutToGame += 1.5;
     menuClicked = true;
   }
+
+  if (fadeOutToGame1 >= 270) {
+    readyGame1 = true;
+    fadeInToGame1 = 270;
+  }
+
+  if (fadeOutToGame2 >= 270) {
+    readyGame2 = true;
+    fadeInToGame2 = 270;
+  }
+
+  if (fadeOutToGame3 >= 270) {
+    readyGame3 = true;
+    fadeInToGame3 = 270;
+  }
+
+  if (fadeOutToGame4 >= 270) {
+    readyGame4 = true;
+    fadeInToGame4 = 270;
+  }
 }
 
 function menuGoToGame() {
-  if (fadeOutToGame1 >= 270) {
+  if (readyGame1 === true) {
     state = "1TEETHblue-variation";
     blueSetup();
     fadeOutToGame1 = 0;
@@ -367,7 +403,8 @@ function menuCheckInput() {
  * This will be called whenever the mouse is pressed while the menu is active
  */
 function menuMousePressed() {
-  if (menuInputEnabled === true || menuClicked === false) {
+  if (!menuInputEnabled === false && menuClicked === false) {
+    //after the && this is to prevent clicking on another menu that will send to next game.
     //1 blue game//
     let d1Blue = dist(mouseX, mouseY, game1Blue.x, game1Blue.y);
     if (d1Blue < game1Blue.width / 2) {
@@ -380,7 +417,6 @@ function menuMousePressed() {
     if (d2Green < game2Green.width / 2) {
       fadeOutToGame2 += 1;
       fadeOutToGame += 1;
-      othertOUCHED = true;
     }
 
     //3 red game//
