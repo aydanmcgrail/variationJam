@@ -55,6 +55,7 @@ function greenKeyPressed(event) {
   if (event.keyCode === 27) {
     state = "menu";
     menuClicked = false;
+    readyGame2 = false;
   }
 }
 

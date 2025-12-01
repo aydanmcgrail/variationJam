@@ -9,6 +9,7 @@ let blueFadeIn = 255; //starts black and will go down to 0
 let fondJeu1opacity = 255; //opacity of the background image when at 0 trigger next event
 let grotteOpacity = 0; //opacity of the cave image, goes up when fondJeu1opacity is 0
 let gameSpeedESC = 0.08;
+let blueCinematicTrigger = 0; //starts at zero and goes up
 
 ////////////////////////menu frame (divided in 3)///////////////////////////
 
@@ -32,6 +33,17 @@ let rightSideFraming = {
   speed: 4,
 };
 
+let carMover = {
+  x: 1620,
+  y: 200,
+  maxX: 1620,
+  minX: 0,
+  maxY: 215,
+  minY: 185,
+  speedX: 1.5,
+  speedY: 0.2,
+};
+
 ////////////////////images//////////////////////
 let blueImg1;
 let blueImg2;
@@ -40,6 +52,27 @@ let blueImg4;
 let blueImg5;
 let blueImg6;
 let blueImg7;
+let blueImg8;
+let blueImg9;
+let blueImg10;
+let blueImg11;
+let blueImg12;
+let blueImg13;
+let blueImg14;
+let blueImg15;
+let blueImg16;
+let blueImg17;
+let blueImg18;
+let blueImg19;
+let blueImg20;
+let blueImg21;
+let blueImg22;
+let blueImg23;
+let blueImg24;
+let blueImg25;
+let blueImg26;
+let blueImg27;
+let blueImg28;
 
 /**
  * This will be called just before the blue variation starts
@@ -61,21 +94,37 @@ function blueDraw() {
 
   push();
   tint(255, grotteOpacity);
-  image(blueImg1, 0, 0, width, height);
+  image(blueImg3, 0, 0, width, height);
+
+  image(blueImg1, carMover.x, carMover.y - 250, width, height);
+  carMover.y += carMover.speedY * direction;
+  if (carMover.y > carMover.maxY || carMover.y < carMover.minY) {
+    direction *= -1;
+  }
+
+  if (carMover.x <= -200) {
+    carMover.x;
+  } else {
+    carMover.x -= carMover.speedX;
+  }
   pop();
+  1;
 
   blueFadeIn -= 1;
   fill(0, blueFadeIn);
   rect(0, 0, width, height);
 
   push();
-  1;
   fill(255);
   text(blueFadeIn, 200, 300);
+  text(carMover.x, 300, 300);
+  fill(0, 0, 255);
+  text(blueCinematicTrigger, 400, 300);
+
   pop();
 
   push();
-  tint(255, 255);
+  tint(255, 210);
   image(blueImg9, leftSideFraming.x, leftSideFraming.y);
 
   if (leftSideFraming.x >= 0) {
@@ -110,11 +159,19 @@ function blueDraw() {
 
 function blueCinematic() {
   if (blueFadeIn <= 50) {
-    fondJeu1opacity -= 1;
+    fondJeu1opacity -= 2;
   }
   if (fondJeu1opacity <= 150) {
     grotteOpacity += 2;
-    11;
+  }
+
+  if (blueFadeIn <= 200) {
+  }
+  ///"animations"triggers///
+  //each time this value arrives at a set threshold, it will trigger a new event
+  blueCinematicTrigger += 1;
+
+  if (blueCinematicTrigger >= 1350) {
   }
 }
 
@@ -126,6 +183,7 @@ function blueKeyPressed(event) {
     state = "menu";
     blueFadeIn = 255;
     menuClicked = false;
+    readyGame1 = false;
   }
 }
 

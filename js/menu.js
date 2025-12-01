@@ -99,6 +99,7 @@ let menuImg8;
 let menuImg9;
 let menuImg10;
 let menuImg11;
+
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
   ////////////////////menu images//////////////////////
@@ -115,17 +116,34 @@ function preload() {
   menuImg11 = loadImage("./assets/images/jeu1.png");
 
   ////////////////////blue variation images//////////////////////
-  blueImg1 = loadImage("./assets/images/auto.png");
-  blueImg2 = loadImage("./assets/images/escbutton.png");
-  blueImg3 = loadImage("./assets/images/jeu3.png");
-  blueImg4 = loadImage("./assets/images/jeu4.png");
-  blueImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
+  blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
+  blueImg2 = loadImage("./assets/images/escbutton.png"); ///escape button
+  blueImg3 = loadImage("./assets/images/paysage.png"); ///paysage background
+  blueImg4 = loadImage("./assets/images/semirapprocheplan.png"); //visage, next after auto
+  blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
   blueImg6 = loadImage("./assets/images/godhand.png");
-  blueImg7 = loadImage("./assets/images/fondjeu12.png");
-  blueImg8 = loadImage("./assets/images/cadregauchedevant2.png");
-  blueImg9 = loadImage("./assets/images/cadregauche2.png");
-  blueImg10 = loadImage("./assets/images/cadredroit2.png");
-
+  blueImg7 = loadImage("./assets/images/fondjeu12.png"); //accueil jeu
+  blueImg8 = loadImage("./assets/images/cadregauchedevant2.png"); ///FRAME
+  blueImg9 = loadImage("./assets/images/cadregauche2.png"); ////FRAME
+  blueImg10 = loadImage("./assets/images/cadredroit2.png"); ////FRAME
+  blueImg11 = loadImage("./assets/images/gencivedown.png");
+  blueImg12 = loadImage("./assets/images/gencivetop.png");
+  blueImg13 = loadImage("./assets/images/bouche.png");
+  blueImg14 = loadImage("./assets/images/1dl.png");
+  blueImg15 = loadImage("./assets/images/1dr.png");
+  blueImg16 = loadImage("./assets/images/1tl.png");
+  blueImg17 = loadImage("./assets/images/1tr.png");
+  blueImg18 = loadImage("./assets/images/2dl.png");
+  blueImg19 = loadImage("./assets/images/2dr.png");
+  blueImg20 = loadImage("./assets/images/2tr.png");
+  blueImg21 = loadImage("./assets/images/3dl.png");
+  blueImg22 = loadImage("./assets/images/3dr.png");
+  blueImg23 = loadImage("./assets/images/3tl.png");
+  blueImg24 = loadImage("./assets/images/3tr.png");
+  blueImg25 = loadImage("./assets/images/4dl.png");
+  blueImg26 = loadImage("./assets/images/4dr.png");
+  blueImg27 = loadImage("./assets/images/4tl.png");
+  blueImg28 = loadImage("./assets/images/4tr.png");
   ////////////////////green variation images//////////////////////
   greenImg1 = loadImage("./assets/images/jeu1.png");
   greenImg2 = loadImage("./assets/images/jeu2.png");
