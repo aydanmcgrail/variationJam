@@ -43,10 +43,10 @@ let game4Yellow = {
 };
 
 let escIcon = {
-  x: 1415,
+  x: 1350,
   y: 830,
-  width: 190,
-  height: 120,
+  width: 250,
+  height: 170,
   maxY: 840,
   minY: 820,
 };
@@ -123,9 +123,9 @@ function preload() {
   blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
   blueImg6 = loadImage("./assets/images/godhand.png");
   blueImg7 = loadImage("./assets/images/fondjeu12.png"); //accueil jeu
-  blueImg8 = loadImage("./assets/images/cadregauchedevant2.png"); ///FRAME
-  blueImg9 = loadImage("./assets/images/cadregauche2.png"); ////FRAME
-  blueImg10 = loadImage("./assets/images/cadredroit2.png"); ////FRAME
+  blueImg8 = loadImage("./assets/images/cadrecomplet.png"); ///FRAME
+  //blueImg9 = loadImage("./assets/images/"); ////FRAME
+  //blueImg10 = loadImage("./assets/images/"); ////FRAME
   blueImg11 = loadImage("./assets/images/gencivedown.png");
   blueImg12 = loadImage("./assets/images/gencivetop.png");
   blueImg13 = loadImage("./assets/images/bouche.png");
@@ -249,10 +249,7 @@ function menuDraw() {
   game4Yellow.y += menuSpeed2 * direction;
   game4Yellow.x += menuSpeed2 * direction;
 
-  push();
-  tint(255, 255);
-  image(menuImg6, mouseX - 60, mouseY - 60);
-  pop();
+  drawHandPointing();
 
   menuCinematic();
   menuGoToGame();
@@ -262,7 +259,7 @@ function menuDraw() {
   fill(0, fadeOutToGame);
   rect(0, 0, width, height);
   fill(255);
-  text(fadeOutToGame, 100, 200);
+  text(fadeOutToGame, 50, 200);
 
   text(fadeOutToGame1, 100, 100);
   fill(255, 0, 0);
@@ -277,16 +274,23 @@ function menuDraw() {
   text(fadeInToGame2, 300, 400);
   pop();
 }
-
+function drawHandPointing() {
+  push();
+  tint(255, 255);
+  image(menuImg6, mouseX - 60, mouseY - 60);
+  pop();
+}
 function menuCinematic() {
-  menuTitleTimer += 1;
-  tint(255, menuOpacityImg7);
-  image(menuImg7, 0, 0);
+  menuTitleTimer += 1; //will go up until it triggers disparition of title screen
+  tint(255, menuOpacityImg7); //starts transparent
+  image(menuImg7, 0, 0); //the title screen
   if (menuTitleTimer >= 100) {
-    menuOpacityImg7 -= 1.5;
+    //the image on top with the title
+    menuOpacityImg7 -= 1.5; //goes transparent
   }
-  if (menuTitleTimer >= 350) {
-    menuInputEnabled = true;
+  if (menuTitleTimer >= 150) {
+    //CAN BE ADJUSTED, FOR FASTER TESTING
+    menuInputEnabled = true; //when true= clicks work, otherwise no clicks
   }
   if (fadeOutToGame1 >= 1) {
     fadeOutToGame1 += 1.5;
@@ -331,7 +335,7 @@ function menuGoToGame() {
     state = "1TEETHblue-variation";
     blueSetup();
     fadeOutToGame1 = 0;
-    fadeOutToGame = 0;
+    //fadeOutToGame = 0;
     rect(0, 0, width, height);
   }
 

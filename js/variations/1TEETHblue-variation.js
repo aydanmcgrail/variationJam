@@ -53,8 +53,8 @@ let blueImg5;
 let blueImg6;
 let blueImg7;
 let blueImg8;
-let blueImg9;
-let blueImg10;
+//let blueImg9;
+//let blueImg10;
 let blueImg11;
 let blueImg12;
 let blueImg13;
@@ -95,20 +95,8 @@ function blueDraw() {
   push();
   tint(255, grotteOpacity);
   image(blueImg3, 0, 0, width, height);
-
-  image(blueImg1, carMover.x, carMover.y - 250, width, height);
-  carMover.y += carMover.speedY * direction;
-  if (carMover.y > carMover.maxY || carMover.y < carMover.minY) {
-    direction *= -1;
-  }
-
-  if (carMover.x <= -200) {
-    carMover.x;
-  } else {
-    carMover.x -= carMover.speedX;
-  }
+  drawFirstTimeCar();
   pop();
-  1;
 
   blueFadeIn -= 1;
   fill(0, blueFadeIn);
@@ -120,41 +108,14 @@ function blueDraw() {
   text(carMover.x, 300, 300);
   fill(0, 0, 255);
   text(blueCinematicTrigger, 400, 300);
-
   pop();
 
   push();
-  tint(255, 210);
-  image(blueImg9, leftSideFraming.x, leftSideFraming.y);
-
-  if (leftSideFraming.x >= 0) {
-    leftSideFraming.x = leftSideFraming.x;
-  } else {
-    leftSideFraming.x += leftSideFraming.speed;
-  }
-
-  image(blueImg10, rightSideFraming.x, rightSideFraming.y);
-  if (rightSideFraming.x <= 0) {
-    rightSideFraming.x = rightSideFraming.x;
-  } else {
-    rightSideFraming.x -= rightSideFraming.speed;
-  }
-
-  image(blueImg8, leftSideFraming.x, leftSideFraming.y);
+  tint(255, grotteOpacity);
+  image(blueImg8, 0, 0);
   pop();
 
-  push();
-  tint(255, 255);
-  image(blueImg2, rightSideFraming.x + 1275, escIcon.y - 110, 300, 200);
-  fill(255, 0, 0, 0);
-  ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
-  escIcon.y += gameSpeedESC * direction;
-
-  if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
-    direction *= -1;
-  }
-
-  pop();
+  drawEscBlue();
 }
 
 function blueCinematic() {
@@ -175,6 +136,35 @@ function blueCinematic() {
   }
 }
 
+function drawFirstTimeCar() {
+  //WILL BE TRIGGERED WHEN X1 CONDITION IS TRUE. WHEN IT IS TIME FOR X2,
+  // THIS FUNCTION WILL BE REMOVED TO LET ITS PLACE FOR X2'S FUNCTION
+
+  image(blueImg1, carMover.x, carMover.y - 250, width, height);
+  carMover.y += carMover.speedY * direction;
+  if (carMover.y > carMover.maxY || carMover.y < carMover.minY) {
+    direction *= -1;
+  }
+
+  if (carMover.x <= -200) {
+    carMover.x;
+  } else {
+    carMover.x -= carMover.speedX;
+  }
+  pop();
+}
+function drawEscBlue() {
+  push();
+  tint(255, grotteOpacity - 100);
+  image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
+  fill(255, 0, 0, 0);
+  ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
+  escIcon.y += gameSpeedESC * direction;
+  if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
+    direction *= -1;
+  }
+  pop();
+}
 /**
  * This will be called whenever a key is pressed while the blue variation is active
  */
