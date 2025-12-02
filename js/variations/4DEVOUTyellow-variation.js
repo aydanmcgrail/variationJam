@@ -57,6 +57,7 @@ function yellowKeyPressed(event) {
     state = "menu";
     menuClicked = false;
     readyGame4 = false;
+    fadeOutToGame = 0;
   }
 }
 

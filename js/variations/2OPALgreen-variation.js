@@ -56,6 +56,7 @@ function greenKeyPressed(event) {
     state = "menu";
     menuClicked = false;
     readyGame2 = false;
+    fadeOutToGame = 0;
   }
 }
 

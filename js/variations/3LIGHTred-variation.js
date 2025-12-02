@@ -65,6 +65,7 @@ function redKeyPressed(event) {
     redFadeIn = 255;
     menuClicked = false;
     readyGame3 = false;
+    fadeOutToGame = 0;
   }
 }
 

@@ -99,6 +99,10 @@ let menuImg8;
 let menuImg9;
 let menuImg10;
 let menuImg11;
+let menuImg12;
+let menuImg13;
+let menuImg14;
+let menuImg15;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
@@ -108,24 +112,28 @@ function preload() {
   menuImg3 = loadImage("./assets/images/jeu31.png");
   menuImg4 = loadImage("./assets/images/jeu41.png");
   menuImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
-  menuImg6 = loadImage("./assets/images/godhand.png");
+  menuImg6 = loadImage("./assets/images/godhand.png"); //tied to mouse move
   menuImg7 = loadImage("./assets/images/ecrandaccueil1.png");
   menuImg8 = loadImage("./assets/images/jeu22.png");
   menuImg9 = loadImage("./assets/images/jeu32.png");
   menuImg10 = loadImage("./assets/images/jeu42.png");
   menuImg11 = loadImage("./assets/images/jeu1.png");
+  menuImg12 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
+  menuImg13 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //tied to mouse move
+  menuImg14 = loadImage("./assets/images/godhandopenleft.png"); //tied to mouse move
+  menuImg15 = loadImage("./assets/images/godhandopenleftCLOSED.png"); //tied to mouse move
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
   blueImg2 = loadImage("./assets/images/escbutton.png"); ///escape button
   blueImg3 = loadImage("./assets/images/paysage.png"); ///paysage background
   blueImg4 = loadImage("./assets/images/semirapprocheplan.png"); //visage, next after auto
-  blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
-  blueImg6 = loadImage("./assets/images/godhand.png");
+  //blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
+  //blueImg6 = loadImage("./assets/images/godhand.png");
   blueImg7 = loadImage("./assets/images/fondjeu12.png"); //accueil jeu
   blueImg8 = loadImage("./assets/images/cadrecomplet.png"); ///FRAME
-  //blueImg9 = loadImage("./assets/images/"); ////FRAME
-  //blueImg10 = loadImage("./assets/images/"); ////FRAME
+  blueImg9 = loadImage("./assets/images/autoglow.png"); //glow of car when hovering
+  blueImg10 = loadImage("./assets/images/paysage.png"); //WHEN going back to a game for 2nd time or more. there will be no fade ins like the first time.
   blueImg11 = loadImage("./assets/images/gencivedown.png");
   blueImg12 = loadImage("./assets/images/gencivetop.png");
   blueImg13 = loadImage("./assets/images/bouche.png");
@@ -335,7 +343,7 @@ function menuGoToGame() {
     state = "1TEETHblue-variation";
     blueSetup();
     fadeOutToGame1 = 0;
-    //fadeOutToGame = 0;
+
     rect(0, 0, width, height);
   }
 
@@ -343,7 +351,6 @@ function menuGoToGame() {
     state = "2OPALgreen-variation";
     greenSetup();
     fadeOutToGame2 = 0;
-    fadeOutToGame = 0;
     rect(0, 0, width, height);
   }
 
@@ -351,7 +358,6 @@ function menuGoToGame() {
     state = "3LIGHTred-variation";
     redSetup();
     fadeOutToGame3 = 0;
-    fadeOutToGame = 0;
     rect(0, 0, width, height);
   }
 
@@ -359,7 +365,6 @@ function menuGoToGame() {
     state = "4DEVOUTyellow-variation";
     yellowSetup();
     fadeOutToGame4 = 0;
-    fadeOutToGame = 0;
     rect(0, 0, width, height);
   }
 }

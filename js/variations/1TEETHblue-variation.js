@@ -7,9 +7,22 @@
 ///////////////////mouvement,opacity,fadeINandOUT///////////////////
 let blueFadeIn = 255; //starts black and will go down to 0
 let fondJeu1opacity = 255; //opacity of the background image when at 0 trigger next event
-let grotteOpacity = 0; //opacity of the cave image, goes up when fondJeu1opacity is 0
+let blueOpacity = 0; //opacity of the background image, goes up when fondJeu1opacity is 0
 let gameSpeedESC = 0.08;
 let blueCinematicTrigger = 0; //starts at zero and goes up
+let TouchOnCar = 0; // will go up when car is touched
+let blueCinematicTrigger2 = 0; //starts after the first trigger.
+let carGlow = 0;
+let blueOpacityHand1 = 0;
+let blueOpacityHand2 = 0;
+let blueOpacityHand3 = 0;
+
+let bigFaceOpacity = 0; //the close up of the whole face starts transparent
+let MainCarOpacity = 255; //starts visible and will become transparent.
+let paysageOpacity = 0;
+let teethOpacity = 255;
+
+let blueInputEnabled = false; //no clicks at first
 
 ////////////////////////menu frame (divided in 3)///////////////////////////
 
@@ -35,13 +48,18 @@ let rightSideFraming = {
 
 let carMover = {
   x: 1620,
+  x2: 900,
   y: 200,
+  y2: 550,
   maxX: 1620,
   minX: 0,
   maxY: 215,
   minY: 185,
-  speedX: 1.5,
+  speedX: 3,
   speedY: 0.2,
+  size: 500,
+  width: 890,
+  height: 350,
 };
 
 ////////////////////images//////////////////////
@@ -53,8 +71,8 @@ let blueImg5;
 let blueImg6;
 let blueImg7;
 let blueImg8;
-//let blueImg9;
-//let blueImg10;
+let blueImg9;
+let blueImg10;
 let blueImg11;
 let blueImg12;
 let blueImg13;
@@ -85,16 +103,14 @@ function blueSetup() {}
 function blueDraw() {
   background("black");
 
-  blueCinematic();
-
   push();
   tint(255, fondJeu1opacity);
   image(blueImg7, 0, 0);
   pop();
 
   push();
-  tint(255, grotteOpacity);
-  image(blueImg3, 0, 0, width, height);
+  tint(255, blueOpacity); ///starts at zero
+  image(blueImg3, 0, 0, width, height); ///paysage
   drawFirstTimeCar();
   pop();
 
@@ -102,20 +118,37 @@ function blueDraw() {
   fill(0, blueFadeIn);
   rect(0, 0, width, height);
 
+  drawGlowCar();
+
+  drawBlueNewBackgroundForAditionalVistitsOfGame();
+
+  drawTeeth();
+
+  push();
+  tint(255, bigFaceOpacity);
+  image(blueImg4, 50, 40, 1500, 800);
+  pop();
+
+  push();
+  tint(255, blueOpacity);
+  image(blueImg8, 0, 0); //cadre complet
+  pop();
+
+  blueCinematic();
+
+  drawEscBlue();
+
   push();
   fill(255);
   text(blueFadeIn, 200, 300);
   text(carMover.x, 300, 300);
   fill(0, 0, 255);
-  text(blueCinematicTrigger, 400, 300);
+  text(TouchOnCar, 400, 300);
+  text(carGlow, 500, 300);
+  text(blueInputEnabled, 600, 300);
+  fill(255, 0, 0);
+  text(blueCinematicTrigger2, 500, 400);
   pop();
-
-  push();
-  tint(255, grotteOpacity);
-  image(blueImg8, 0, 0);
-  pop();
-
-  drawEscBlue();
 }
 
 function blueCinematic() {
@@ -123,23 +156,42 @@ function blueCinematic() {
     fondJeu1opacity -= 2;
   }
   if (fondJeu1opacity <= 150) {
-    grotteOpacity += 2;
+    blueOpacity += 2;
   }
 
   if (blueFadeIn <= 200) {
   }
   ///"animations"triggers///
   //each time this value arrives at a set threshold, it will trigger a new event
-  blueCinematicTrigger += 1;
+  //blueCinematicTrigger += 1; //when game opens it starts
 
-  if (blueCinematicTrigger >= 1350) {
+  if (blueCinematicTrigger >= 300) {
+    drawHandPointingBlue();
+    //blueInputEnabled = true;
+    blueCinematicTrigger = 300;
+    //blueCinematicTrigger2 += 1;
+  } else {
+    blueCinematicTrigger += 1;
+  }
+
+  if (TouchOnCar >= 1) {
+    //this starts the next cooldown/treshhold that will eventually show the teeth
+    blueCinematicTrigger2 += 1;
+  }
+
+  if (blueCinematicTrigger2 >= 200) {
+    bigFaceOpacity -= 15; ///CROSSFADE
+    teethOpacity += 15; ///CROSSFADE
   }
 }
 
 function drawFirstTimeCar() {
   //WILL BE TRIGGERED WHEN X1 CONDITION IS TRUE. WHEN IT IS TIME FOR X2,
   // THIS FUNCTION WILL BE REMOVED TO LET ITS PLACE FOR X2'S FUNCTION
-
+  push();
+  tint(255, carGlow);
+  image(blueImg9, carMover.x, carMover.y - 250, width, height);
+  tint(255, MainCarOpacity); //starts visible and will become invisible
   image(blueImg1, carMover.x, carMover.y - 250, width, height);
   carMover.y += carMover.speedY * direction;
   if (carMover.y > carMover.maxY || carMover.y < carMover.minY) {
@@ -148,6 +200,7 @@ function drawFirstTimeCar() {
 
   if (carMover.x <= -200) {
     carMover.x;
+    blueInputEnabled = true;
   } else {
     carMover.x -= carMover.speedX;
   }
@@ -155,7 +208,7 @@ function drawFirstTimeCar() {
 }
 function drawEscBlue() {
   push();
-  tint(255, grotteOpacity - 100);
+  tint(255, blueOpacity - 100);
   image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
   ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
@@ -164,6 +217,45 @@ function drawEscBlue() {
     direction *= -1;
   }
   pop();
+}
+
+function drawTeeth() {
+  push();
+  tint(255, teethOpacity);
+  image(blueImg13, 0, 0);
+  image(blueImg11, 0, 450);
+  image(blueImg12, 0, 0);
+  pop();
+}
+
+function drawHandPointingBlue() {
+  push();
+  blueOpacityHand1 += 1;
+  tint(255, blueOpacityHand1);
+  image(menuImg6, mouseX - 60, mouseY - 60);
+  tint(255, blueOpacityHand2);
+  image(menuImg12, mouseX - 260, mouseY - 180);
+  tint(255, blueOpacityHand3);
+  image(menuImg13, mouseX - 260, mouseY - 180);
+  pop();
+}
+
+function drawGlowCar() {
+  let carDist = dist(mouseX, mouseY, carMover.x2, carMover.y2); //distance from mouse to center of icon
+  if (carDist < (carMover.width, carMover.height) / 1.25 && carMover.x <= 0) {
+    //if mouse is inside the icon
+    carGlow += 15; //increase the glow
+    if (carGlow > 255) {
+      //cap the glow to 255
+      carGlow = 255;
+    }
+  } else {
+    carGlow -= 15; //decrease the glow when mouse is out
+    if (carGlow < 0) {
+      //cap the glow to 0
+      carGlow = 0;
+    }
+  }
 }
 /**
  * This will be called whenever a key is pressed while the blue variation is active
@@ -174,10 +266,28 @@ function blueKeyPressed(event) {
     blueFadeIn = 255;
     menuClicked = false;
     readyGame1 = false;
+    fadeOutToGame = 0;
   }
 }
 
 /**
  * This will be called whenever the mouse is pressed while the blue variation is active
  */
-function blueMousePressed() {}
+function blueMousePressed() {
+  if (!blueInputEnabled === false && TouchOnCar <= 0) {
+    //only register once
+    //&&value is not >= x
+    TouchOnCar += 1;
+    bigFaceOpacity = 255;
+    carMover.x = 2000; //GET THE HELL OUT
+    carMover.y = 2000; ///GET THE HELL OUT AS WELL!
+    paysageOpacity = 255;
+  }
+}
+
+function drawBlueNewBackgroundForAditionalVistitsOfGame() {
+  push();
+  tint(255, paysageOpacity);
+  image(blueImg10, 0, 0);
+  pop();
+}
