@@ -62,6 +62,22 @@ let carMover = {
   height: 350,
 };
 
+let teeth1TopRight = undefined;
+let teeth2TopRight = undefined;
+let teeth4TopRight = undefined;
+let teeth1TopLeft = undefined;
+let teeth2TopLeft = undefined;
+let teeth3TopLeft = undefined;
+let teeth4TopLeft = undefined;
+let teeth1downRight = undefined;
+let teeth2downRight = undefined;
+let teeth3downRight = undefined;
+let teeth4downRight = undefined;
+let teeth1downLeft = undefined;
+let teeth2downLeft = undefined;
+let teeth3downLeft = undefined;
+let teeth4downLeft = undefined;
+
 ////////////////////images//////////////////////
 let blueImg1;
 let blueImg2;
@@ -95,7 +111,48 @@ let blueImg28;
 /**
  * This will be called just before the blue variation starts
  */
-function blueSetup() {}
+function blueSetup() {
+  ////////////                  1    2        3             4             5
+  ////////////                  x,   y,      fill,         tint,         img
+  teeth1TopRight = createTeeth(890, 300, "#e8e9dcff", teethOpacity, blueImg17);
+  teeth2TopRight = createTeeth(1005, 290, "#e8e9dcff", teethOpacity, blueImg20);
+  teeth3TopRight = createTeeth;
+  teeth4TopRight = createTeeth;
+
+  teeth1TopLeft = createTeeth(800, 300, "#e8e9dcff", teethOpacity, blueImg16);
+  teeth2TopLeft = createTeeth;
+  teeth3TopLeft = createTeeth;
+  teeth4TopLeft = createTeeth;
+
+  teeth1downRight = createTeeth;
+  teeth2downRight = createTeeth;
+  teeth3downRight = createTeeth;
+  teeth4downRight = createTeeth;
+
+  teeth1downLeft = createTeeth;
+  teeth2downLeft = createTeeth;
+  teeth3downLeft = createTeeth;
+  teeth4downLeft = createTeeth;
+
+  ////////////////     1  2   3     4      5
+  function createTeeth(x, y, fill, tint, img) {
+    const teeth = {
+      x: x, //will be set for each teeth       1
+      y: y, //will be set for each teeth           2
+      fill: fill, //will be 0                     3
+      width: 95, //they should all be the same
+      height: 130, //they should all be the same           4
+      tint: tint,
+      image: {
+        //this is where i cross my fingers. I want to add a different img to each teeth
+        img: img, //                                5
+        dx: x,
+        dy: y,
+      },
+    };
+    return teeth;
+  }
+}
 
 /**
  * This will be called every frame when the blue variation is active
@@ -122,7 +179,16 @@ function blueDraw() {
 
   drawBlueNewBackgroundForAditionalVistitsOfGame();
 
-  drawTeeth();
+  //drawMouth();
+  push();
+  tint(255, teethOpacity);
+  image(blueImg13, 0, 0); //inside of mouth
+  drawTeeth(teeth1TopRight);
+  drawTeeth(teeth2TopRight);
+  drawTeeth(teeth1TopLeft);
+  image(blueImg11, 0, 450); //lower jaw
+  image(blueImg12, 0, 0); ///upperjaw
+  pop();
 
   push();
   tint(255, bigFaceOpacity);
@@ -148,6 +214,7 @@ function blueDraw() {
   text(blueInputEnabled, 600, 300);
   fill(255, 0, 0);
   text(blueCinematicTrigger2, 500, 400);
+  //ellipse(1005, 290, 95, 130); ///size of a teeth
   pop();
 }
 
@@ -219,14 +286,22 @@ function drawEscBlue() {
   pop();
 }
 
-function drawTeeth() {
+function drawTeeth(teeth) {
+  push();
+  noStroke();
+  fill(255);
+  ellipse(teeth.x, teeth.y, teeth.width, teeth.height);
+  image(teeth.image.img, teeth.x - 70, teeth.y - 110);
+  rect();
+}
+/*function drawMouth() {
   push();
   tint(255, teethOpacity);
-  image(blueImg13, 0, 0);
-  image(blueImg11, 0, 450);
-  image(blueImg12, 0, 0);
+  image(blueImg13, 0, 0); //inside of mouth
+  image(blueImg11, 0, 450); //lower jaw
+  image(blueImg12, 0, 0); ///upperjaw
   pop();
-}
+}*/
 
 function drawHandPointingBlue() {
   push();
