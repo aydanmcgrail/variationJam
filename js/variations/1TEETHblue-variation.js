@@ -21,29 +21,18 @@ let bigFaceOpacity = 0; //the close up of the whole face starts transparent
 let MainCarOpacity = 255; //starts visible and will become transparent.
 let paysageOpacity = 0;
 let teethOpacity = 255;
+let genTimerBeforeFall = 0;
+let startGenTimerBeforeFall = false;
 
 let blueInputEnabled = false; //no clicks at first
 
-////////////////////////menu frame (divided in 3)///////////////////////////
+let offsetX, offsetY;
 
-let leftSideFraming = {
-  x: -1600,
-  y: 0,
-  width: 1600,
-  height: 900,
-  maxX: 800,
-  minX: 0,
-  speed: 4,
-};
-
-let rightSideFraming = {
-  x: 1600,
-  y: 0,
-  width: 1600,
-  height: 900,
-  maxX: 1600,
-  minx: 800,
-  speed: 4,
+const blueMouse = {
+  x: undefined, //mouseX
+  y: undefined, //mouseY
+  width: 80,
+  height: 160,
 };
 
 let carMover = {
@@ -68,15 +57,16 @@ let teeth4TopRight = undefined;
 let teeth1TopLeft = undefined;
 let teeth2TopLeft = undefined;
 let teeth3TopLeft = undefined;
+let teeth3TopRight = undefined;
 let teeth4TopLeft = undefined;
-let teeth1downRight = undefined;
-let teeth2downRight = undefined;
-let teeth3downRight = undefined;
-let teeth4downRight = undefined;
-let teeth1downLeft = undefined;
-let teeth2downLeft = undefined;
-let teeth3downLeft = undefined;
-let teeth4downLeft = undefined;
+let teeth1DownRight = undefined;
+let teeth2DownRight = undefined;
+let teeth3DownRight = undefined;
+let teeth4DownRight = undefined;
+let teeth1DownLeft = undefined;
+let teeth2DownLeft = undefined;
+let teeth3DownLeft = undefined;
+let teeth4DownLeft = undefined;
 
 ////////////////////images//////////////////////
 let blueImg1;
@@ -107,6 +97,8 @@ let blueImg25;
 let blueImg26;
 let blueImg27;
 let blueImg28;
+let blueImg29;
+let blueImg30;
 
 /**
  * This will be called just before the blue variation starts
@@ -114,35 +106,57 @@ let blueImg28;
 function blueSetup() {
   ////////////                  1    2        3             4             5
   ////////////                  x,   y,      fill,         tint,         img
-  teeth1TopRight = createTeeth(890, 300, "#e8e9dcff", teethOpacity, blueImg17);
-  teeth2TopRight = createTeeth(1005, 290, "#e8e9dcff", teethOpacity, blueImg20);
-  teeth3TopRight = createTeeth;
-  teeth4TopRight = createTeeth;
-
-  teeth1TopLeft = createTeeth(800, 300, "#e8e9dcff", teethOpacity, blueImg16);
-  teeth2TopLeft = createTeeth;
-  teeth3TopLeft = createTeeth;
-  teeth4TopLeft = createTeeth;
-
-  teeth1downRight = createTeeth;
-  teeth2downRight = createTeeth;
-  teeth3downRight = createTeeth;
-  teeth4downRight = createTeeth;
-
-  teeth1downLeft = createTeeth;
-  teeth2downLeft = createTeeth;
-  teeth3downLeft = createTeeth;
-  teeth4downLeft = createTeeth;
+  teeth1TopRight = createTeeth(840, 240, "#e8e9dcff", teethOpacity, blueImg17);
+  teeth2TopRight = createTeeth(950, 230, "#e8e9dcff", teethOpacity, blueImg20);
+  teeth3TopRight = createTeeth(1060, 220, "#e8e9dcff", teethOpacity, blueImg24);
+  teeth4TopRight = createTeeth(1165, 215, "#e8e9dcff", teethOpacity, blueImg28);
+  teeth1TopLeft = createTeeth(710, 230, "#e8e9dcff", teethOpacity, blueImg16);
+  teeth2TopLeft = createTeeth(590, 225, "#e8e9dcff", teethOpacity, blueImg6);
+  teeth3TopLeft = createTeeth(490, 225, "#e8e9dcff", teethOpacity, blueImg23);
+  teeth4TopLeft = createTeeth(380, 220, "#e8e9dcff", teethOpacity, blueImg27);
+  teeth1DownRight = createTeeth(825, 550, "#e8e9dcff", teethOpacity, blueImg15);
+  teeth2DownRight = createTeeth(935, 545, "#e8e9dcff", teethOpacity, blueImg19);
+  teeth3DownRight = createTeeth(
+    1050,
+    545,
+    "#e8e9dcff",
+    teethOpacity,
+    blueImg22
+  );
+  teeth4DownRight = createTeeth(
+    1165,
+    530,
+    "#e8e9dcff",
+    teethOpacity,
+    blueImg26
+  );
+  teeth1DownLeft = createTeeth(710, 550, "#e8e9dcff", teethOpacity, blueImg14);
+  teeth2DownLeft = createTeeth(600, 545, "#e8e9dcff", teethOpacity, blueImg18);
+  teeth3DownLeft = createTeeth(490, 540, "#e8e9dcff", teethOpacity, blueImg21);
+  teeth4DownLeft = createTeeth(375, 555, "#e8e9dcff", teethOpacity, blueImg25);
 
   ////////////////     1  2   3     4      5
   function createTeeth(x, y, fill, tint, img) {
     const teeth = {
-      x: x, //will be set for each teeth       1
-      y: y, //will be set for each teeth           2
+      teethTop: {
+        y: y, //will be set for each teeth
+        readyToMove: false,
+      },
+      teethDown: {
+        y: y, //will be set for each teeth
+        readyToMove: false,
+      },
+      x: x, //will be set for each teeth
       fill: fill, //will be 0                     3
-      width: 95, //they should all be the same
-      height: 130, //they should all be the same           4
-      tint: tint,
+      width: 100, //they should all be the same
+      height: 180, //they should all be the same
+      tint: tint, //                               4
+      clicked: false,
+      hover: false,
+      timerBeforeFall: 0, //starts at zero
+      fall: 0,
+      readyToFall: 0,
+      direction: 1,
       image: {
         //this is where i cross my fingers. I want to add a different img to each teeth
         img: img, //                                5
@@ -159,6 +173,9 @@ function blueSetup() {
  */
 function blueDraw() {
   background("black");
+
+  //blueMouse.x = mouseX;
+  //blueMouse.y = mouseY;
 
   push();
   tint(255, fondJeu1opacity);
@@ -183,20 +200,75 @@ function blueDraw() {
   push();
   tint(255, teethOpacity);
   image(blueImg13, 0, 0); //inside of mouth
-  drawTeeth(teeth1TopRight);
-  drawTeeth(teeth2TopRight);
-  drawTeeth(teeth1TopLeft);
+
+  blueCheckInput(teeth1TopRight);
+  blueCheckInput(teeth2TopRight);
+  blueCheckInput(teeth3TopRight);
+  blueCheckInput(teeth4TopRight);
+  blueCheckInput(teeth1TopLeft);
+  blueCheckInput(teeth2TopLeft);
+  blueCheckInput(teeth3TopLeft);
+  blueCheckInput(teeth4TopLeft);
+  blueCheckInput(teeth1DownRight);
+  blueCheckInput(teeth2DownRight);
+  blueCheckInput(teeth3DownRight);
+  blueCheckInput(teeth4DownRight);
+  blueCheckInput(teeth1DownLeft);
+  blueCheckInput(teeth2DownLeft);
+  blueCheckInput(teeth3DownLeft);
+  blueCheckInput(teeth4DownLeft);
+
+  drawTeethTop(teeth1TopRight);
+  drawTeethTop(teeth2TopRight);
+  drawTeethTop(teeth3TopRight);
+  drawTeethTop(teeth4TopRight);
+  drawTeethTop(teeth1TopLeft);
+  drawTeethTop(teeth2TopLeft);
+  drawTeethTop(teeth3TopLeft);
+  drawTeethTop(teeth4TopLeft);
+
+  drawTeethDown(teeth1DownRight);
+  drawTeethDown(teeth2DownRight);
+  drawTeethDown(teeth3DownRight);
+  drawTeethDown(teeth4DownRight);
+  drawTeethDown(teeth1DownLeft);
+  drawTeethDown(teeth2DownLeft);
+  drawTeethDown(teeth3DownLeft);
+  drawTeethDown(teeth4DownLeft);
+
   image(blueImg11, 0, 450); //lower jaw
   image(blueImg12, 0, 0); ///upperjaw
   pop();
+
+  drawTeethTopOnTop(teeth1TopRight);
+  drawTeethTopOnTop(teeth2TopRight);
+  drawTeethTopOnTop(teeth3TopRight);
+  drawTeethTopOnTop(teeth4TopRight);
+  drawTeethTopOnTop(teeth1TopLeft);
+  drawTeethTopOnTop(teeth2TopLeft);
+  drawTeethTopOnTop(teeth3TopLeft);
+  drawTeethTopOnTop(teeth4TopLeft);
+
+  drawTeethDownOnTop(teeth1DownRight);
+  drawTeethDownOnTop(teeth2DownRight);
+  drawTeethDownOnTop(teeth3DownRight);
+  drawTeethDownOnTop(teeth4DownRight);
+  drawTeethDownOnTop(teeth1DownLeft);
+  drawTeethDownOnTop(teeth2DownLeft);
+  drawTeethDownOnTop(teeth3DownLeft);
+  drawTeethDownOnTop(teeth4DownLeft);
 
   push();
   tint(255, bigFaceOpacity);
   image(blueImg4, 50, 40, 1500, 800);
   pop();
-
+  tint(255, 255);
+  fill(255);
+  ellipse(200, 150, 300, 240); ///size of a teeth
+  image(blueImg29, 45, escIcon.y - 800, 350, 240);
+  image(blueImg30, 40, escIcon.y - 200, 350, 240);
   push();
-  tint(255, blueOpacity);
+  tint(255, 255); //blueOpacity
   image(blueImg8, 0, 0); //cadre complet
   pop();
 
@@ -206,6 +278,7 @@ function blueDraw() {
 
   push();
   fill(255);
+  textSize(20);
   text(blueFadeIn, 200, 300);
   text(carMover.x, 300, 300);
   fill(0, 0, 255);
@@ -214,8 +287,12 @@ function blueDraw() {
   text(blueInputEnabled, 600, 300);
   fill(255, 0, 0);
   text(blueCinematicTrigger2, 500, 400);
-  //ellipse(1005, 290, 95, 130); ///size of a teeth
+  text(genTimerBeforeFall, 900, 300);
+  text(startGenTimerBeforeFall, 900, 200);
+
   pop();
+
+  //drawBlueMouse();
 }
 
 function blueCinematic() {
@@ -278,7 +355,7 @@ function drawEscBlue() {
   tint(255, blueOpacity - 100);
   image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
-  ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
+  //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
   escIcon.y += gameSpeedESC * direction;
   if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
     direction *= -1;
@@ -286,13 +363,68 @@ function drawEscBlue() {
   pop();
 }
 
-function drawTeeth(teeth) {
+function drawTeethTop(teeth) {
   push();
   noStroke();
-  fill(255);
-  ellipse(teeth.x, teeth.y, teeth.width, teeth.height);
-  image(teeth.image.img, teeth.x - 70, teeth.y - 110);
-  rect();
+  fill(255, 0);
+  rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
+  image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
+  fill(50, 30, 60);
+  textSize(16);
+  text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
+  text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
+  text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
+  text(teeth.readyToFall, teeth.x + 50, teeth.teethTop.y + 125);
+  pop();
+}
+
+function drawTeethTopOnTop(teeth) {
+  if (teeth.teethTop.readyToMove === true) {
+    push();
+    noStroke();
+    fill(255, 0);
+    rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
+    image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
+    fill(50, 30, 60);
+    textSize(16);
+    text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
+    text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
+    text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
+    text(teeth.readyToFall, teeth.x + 50, teeth.teethTop.y + 125);
+    pop();
+  }
+}
+
+function drawTeethDown(teeth) {
+  push();
+  noStroke();
+  fill(255, 0);
+  rect(teeth.x, teeth.teethDown.y, teeth.width, teeth.height);
+  image(teeth.image.img, teeth.x - 50, teeth.teethDown.y - 70);
+  fill(50, 30, 60);
+  textSize(16);
+  text(teeth.teethDown.readyToMove, teeth.x + 50, teeth.teethDown.y + 110);
+  text(teeth.teethDown.y, teeth.x + 50, teeth.teethDown.y + 90);
+  text(teeth.fall, teeth.x + 50, teeth.teethDown.y + 80);
+  text(teeth.readyToFall, teeth.x + 50, teeth.teethDown.y + 125);
+  pop();
+}
+
+function drawTeethDownOnTop(teeth) {
+  if (teeth.teethDown.readyToMove === true) {
+    push();
+    noStroke();
+    fill(255, 0);
+    rect(teeth.x, teeth.teethDown.y, teeth.width, teeth.height);
+    image(teeth.image.img, teeth.x - 50, teeth.teethDown.y - 70);
+    fill(50, 30, 60);
+    textSize(16);
+    text(teeth.teethDown.readyToMove, teeth.x + 50, teeth.teethDown.y + 110);
+    text(teeth.teethDown.y, teeth.x + 50, teeth.teethDown.y + 90);
+    text(teeth.fall, teeth.x + 50, teeth.teethDown.y + 80);
+    text(teeth.readyToFall, teeth.x + 50, teeth.teethDown.y + 125);
+    pop();
+  }
 }
 /*function drawMouth() {
   push();
@@ -344,6 +476,162 @@ function blueKeyPressed(event) {
     fadeOutToGame = 0;
   }
 }
+
+/*function drawBlueMouse(blueMouse) {
+  push();
+  fill(255);
+  rect(blueMouse.x, blueMouse.y, blueMouse.width, blueMouse.height);
+  pop();
+}*/
+
+function blueCheckInput(teeth) {
+  const teethMouseOverlapTop =
+    mouseX > teeth.x &&
+    mouseX < teeth.x + teeth.width &&
+    mouseY > teeth.teethTop.y &&
+    mouseY < teeth.teethTop.y + teeth.height &&
+    mouseY < height / 2;
+
+  const teethMouseOverlapDown =
+    mouseX > teeth.x &&
+    mouseX < teeth.x + teeth.width &&
+    mouseY > teeth.teethDown.y &&
+    mouseY < teeth.teethDown.y + teeth.height &&
+    mouseY > height / 2;
+
+  if (teethMouseOverlapTop) {
+    console.log("teeth hoverTOP");
+  }
+
+  if (teethMouseOverlapDown) {
+    console.log("teeth hoverDOWN");
+  }
+
+  if (teethMouseOverlapTop && mouseIsPressed && genTimerBeforeFall === 0) {
+    teeth.timerBeforeFall = 1;
+    //startGenTimerBeforeFall = true;
+  }
+
+  if (teethMouseOverlapTop && mouseIsPressed && teeth.timerBeforeFall === 1) {
+    teeth.teethTop.y += 1;
+  }
+
+  if (teeth.teethTop.readyToMove === true && teethMouseOverlapTop) {
+    teeth.x = mouseX - 50;
+    teeth.teethTop.y = mouseY - 50;
+  } else if (teeth.teethDown.readyToMove === true && teethMouseOverlapDown) {
+    teeth.x = mouseX - 50;
+    teeth.teethDown.y = mouseY - 50;
+  }
+
+  if (
+    teeth.x === mouseX - 50 &&
+    teeth.teethTop.y === mouseY - 50 &&
+    mouseIsPressed
+  ) {
+    teeth.readyToFall += 1;
+    console.log("fall");
+  }
+
+  if (teeth.teethTop.y >= 300) {
+    /*if (teethMouseOverlapDown && mouseIsPressed && teeth.timerBeforeFall === 1) {
+    //teeth.teethDown.y -= 1;
+  }
+*/
+    //console.log("le bag");
+    teeth.teethTop.readyToMove = true;
+    teeth.timerBeforeFall;
+  }
+
+  if (teeth.teethDown.y <= 455) {
+    //console.log("le bag");
+    teeth.teethDown.readyToMove = true;
+  }
+
+  /*if (teeth.readyToFall) {
+    teeth.x = mouseX - 50;
+    teeth.y = mouseY - 80;
+  }*/
+
+  /*const teethMouseOverlap =
+    blueMouse.x + blueMouse.x / 2 > teeth.x - teeth.width / 2 &&
+    blueMouse.x - blueMouse.x / 2 < teeth.x + teeth.width / 2 &&
+    blueMouse.y + blueMouse.y / 2 > teeth.y - teeth.height / 2 &&
+    blueMouse.y - blueMouse.y / 2 < teeth.y + teeth.height / 2;
+
+  if (teethMouseOverlap) {
+    console.log("teeth hover");
+  }
+  /*
+  if (teethMouseOverlap) {
+    //console.log("teeth hover");
+    teeth.hover = true;
+  } else {
+    teeth.hover = false;
+  }
+  if (teethMouseOverlap && mouseIsPressed && teeth.hover) {
+    console.log("click");
+    teeth.clicked = true;
+    offsetX = teeth.x - mouseX;
+    offsetY = teeth.y - mouseY;
+  } else {
+    console.log("click");
+  }
+
+  if (!teeth.clicked) {
+    console.log("unclick");
+    teeth.x;
+    teeth.y += 1;
+  }
+
+  if (teeth.clicked) {
+    teeth.x = mouseX + offsetX;
+    teeth.y = mouseY + offsetY;
+  }*/
+}
+
+/*function blueCheckOverlap(blueMouse, teeth) {
+  const blueOverlap =
+    mouseX + blueMouse.width / 2 > teeth.x - teeth.width / 2 &&
+    mouseX - blueMouse.width / 2 < teeth.x + teeth.width / 2 &&
+    mouseY + blueMouse.height / 2 > teeth.y - teeth.height / 2 &&
+    mouseY - blueMouse.height / 2 < teeth.y + teeth.height / 2;
+
+  if (blueOverlap) {
+    console.log("hover");
+  }
+
+  if (teethMouseOverlap && mouseIsPressed) {
+    console.log("click");
+  }
+  let teethNotClicked = true;
+  if (!teethNotClicked) {
+    console.log("click");
+    teeth.y += 1;
+  }
+}
+
+function blueMouseIsPressed(teeth) {
+  if (teethMouseOverlap && mouseIsPressed && teeth.hover) {
+    console.log("click");
+    teeth.clicked = true;
+    offsetX = teeth.x - mouseX;
+    offsetY = teeth.y - mouseY;
+  } else {
+    console.log("click");
+  }
+
+  /*if (!teeth.clicked) {
+    console.log("unclick");
+    teeth.x;
+    teeth.y += 1;
+  }
+
+  if (teeth.clicked) {
+    teeth.x = mouseX + offsetX;
+    teeth.y = mouseY + offsetY;
+  }
+}*/
 
 /**
  * This will be called whenever the mouse is pressed while the blue variation is active

@@ -129,7 +129,7 @@ function preload() {
   blueImg3 = loadImage("./assets/images/paysage.png"); ///paysage background
   blueImg4 = loadImage("./assets/images/semirapprocheplan.png"); //visage, next after auto
   //blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
-  //blueImg6 = loadImage("./assets/images/godhand.png");
+  blueImg6 = loadImage("./assets/images/2tl.png");
   blueImg7 = loadImage("./assets/images/fondjeu12.png"); //accueil jeu
   blueImg8 = loadImage("./assets/images/cadrecomplet.png"); ///FRAME
   blueImg9 = loadImage("./assets/images/autoglow.png"); //glow of car when hovering
@@ -152,6 +152,9 @@ function preload() {
   blueImg26 = loadImage("./assets/images/4dr.png");
   blueImg27 = loadImage("./assets/images/4tl.png");
   blueImg28 = loadImage("./assets/images/4tr.png");
+  blueImg29 = loadImage("./assets/images/traytop.png");
+  blueImg30 = loadImage("./assets/images/traydown.png");
+
   ////////////////////green variation images//////////////////////
   greenImg1 = loadImage("./assets/images/jeu1.png");
   greenImg2 = loadImage("./assets/images/jeu2.png");
