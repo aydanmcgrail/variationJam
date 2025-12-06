@@ -152,8 +152,8 @@ function preload() {
   blueImg26 = loadImage("./assets/images/4dr.png");
   blueImg27 = loadImage("./assets/images/4tl.png");
   blueImg28 = loadImage("./assets/images/4tr.png");
-  blueImg29 = loadImage("./assets/images/traytop.png");
-  blueImg30 = loadImage("./assets/images/traydown.png");
+  blueImg29 = loadImage("./assets/images/traytopGlow.png");
+  blueImg30 = loadImage("./assets/images/traydownGlow.png");
 
   ////////////////////green variation images//////////////////////
   greenImg1 = loadImage("./assets/images/jeu1.png");
@@ -269,20 +269,20 @@ function menuDraw() {
   push();
   fill(0, fadeOutToGame);
   rect(0, 0, width, height);
-  fill(255);
+  /*fill(255);
   text(fadeOutToGame, 50, 200);
 
   text(fadeOutToGame1, 100, 100);
   fill(255, 0, 0);
-  text(fadeOutToGame2, 200, 100);
-  text(menuInputEnabled, 300, 100);
+  text(fadeOutToGame2, 300, 100);
+  text(menuInputEnabled, 800, 100);
   fill(0, 255, 0);
   text(menuClicked, 400, 100);
   fill(255, 255, 0);
   fill(255);
   text(fadeInToGame4, 100, 400);
   text(fadeInToGame3, 200, 400);
-  text(fadeInToGame2, 300, 400);
+  text(fadeInToGame2, 300, 400);*/
   pop();
 }
 function drawHandPointing() {
@@ -299,7 +299,7 @@ function menuCinematic() {
     //the image on top with the title
     menuOpacityImg7 -= 1.5; //goes transparent
   }
-  if (menuTitleTimer >= 150) {
+  if (menuTitleTimer >= 350) {
     //CAN BE ADJUSTED, FOR FASTER TESTING
     menuInputEnabled = true; //when true= clicks work, otherwise no clicks
   }
