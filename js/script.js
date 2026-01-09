@@ -26,16 +26,16 @@ function draw() {
     case "menu":
       menuDraw();
       break;
-    case "3LIGHTred-variation":
+    case "3OPALred-variation":
       redDraw();
       break;
-    case "2OPALgreen-variation":
+    case "2DEVOTgreen-variation":
       greenDraw();
       break;
     case "1TEETHblue-variation":
       blueDraw();
       break;
-    case "4DEVOUTyellow-variation":
+    case "4LIGHTyellow-variation":
       yellowDraw();
       break;
   }
@@ -50,16 +50,16 @@ function mousePressed() {
     case "menu":
       menuMousePressed();
       break;
-    case "3LIGHTred-variation":
+    case "3OPALred-variation":
       redMousePressed();
       break;
-    case "2OPALgreen-variation":
+    case "2DEVOTgreen-variation":
       greenMousePressed();
       break;
     case "1TEETHblue-variation":
       blueMousePressed();
       break;
-    case "4DEVOUTyellow-variation":
+    case "4LIGHTyellow-variation":
       yellowMousePressed();
       break;
   }
@@ -74,16 +74,16 @@ function keyPressed(event) {
     case "menu":
       menuKeyPressed(event);
       break;
-    case "3LIGHTred-variation":
+    case "3OPALred-variation":
       redKeyPressed(event);
       break;
-    case "2OPALgreen-variation":
+    case "2DEVOTgreen-variation":
       greenKeyPressed(event);
       break;
     case "1TEETHblue-variation":
       blueKeyPressed(event);
       break;
-    case "4DEVOUTyellow-variation":
+    case "4LIGHTyellow-variation":
       yellowKeyPressed(event);
       break;
   }

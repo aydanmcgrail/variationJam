@@ -156,13 +156,21 @@ function preload() {
   blueImg30 = loadImage("./assets/images/traydownGlow.png");
 
   ////////////////////green variation images//////////////////////
-  greenImg1 = loadImage("./assets/images/jeu1.png");
-  greenImg2 = loadImage("./assets/images/jeu2.png");
-  greenImg3 = loadImage("./assets/images/jeu3.png");
-  greenImg4 = loadImage("./assets/images/jeu4.png");
-  greenImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
-  greenImg6 = loadImage("./assets/images/godhand.png");
-  greenImg7 = loadImage("./assets/images/fondjeu22.png");
+  greenImg1 = loadImage("./assets/images/piecehautbas2.png");
+  greenImg2 = loadImage("./assets/images/piecehautbas32.png");
+  greenImg3 = loadImage("./assets/images/kayak.png");
+  greenImg4 = loadImage("./assets/images/jumeaux.png");
+  greenImg5 = loadImage("./assets/images/jimmybillbob.png");
+  greenImg6 = loadImage("./assets/images/soldate.png");
+  greenImg7 = loadImage("./assets/images/spaghetti.png");
+  greenImg8 = loadImage("./assets/images/demon.png");
+  greenImg9 = loadImage("./assets/images/cavernes.png");
+  greenImg10 = loadImage("./assets/images/billy.png");
+  greenImg11 = loadImage("./assets/images/fondjeu22.png");
+  greenImg12 = loadImage("./assets/images/piecehautbas.png");
+  greenImg13 = loadImage("./assets/images/piecehaut.png");
+  greenImg14 = loadImage("./assets/images/piecebas.png");
+  greenImg15 = loadImage("./assets/images/fondjeu22.png");
 
   ////////////////////red variation images//////////////////////
   redImg1 = loadImage("./assets/images/jeu1.png");
@@ -351,21 +359,21 @@ function menuGoToGame() {
   }
 
   if (fadeOutToGame2 >= 270) {
-    state = "2OPALgreen-variation";
+    state = "2DEVOTgreen-variation";
     greenSetup();
     fadeOutToGame2 = 0;
     rect(0, 0, width, height);
   }
 
   if (fadeOutToGame3 >= 270) {
-    state = "3LIGHTred-variation";
+    state = "3OPALred-variation";
     redSetup();
     fadeOutToGame3 = 0;
     rect(0, 0, width, height);
   }
 
   if (fadeOutToGame4 >= 270) {
-    state = "4DEVOUTyellow-variation";
+    state = "4LIGHTyellow-variation";
     yellowSetup();
     fadeOutToGame4 = 0;
     rect(0, 0, width, height);
@@ -471,12 +479,12 @@ function menuKeyPressed(event) {
   switch (event.keyCode) {
     case 51:
       1;
-      state = "3LIGHTred-variation";
+      state = "3OPALred-variation";
       redSetup();
       break;
 
     case 50:
-      state = "2OPALgreen-variation";
+      state = "2DEVOTgreen-variation";
       greenSetup();
       break;
 
@@ -486,7 +494,7 @@ function menuKeyPressed(event) {
       break;
 
     case 52:
-      state = "4DEVOUTyellow-variation";
+      state = "4LIGHTyellow-variation";
       yellowSetup();
       break;
   }
