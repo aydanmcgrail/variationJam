@@ -17,10 +17,10 @@ let redImg5;
 let redImg6;
 let redImg7;
 
-/**
- * This will be called just before the red variation starts
- */
-function redSetup() {}
+
+//This will be called just before the red variation starts
+
+function redSetup() { }
 
 /**
  * This will be called every frame when the red variation is active
@@ -46,6 +46,19 @@ function redDraw() {
   pop();
 
   redCinematic();
+  drawOpal();
+}
+
+function drawOpal() {
+
+  let opalX = random(0, 1600);
+  let opalY = 100;
+  let opalSize = 110;
+  //let opalDiameter = 0;
+
+  fill(255);
+  ellipse(opalX, opalY, opalSize);
+  //opalY -= 0.25;
 }
 
 function redCinematic() {
@@ -54,6 +67,7 @@ function redCinematic() {
   }
   //if fondJeu3opacity <= 0) {
   //}
+
 }
 
 /**
@@ -72,4 +86,8 @@ function redKeyPressed(event) {
 /**
  * This will be called whenever the mouse is pressed while the red variation is active
  */
-function redMousePressed() {}
+function redMousePressed() { }
+
+function opalFallingLoop() {
+
+}
