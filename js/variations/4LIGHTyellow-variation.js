@@ -17,12 +17,23 @@ let yellowImg5;
 let yellowImg6;
 let yellowImg7;
 
+//each will be triggered when the intruder object in each decor has been clicked.
+//when each timer is triggered the image opacity will go up so we can see the overall picture better.
+let timerAfterDecor1 = 0; //up to the treshold which will trigger the next decor event.
+let timerAfterDecor2 = 0;
+let timerAfterDecor3 = 0;
+let timerAfterDecor4 = 0;
+
+let flashlightX = 0;
+
 /////https://editor.p5js.org/ebenjmuse/sketches/rJUFyTjbz
 
 /**
  * This will be called just before the red variation starts
  */
-function yellowSetup() {}
+function yellowSetup() {
+  pixelDensity(1);
+}
 
 /**
  * This will be called every frame when the red variation is active
@@ -31,7 +42,7 @@ function yellowDraw() {
   background("black");
 
   push();
-  image();
+  //image();
 
   pop();
 
@@ -42,9 +53,54 @@ function yellowDraw() {
 
   yellowFadeIn -= 1;
   fill(0, yellowFadeIn);
-  rect(0, 0, width, height);
+  rect(0, 0, 1600, 900);
+
+  push();
+  tint(255, 255); //blueOpacity
+  image(blueImg8, 0, 0); //cadre complet
+  pop();
 
   yellowCinematic();
+
+  loadPixels();
+  let lightRadius = 90;
+  // We must also call loadPixels() on the PImage since we are going to read its pixels.
+  img.loadPixels();
+  for (let flashlightY = 0; flashlightY < height; flashlightY++) {
+    for (let flashlightX = 0; flashlightX < width; flashlightX++) {
+      var loc = (flashlightX + flashlightY * width) * 4;
+      // The functions red(), green(), and blue() pull out the three color components from a pixel.
+      let r = img.pixels[loc];
+      let g = img.pixels[loc + 1];
+      let b = img.pixels[loc + 2];
+
+      // Calculate an amount to change brightness
+      // based on proximity to the mouse
+      var distance = dist(flashlightX, flashlightY, mouseX, mouseY);
+      // The closer the pixel is to the mouse, the lower the value of "distance"
+      // We want closer pixels to be brighter, however, so we invert the value using map()
+      // Pixels with a distance greater than the lightRadius have a brightness of 0.0
+      // (or negative which is equivalent to 0 here)
+      // Pixels with a distance of 0 have a brightness of 1.0.
+      var adjustBrightness = map(distance, 0, lightRadius, 1, 0);
+      r *= adjustBrightness;
+      g *= adjustBrightness;
+      b *= adjustBrightness;
+
+      // Constrain RGB to between 0-255
+      r = constrain(r, 0, 255);
+      g = constrain(g, 0, 255);
+      b = constrain(b, 0, 255);
+
+      // Set the display pixel to the image pixel
+      pixels[loc] = r;
+      pixels[loc + 1] = g;
+      pixels[loc + 2] = b;
+      pixels[loc + 3] = 255; // Always have to set alpha
+    }
+  }
+
+  updatePixels();
 }
 
 function yellowCinematic() {
