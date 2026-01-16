@@ -76,7 +76,7 @@ let blueImg4;
 let blueImg5;
 let blueImg6;
 let blueImg7;
-let blueImg8;
+//let blueImg8;
 let blueImg9;
 let blueImg10;
 let blueImg11;
@@ -99,6 +99,8 @@ let blueImg27;
 let blueImg28;
 let blueImg29;
 let blueImg30;
+
+let menuImg16;
 
 /**
  * This will be called just before the blue variation starts
@@ -264,7 +266,11 @@ function blueDraw() {
 
   push();
   tint(255, blueOpacity); //blueOpacity
-  image(blueImg8, 0, 0); //cadre complet
+  image(menuImg16, 0, 0); //cadre complet4
+  tint(255, 0); //menuOpacityGlowProgression
+  image(menuImg17, 0, 0); //cadre glow
+  tint(255, 0); //menuOpacityGlowFinal
+  image(menuImg18, 0, 0); //cadre final glow
   pop();
 
   blueCinematic();

@@ -7,6 +7,17 @@
 ///////////////////mouvement,opacity,suites///////////////////
 let yellowFadeIn = 255; //starts black and will go down to 0
 let fondJeu4opacity = 255; //opacity of the background image when at 0 trigger next event
+let yellowOpacity = 0; //opacity of the background image, goes up when fondJeu1opacity is 0
+let fondNoirOpacity = 255; //opacity of the black screen that goes down when each decor event is triggered
+let decor1Done = false;
+let decor2Done = false;
+let decor3Done = false;
+let decor4Done = false;
+let decorSpacing1 = 0; //timing between each decor transition so viewer can see the overall picture better.
+let decorSpacing2 = 0;
+let decorSpacing3 = 0;
+let decorSpacing4 = 0;
+////////////////////////////////////////////////////////////
 
 ////////////////////images//////////////////////
 let yellowImg1;
@@ -24,91 +35,181 @@ let timerAfterDecor2 = 0;
 let timerAfterDecor3 = 0;
 let timerAfterDecor4 = 0;
 
-let flashlightX = 0;
+////////////////////////////////////////////////////////////
+////////////////////////////the targets////////////////////////////
+//////////////////////////////////////////////////////
+let target1 = {
+  x: 1230,
+  y: 500,
+  size: 150,
+  fill: "black",
+  fills: {
+    overlap: "red",
+    noOverlap: "black",
+  },
+};
 
-/////https://editor.p5js.org/ebenjmuse/sketches/rJUFyTjbz
+let target2 = {
+  x: 280,
+  y: 390,
+  size: 95,
+  fill: "black",
+  fills: {
+    overlap: "red",
+    noOverlap: "black",
+  },
+};
 
-/**
- * This will be called just before the red variation starts
- */
-function yellowSetup() {
-  pixelDensity(1);
-}
+let target3 = {
+  x: 900,
+  y: 545,
+  width: 170,
+  height: 50,
+  fill: "black",
+  fills: {
+    overlap: "red",
+    noOverlap: "black",
+  },
+};
 
-/**
- * This will be called every frame when the red variation is active
- */
+let target4 = {
+  x: 1005,
+  y: 800,
+  size: 50,
+  fill: "black",
+  fills: {
+    overlap: "red",
+    noOverlap: "black",
+  },
+};
+
+let decor = [];
+let decorIndex = 0;
+///////////////////////////////////////////////////////////////////////////////////////////
+
+function yellowSetup() {}
+
 function yellowDraw() {
   background("black");
 
   push();
   //image();
-
+  yellowTargets();
   pop();
 
   push();
-  tint(255, fondJeu4opacity);
-  image(yellowImg7, 0, 0);
+  //tint(255, fondJeu4opacity);
+  //image(yellowImg7, 0, 0); ///title text of game (les lumieres)
   pop();
 
   yellowFadeIn -= 1;
   fill(0, yellowFadeIn);
   rect(0, 0, 1600, 900);
 
+  yellowDrawHandPointing();
+
   push();
-  tint(255, 255); //blueOpacity
-  image(blueImg8, 0, 0); //cadre complet
+  tint(255, 255); //yellowOpacity
+  image(menuImg16, 0, 0); //cadre complet4
+  tint(255, 0); //menuOpacityGlowProgression
+  image(menuImg17, 0, 0); //cadre glow
+  tint(255, 0); //menuOpacityGlowFinal
+  image(menuImg18, 0, 0); //cadre final glow
   pop();
 
   yellowCinematic();
 
-  loadPixels();
-  let lightRadius = 90;
-  // We must also call loadPixels() on the PImage since we are going to read its pixels.
-  img.loadPixels();
-  for (let flashlightY = 0; flashlightY < height; flashlightY++) {
-    for (let flashlightX = 0; flashlightX < width; flashlightX++) {
-      var loc = (flashlightX + flashlightY * width) * 4;
-      // The functions red(), green(), and blue() pull out the three color components from a pixel.
-      let r = img.pixels[loc];
-      let g = img.pixels[loc + 1];
-      let b = img.pixels[loc + 2];
-
-      // Calculate an amount to change brightness
-      // based on proximity to the mouse
-      var distance = dist(flashlightX, flashlightY, mouseX, mouseY);
-      // The closer the pixel is to the mouse, the lower the value of "distance"
-      // We want closer pixels to be brighter, however, so we invert the value using map()
-      // Pixels with a distance greater than the lightRadius have a brightness of 0.0
-      // (or negative which is equivalent to 0 here)
-      // Pixels with a distance of 0 have a brightness of 1.0.
-      var adjustBrightness = map(distance, 0, lightRadius, 1, 0);
-      r *= adjustBrightness;
-      g *= adjustBrightness;
-      b *= adjustBrightness;
-
-      // Constrain RGB to between 0-255
-      r = constrain(r, 0, 255);
-      g = constrain(g, 0, 255);
-      b = constrain(b, 0, 255);
-
-      // Set the display pixel to the image pixel
-      pixels[loc] = r;
-      pixels[loc + 1] = g;
-      pixels[loc + 2] = b;
-      pixels[loc + 3] = 255; // Always have to set alpha
-    }
-  }
-
-  updatePixels();
+  fill("green");
+  textSize(42);
+  text(decorSpacing1, 100, 100);
+  text(decorSpacing2, 200, 100);
+  text(decorSpacing3, 300, 100);
+  text(decorSpacing4, 400, 100);
 }
 
 function yellowCinematic() {
   if (yellowFadeIn <= 50) {
     fondJeu4opacity -= 0.5;
   }
-  //if fondJeu3opacity <= 0) {
-  //}
+
+  if (decor1Done === true) {
+    fondNoirOpacity -= 2;
+    decorSpacing1 += 1;
+  }
+
+  if (decor2Done === true) {
+    fondNoirOpacity -= 2;
+    decorSpacing2 += 1;
+  }
+  if (decor3Done === true) {
+    fondNoirOpacity -= 2;
+    decorSpacing3 += 1;
+  }
+  if (decor4Done === true) {
+    fondNoirOpacity -= 2;
+    decorSpacing4 += 1;
+  }
+
+  if (decorSpacing1 >= 275) {
+    decorSpacing1 = 0;
+    decor1Done = false;
+    fondNoirOpacity = 255;
+    decorIndex = 1;
+  }
+
+  if (decorSpacing2 >= 275) {
+    decorSpacing2 = 0;
+    decor2Done = false;
+    fondNoirOpacity = 255;
+    decorIndex = 2;
+  }
+
+  if (decorSpacing3 >= 275) {
+    decorSpacing3 = 0;
+    decor3Done = false;
+    fondNoirOpacity = 255;
+    decorIndex = 3;
+  }
+
+  if (decorSpacing4 >= 275) {
+    decorSpacing4 = 0;
+    decor4Done = false;
+    fondNoirOpacity = 255;
+    decorIndex = 0;
+  }
+}
+
+function yellowDrawHandPointing() {
+  push();
+  tint(255, 255);
+  image(menuImg6, mouseX - 60, mouseY - 60, 300, 920);
+  pop();
+}
+
+function yellowTargets() {
+  let currentDecor = decor[decorIndex];
+
+  ellipse(target1.x, target1.y, target1.size);
+  ellipse(target2.x, target2.y, target2.size);
+  ellipse(target3.x, target3.y, target3.width, target3.height);
+  ellipse(target4.x, target4.y, target4.size);
+
+  push();
+  tint(255, 255); //blueOpacity
+  image(currentDecor, 0, 0); //cadre complet
+  pop();
+
+  push();
+
+  let maxHeight = 705;
+  let minHeight = 160;
+  let maxWidth = 1400;
+  let minWidth = 200;
+  tint(255, fondNoirOpacity); //blueOpacity
+  let xConstrain = constrain(mouseX, minWidth, maxWidth) - 1400;
+  let yConstrain = constrain(mouseY, minHeight, maxHeight) - 685;
+  image(yellowImg5, xConstrain, yConstrain, 2800, 1375); //cadre complet
+  pop();
 }
 
 /**
@@ -126,4 +227,36 @@ function yellowKeyPressed(event) {
 /**
  * This will be called whenever the mouse is pressed while the red variation is active
  */
-function yellowMousePressed() {}
+function yellowMousePressed() {
+  //next line
+  const distanceToTarget1 = dist(mouseX, mouseY, target1.x, target1.y);
+  const overlaptarget1 = distanceToTarget1 < target1.size / 2;
+
+  const distanceToTarget2 = dist(mouseX, mouseY, target2.x, target2.y);
+  const overlaptarget2 = distanceToTarget2 < target2.size / 2;
+
+  const distanceToTarget3 = dist(mouseX, mouseY, target3.x, target3.y);
+  const overlaptarget3 =
+    distanceToTarget3 < target3.width / 2 + target3.height / 2;
+
+  const distanceToTarget4 = dist(mouseX, mouseY, target4.x, target4.y);
+  const overlaptarget4 = distanceToTarget4 < target4.size / 2;
+
+  if (overlaptarget1 && decorIndex === 0) {
+    decor1Done = true;
+
+    //decorIndex = 1; //trigger event that will make yellowimg5 transparent. wh ndone = decorindex += 1;
+  }
+  if (overlaptarget2 && decorIndex === 1) {
+    decor2Done = true;
+    //decorIndex = 2;
+  }
+  if (overlaptarget3 && decorIndex === 2) {
+    decor3Done = true;
+    //decorIndex = 3;
+  }
+  if (overlaptarget4 && decorIndex === 3) {
+    decor4Done = true;
+    //decorIndex = 0;
+  }
+}

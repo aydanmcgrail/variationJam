@@ -66,6 +66,15 @@ function greenDraw() {
   fill(0, greenFadeIn);
   rect(0, 0, width, height);
 
+  push();
+  tint(255, 255); //greenOpacity
+  image(menuImg16, 0, 0); //cadre complet4
+  tint(255, 0); //menuOpacityGlowProgression
+  image(menuImg17, 0, 0); //cadre glow
+  tint(255, 0); //menuOpacityGlowFinal
+  image(menuImg18, 0, 0); //cadre final glow
+  pop();
+
   greenCinematic();
 }
 

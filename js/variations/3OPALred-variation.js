@@ -49,6 +49,15 @@ function redDraw() {
   text(redFadeIn, 200, 300);
   pop();
 
+  push();
+  tint(255, 255); //redOpacity
+  image(menuImg16, 0, 0); //cadre complet4
+  tint(255, 0); //menuOpacityGlowProgression
+  image(menuImg17, 0, 0); //cadre glow
+  tint(255, 0); //menuOpacityGlowFinal
+  image(menuImg18, 0, 0); //cadre final glow
+  pop();
+
   redCinematic();
   drawOpal();
 }

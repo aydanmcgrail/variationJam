@@ -122,6 +122,9 @@ function preload() {
   menuImg13 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //tied to mouse move
   menuImg14 = loadImage("./assets/images/godhandopenleft.png"); //tied to mouse move
   menuImg15 = loadImage("./assets/images/godhandopenleftCLOSED.png"); //tied to mouse move
+  menuImg16 = loadImage("./assets/images/cadrecomplet.png"); ///BASE FRAME
+  menuImg17 = loadImage("./assets/images/cadrecompletsatisfaction.png"); ///frame will glow when levels will be done successfully
+  menuImg18 = loadImage("./assets/images/cadrecompletsatisfactionfinal.png"); ///final frame glow to show it is all done
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -131,7 +134,7 @@ function preload() {
   //blueImg5 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
   blueImg6 = loadImage("./assets/images/2tl.png");
   blueImg7 = loadImage("./assets/images/fondjeu12.png"); //accueil jeu
-  blueImg8 = loadImage("./assets/images/cadrecomplet.png"); ///FRAME
+  //blueImg8 = loadImage("./assets/images/cadrecomplet.png"); ///FRAME
   blueImg9 = loadImage("./assets/images/autoglow.png"); //glow of car when hovering
   blueImg10 = loadImage("./assets/images/paysage.png"); //WHEN going back to a game for 2nd time or more. there will be no fade ins like the first time.
   blueImg11 = loadImage("./assets/images/gencivedown.png");
@@ -182,14 +185,15 @@ function preload() {
   redImg7 = loadImage("./assets/images/fondjeu32.png");
 
   ////////////////////yellow variation images//////////////////////
-  yellowImg1 = loadImage("./assets/images/jeu1.png");
-  yellowImg2 = loadImage("./assets/images/jeu1.png");
-  yellowImg3 = loadImage("./assets/images/jeu1.png");
-  yellowImg4 = loadImage("./assets/images/jeu1.png");
-  yellowImg5 = loadImage("./assets/images/jeu1.png");
-  yellowImg6 = loadImage("./assets/images/jeu1.png");
+  yellowImg1 = loadImage("./assets/images/decor11.png");
+  yellowImg2 = loadImage("./assets/images/decor22.png");
+  yellowImg3 = loadImage("./assets/images/decor33.png");
+  yellowImg4 = loadImage("./assets/images/decor44.png");
+  yellowImg5 = loadImage("./assets/images/noiravectrou.png");
+  //yellowImg6 = loadImage("./assets/images/jeu1.png");
   yellowImg7 = loadImage("./assets/images/fondjeu42.png");
   //img8 = loadImage("./assets/images/frogidlestone.png");
+  decor = [yellowImg1, yellowImg2, yellowImg3, yellowImg4];
 }
 
 /**
