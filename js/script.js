@@ -16,6 +16,7 @@ let state = "menu";
  */
 function setup() {
   createCanvas(1600, 900);
+  //noCursor();
 }
 
 /**

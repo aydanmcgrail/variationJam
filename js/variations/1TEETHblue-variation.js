@@ -8,7 +8,6 @@
 let blueFadeIn = 255; //starts black and will go down to 0
 let fondJeu1opacity = 255; //opacity of the background image when at 0 trigger next event
 let blueOpacity = 0; //opacity of the background image, goes up when fondJeu1opacity is 0
-let gameSpeedESC = 0.08;
 let blueCinematicTrigger = 0; //starts at zero and goes up
 let TouchOnCar = 0; // will go up when car is touched
 let blueCinematicTrigger2 = 0; //starts after the first trigger.
@@ -100,8 +99,6 @@ let blueImg28;
 let blueImg29;
 let blueImg30;
 
-let menuImg16;
-
 /**
  * This will be called just before the blue variation starts
  */
@@ -123,14 +120,14 @@ function blueSetup() {
     545,
     "#e8e9dcff",
     teethOpacity,
-    blueImg22
+    blueImg22,
   );
   teeth4DownRight = createTeeth(
     1165,
     530,
     "#e8e9dcff",
     teethOpacity,
-    blueImg26
+    blueImg26,
   );
   teeth1DownLeft = createTeeth(710, 550, "#e8e9dcff", teethOpacity, blueImg14);
   teeth2DownLeft = createTeeth(600, 545, "#e8e9dcff", teethOpacity, blueImg18);
@@ -352,7 +349,7 @@ function drawEscBlue() {
   image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
   //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
-  escIcon.y += gameSpeedESC * direction;
+  escIcon.y += escIcon.gameSpeedESC * direction;
   if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
     direction *= -1;
   }

@@ -49,6 +49,7 @@ let escIcon = {
   height: 170,
   maxY: 840,
   minY: 820,
+  gameSpeedESC: 0.08,
 };
 
 ///////////////////////////CINEMATIC variables////////////////////////////////////
@@ -103,6 +104,10 @@ let menuImg12;
 let menuImg13;
 let menuImg14;
 let menuImg15;
+let menuImg16;
+let menuImg17;
+let menuImg18;
+let menuImg19;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
@@ -125,6 +130,7 @@ function preload() {
   menuImg16 = loadImage("./assets/images/cadrecomplet.png"); ///BASE FRAME
   menuImg17 = loadImage("./assets/images/cadrecompletsatisfaction.png"); ///frame will glow when levels will be done successfully
   menuImg18 = loadImage("./assets/images/cadrecompletsatisfactionfinal.png"); ///final frame glow to show it is all done
+  menuImg19 = loadImage("./assets/images/escbutton.png"); ///escape button
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -159,21 +165,58 @@ function preload() {
   blueImg30 = loadImage("./assets/images/traydownGlow.png");
 
   ////////////////////green variation images//////////////////////
-  greenImg1 = loadImage("./assets/images/piecehautbas2.png");
-  greenImg2 = loadImage("./assets/images/piecehautbas32.png");
-  greenImg3 = loadImage("./assets/images/kayak.png");
-  greenImg4 = loadImage("./assets/images/jumeaux.png");
-  greenImg5 = loadImage("./assets/images/jimmybillbob.png");
-  greenImg6 = loadImage("./assets/images/soldate.png");
-  greenImg7 = loadImage("./assets/images/spaghetti.png");
-  greenImg8 = loadImage("./assets/images/demon.png");
-  greenImg9 = loadImage("./assets/images/cavernes.png");
-  greenImg10 = loadImage("./assets/images/billy.png");
+  greenImg1 = loadImage("./assets/images/piecehautbasNEW1.png"); //fond visuel diff bleu pale
+  greenImg2 = loadImage("./assets/images/piecehautbasNEW3.png"); //fond visuel different
+  greenImg3 = loadImage("./assets/images/kayak.png"); //perso
+  greenImg4 = loadImage("./assets/images/jumeaux.png"); //perso
+  greenImg5 = loadImage("./assets/images/jimmybillbob.png"); //perso
+  greenImg6 = loadImage("./assets/images/soldate.png"); //perso
+  greenImg7 = loadImage("./assets/images/spaghetti.png"); ///perso
+  greenImg8 = loadImage("./assets/images/demon.png"); ///perso
+  greenImg9 = loadImage("./assets/images/cavernes.png"); ///perso
+  greenImg10 = loadImage("./assets/images/billy.png"); ///perso
   greenImg11 = loadImage("./assets/images/fondjeu22.png");
   greenImg12 = loadImage("./assets/images/piecehautbas.png");
   greenImg13 = loadImage("./assets/images/piecehaut.png");
   greenImg14 = loadImage("./assets/images/piecebas.png");
-  greenImg15 = loadImage("./assets/images/fondjeu22.png");
+  greenImg15 = loadImage("./assets/images/mainplate.png");
+  greenImg16 = loadImage("./assets/images/godhandrightSTORM.png"); //ECLAIR
+  greenImg17 = loadImage("./assets/images/godhandright.png"); //main pointant no glow
+  greenImg18 = loadImage("./assets/images/nodevot.png"); //up no glow
+  greenImg19 = loadImage("./assets/images/touchebas.png"); //up glow
+  greenImg20 = loadImage("./assets/images/piecehautbasNEW2.png"); //cadre diff 3
+  greenImg21 = loadImage("./assets/images/touchehaut.png"); //cadre diff 4
+  greenImg22 = loadImage("./assets/images/MALame.png"); /////////texte mal
+  greenImg23 = loadImage("./assets/images/MALargent.png"); /////////texte mal
+  greenImg24 = loadImage("./assets/images/MALrefait.png"); /////////texte mal
+  greenImg25 = loadImage("./assets/images/MALvoisin.png"); /////////texte mal
+  greenImg26 = loadImage("./assets/images/BIENdebien.png"); /////////texte bien
+  greenImg27 = loadImage("./assets/images/BIENbenevolat.png"); /////////texte bien
+  greenImg28 = loadImage("./assets/images/BIENchat.png"); /////////texte bien
+  greenImg29 = loadImage("./assets/images/BIENroche.png"); /////////texte bien
+
+  persoArray = [
+    //greenImg18,
+    greenImg3,
+    greenImg4,
+    greenImg5,
+    greenImg6,
+    greenImg7,
+    greenImg8,
+    greenImg9,
+    greenImg10,
+  ];
+
+  words = [
+    greenImg22, //1
+    greenImg23, //2
+    greenImg24, //3
+    greenImg25, //4
+    greenImg26, //5
+    greenImg27, //6
+    greenImg28, //7
+    greenImg29, //8
+  ];
 
   ////////////////////red variation images//////////////////////
   redImg1 = loadImage("./assets/images/jeu1.png");
@@ -303,6 +346,7 @@ function drawHandPointing() {
   image(menuImg6, mouseX - 60, mouseY - 60);
   pop();
 }
+
 function menuCinematic() {
   menuTitleTimer += 1; //will go up until it triggers disparition of title screen
   tint(255, menuOpacityImg7); //starts transparent

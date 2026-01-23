@@ -98,8 +98,8 @@ function yellowDraw() {
   pop();
 
   push();
-  //tint(255, fondJeu4opacity);
-  //image(yellowImg7, 0, 0); ///title text of game (les lumieres)
+  tint(255, fondJeu4opacity);
+  image(yellowImg7, 0, 0); ///title text of game (les lumieres)
   pop();
 
   yellowFadeIn -= 1;
@@ -111,6 +111,7 @@ function yellowDraw() {
   push();
   tint(255, 255); //yellowOpacity
   image(menuImg16, 0, 0); //cadre complet4
+  drawEscYellow();
   tint(255, 0); //menuOpacityGlowProgression
   image(menuImg17, 0, 0); //cadre glow
   tint(255, 0); //menuOpacityGlowFinal
@@ -119,12 +120,25 @@ function yellowDraw() {
 
   yellowCinematic();
 
-  fill("green");
+  /*fill("green");
   textSize(42);
   text(decorSpacing1, 100, 100);
   text(decorSpacing2, 200, 100);
   text(decorSpacing3, 300, 100);
-  text(decorSpacing4, 400, 100);
+  text(decorSpacing4, 400, 100);*/
+}
+
+function drawEscYellow() {
+  push();
+  tint(255, yellowOpacity - 100);
+  image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
+  fill(255, 0, 0, 0);
+  //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
+  escIcon.y += escIcon.gameSpeedESC * direction;
+  if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
+    direction *= -1;
+  }
+  pop();
 }
 
 function yellowCinematic() {
@@ -182,7 +196,7 @@ function yellowCinematic() {
 function yellowDrawHandPointing() {
   push();
   tint(255, 255);
-  image(menuImg6, mouseX - 60, mouseY - 60, 300, 920);
+  image(menuImg6, mouseX - 45, mouseY - 60, 300, 920);
   pop();
 }
 
