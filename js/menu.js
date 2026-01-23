@@ -176,7 +176,7 @@ function preload() {
   greenImg9 = loadImage("./assets/images/cavernes.png"); ///perso
   greenImg10 = loadImage("./assets/images/billy.png"); ///perso
   greenImg11 = loadImage("./assets/images/fondjeu22.png");
-  greenImg12 = loadImage("./assets/images/piecehautbas.png");
+  greenImg12 = loadImage("./assets/images/piecehautbas1.png");
   greenImg13 = loadImage("./assets/images/piecehaut.png");
   greenImg14 = loadImage("./assets/images/piecebas.png");
   greenImg15 = loadImage("./assets/images/mainplate.png");
