@@ -219,13 +219,16 @@ function preload() {
   ];
 
   ////////////////////red variation images//////////////////////
-  redImg1 = loadImage("./assets/images/jeu1.png");
-  redImg2 = loadImage("./assets/images/jeu2.png");
-  redImg3 = loadImage("./assets/images/jeu3.png");
-  redImg4 = loadImage("./assets/images/jeu4.png");
-  redImg5 = loadImage("./assets/images/ecrandaccueil1sanstexte.png");
-  redImg5 = loadImage("./assets/images/godhand.png");
-  redImg7 = loadImage("./assets/images/fondjeu32.png");
+  redImg1 = loadImage("./assets/images/fondjeu32.png");
+  redImg2 = loadImage("./assets/images/OPALEmal.png"); ////////////opales
+  redImg3 = loadImage("./assets/images/OPALEbleue.png"); ////////////opales
+  redImg4 = loadImage("./assets/images/OPALErouge.png"); ////////////opales
+  redImg5 = loadImage("./assets/images/Forge3.png");
+  redImg5 = loadImage("./assets/images/gastank.png"); /////////trinket
+  redImg6 = loadImage("./assets/images/trumpet.png"); /////////trinket
+  redImg7 = loadImage("./assets/images/viking.png"); /////////trinket
+  redImg8 = loadImage("./assets/images/krony.png"); /////////trinket
+  redImg9 = loadImage("./assets/images/fondjeu32.png");
 
   ////////////////////yellow variation images//////////////////////
   yellowImg1 = loadImage("./assets/images/decor11.png");
