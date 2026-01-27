@@ -43,12 +43,12 @@ let game4Yellow = {
 };
 
 let escIcon = {
-  x: 1350,
-  y: 830,
+  x: 1360,
+  y: 0,
   width: 250,
   height: 170,
-  maxY: 840,
-  minY: 820,
+  maxY: 5,
+  minY: -10,
   gameSpeedESC: 0.08,
 };
 
@@ -77,6 +77,10 @@ let readyGame3 = false;
 let fadeOutToGame4 = 0;
 let fadeInToGame4 = 0;
 let readyGame4 = false;
+
+let fadeOutToEndTitles = 0;
+let fadeInToEndTitles = 0;
+let readyEndTitles = false;
 
 ////for the mouvement of the 4 menu icons////
 let menuSpeed = 0.2;
@@ -161,8 +165,8 @@ function preload() {
   blueImg26 = loadImage("./assets/images/4dr.png");
   blueImg27 = loadImage("./assets/images/4tl.png");
   blueImg28 = loadImage("./assets/images/4tr.png");
-  blueImg29 = loadImage("./assets/images/traytopGlow.png");
-  blueImg30 = loadImage("./assets/images/traydownGlow.png");
+  blueImg29 = loadImage("./assets/images/poubelle.png");
+  blueImg30 = loadImage("./assets/images/poubellefront.png");
 
   ////////////////////green variation images//////////////////////
   greenImg1 = loadImage("./assets/images/piecehautbasNEW1.png"); //fond visuel diff bleu pale
@@ -240,6 +244,28 @@ function preload() {
   yellowImg7 = loadImage("./assets/images/fondjeu42.png");
   //img8 = loadImage("./assets/images/frogidlestone.png");
   decor = [yellowImg1, yellowImg2, yellowImg3, yellowImg4];
+
+  endImg1 = loadImage("assets/images/cadre.png"); //cadre complet
+  endImg2 = loadImage("assets/images/cadrebas.png"); //cadre brisé bas 1
+  endImg3 = loadImage("assets/images/cadredroit.png"); //cadre brisé droit 2
+  endImg4 = loadImage("assets/images/cadregauche.png"); //cadre brisé gauche 3
+  endImg5 = loadImage("assets/images/cadrehaut.png"); //cadre brisé haut 4
+  endImg6 = loadImage("assets/images/cadrebrise.png"); //cadre brisé
+  endImg7 = loadImage("assets/images/femme1.png");
+  endImg8 = loadImage("assets/images/femmeboucheouverte.png");
+  endImg9 = loadImage("assets/images/fondneige.png");
+  endImg10 = loadImage("assets/images/poing.png");
+  endImg11 = loadImage("assets/images/vitre.png");
+  endImg12 = loadImage("assets/images/torchon.png");
+  endImg13 = loadImage("assets/images/f_bravo.png"); ////texte 1
+  endImg14 = loadImage("assets/images/f_reussi.png"); ////texte 2
+  endImg15 = loadImage("assets/images/f_jeupar.png"); ////texte 3
+  endImg16 = loadImage("assets/images/f_aydan.png"); ////texte 4
+  endImg17 = loadImage("assets/images/f_aydan.png"); ////texte 5
+  endImg18 = loadImage("assets/images/fondfin.png");
+  endImg19 = loadImage("assets/images/langue.png");
+  endImg20 = loadImage("assets/images/topbouche.png");
+  // texte = [endImg13, endImg14, endImg15, endImg16, endImg17];
 }
 
 /**
@@ -250,7 +276,7 @@ function menuDraw() {
 
   push();
   tint(255, 255);
-  fill(0, 255, 0, 0);
+  //fill(0, 255, 0, 0);
   noStroke();
   image(menuImg5, 0, 0);
   pop();
@@ -374,6 +400,9 @@ function menuCinematic() {
   if (fadeOutToGame4 >= 1) {
     fadeOutToGame4 += 1.5;
   }
+  if (fadeOutToEndTitles >= 1) {
+    fadeOutToEndTitles += 1.5;
+  }
   if (fadeOutToGame >= 1) {
     fadeOutToGame += 1.5;
     menuClicked = true;
@@ -397,6 +426,10 @@ function menuCinematic() {
   if (fadeOutToGame4 >= 270) {
     readyGame4 = true;
     fadeInToGame4 = 270;
+  }
+  if (fadeOutToEndTitles >= 270) {
+    readyEndTitles = true;
+    fadeInToEndTitles = 270;
   }
 }
 
@@ -427,6 +460,12 @@ function menuGoToGame() {
     state = "4LIGHTyellow-variation";
     yellowSetup();
     fadeOutToGame4 = 0;
+    rect(0, 0, width, height);
+  }
+  if (fadeOutToEndTitles >= 270) {
+    state = "endTitles";
+    endTitlesSetup();
+    fadeOutToEndTitles = 0;
     rect(0, 0, width, height);
   }
 }
@@ -547,6 +586,11 @@ function menuKeyPressed(event) {
     case 52:
       state = "4LIGHTyellow-variation";
       yellowSetup();
+      break;
+
+    case 53:
+      state = "endTitles";
+      endTitlesSetup();
       break;
   }
 }

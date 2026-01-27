@@ -39,6 +39,9 @@ function draw() {
     case "4LIGHTyellow-variation":
       yellowDraw();
       break;
+    case "endTitles":
+      endTitlesDraw();
+      break;
   }
 }
 
@@ -63,6 +66,9 @@ function mousePressed() {
     case "4LIGHTyellow-variation":
       yellowMousePressed();
       break;
+    case "endTitles":
+      endTitlesMousePressed();
+      break;
   }
 }
 
@@ -86,6 +92,9 @@ function keyPressed(event) {
       break;
     case "4LIGHTyellow-variation":
       yellowKeyPressed(event);
+      break;
+    case "endTitles":
+      endTitlesKeyPressed(event);
       break;
   }
 }

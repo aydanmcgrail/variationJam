@@ -15,7 +15,7 @@ let carGlow = 0;
 let blueOpacityHand1 = 0;
 let blueOpacityHand2 = 0;
 let blueOpacityHand3 = 0;
-let trayOpacity = 0; //goes up when hovering
+let trayOpacity = 255; //goes up when hovering
 
 let bigFaceOpacity = 0; //the close up of the whole face starts transparent
 let MainCarOpacity = 255; //starts visible and will become transparent.
@@ -26,12 +26,12 @@ let mouthOpacity = 0;
 let blueInputEnabled = false; //no clicks at first
 
 let tray = {
-  x1: 180,
-  y1: 150,
-  x2: 180,
-  y2: 715,
-  width: 190,
-  height: 110,
+  x: 180,
+  y: 880,
+  direction: 1,
+  width: 330,
+  height: 100,
+  velocity: 3,
 };
 
 let carMover = {
@@ -145,6 +145,7 @@ function blueSetup() {
         y: y, //will be set for each teeth
         readyToMove: false,
       },
+      teethState: "idle",
       x: x, //will be set for each teeth
       fill: fill, //will be 0                     3
       width: 100, //they should all be the same
@@ -152,6 +153,7 @@ function blueSetup() {
       tint: tint, //                               4
       timerBeforeFall: 0, //starts at zero
       direction: 1,
+      teethTouchable: true,
       //begoneTooth: 0, //does it have an end? not sure
       image: {
         //this is where i cross my fingers. I want to add a different img to each teeth
@@ -235,14 +237,17 @@ function blueDraw() {
   tint(255, bigFaceOpacity);
   image(blueImg4, 50, 40, 1500, 800);
   pop();
-  tint(255, trayOpacity); //trayOpacity
-  fill(255, 0);
-  ellipse(tray.x1, tray.y1, tray.width, tray.height); ///size of a teeth
-  ellipse(tray.x2, tray.y2, tray.width, tray.height);
-  image(blueImg29, 45, escIcon.y - 800, 350, 240);
-  image(blueImg30, 40, escIcon.y - 235, 350, 240);
-  tint(255, teethOpacity);
 
+  push();
+  tint(255, blueOpacity); //blueOpacity
+  image(menuImg16, 0, 0); //cadre complet4
+  tint(255, 0); //menuOpacityGlowProgression
+  image(menuImg17, 0, 0); //cadre glow
+  tint(255, 0); //menuOpacityGlowFinal
+  image(menuImg18, 0, 0); //cadre final glow
+  pop();
+
+  tint(255, teethOpacity);
   drawTeethTopOnTop(teeth1TopRight);
   drawTeethTopOnTop(teeth2TopRight);
   drawTeethTopOnTop(teeth3TopRight);
@@ -261,20 +266,12 @@ function blueDraw() {
   drawTeethDownOnTop(teeth3DownLeft);
   drawTeethDownOnTop(teeth4DownLeft);
 
-  push();
-  tint(255, blueOpacity); //blueOpacity
-  image(menuImg16, 0, 0); //cadre complet4
-  tint(255, 0); //menuOpacityGlowProgression
-  image(menuImg17, 0, 0); //cadre glow
-  tint(255, 0); //menuOpacityGlowFinal
-  image(menuImg18, 0, 0); //cadre final glow
-  pop();
-
   blueCinematic();
 
+  moveTray();
   drawEscBlue();
 
-  /*push();
+  push();
   fill(255);
   textSize(20);
   text(blueFadeIn, 200, 300);
@@ -283,8 +280,22 @@ function blueDraw() {
   text(carGlow, 500, 300);
   text(blueInputEnabled, 600, 300);
   fill(255, 0, 0);
-  text(blueCinematicTrigger2, 500, 400);
-  pop();*/
+  //text(randomVelocity, 500, 400);
+  pop();
+}
+
+function moveTray() {
+  push();
+  tint(255, 255); //trayOpacity
+  if (tray.x <= 90 || tray.x >= 1520) {
+    tray.direction *= -1;
+  }
+  tray.x += tray.velocity * tray.direction;
+  image(blueImg29, tray.x - 210, tray.y - 100);
+  image(blueImg30, tray.x - 210, tray.y - 100);
+  fill(255, 0);
+  ellipse(tray.x, tray.y, tray.width, tray.height); ///size of a teeth
+  pop();
 }
 
 function blueCinematic() {
@@ -346,7 +357,7 @@ function drawFirstTimeCar() {
 function drawEscBlue() {
   push();
   tint(255, blueOpacity - 100);
-  image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
+  image(blueImg2, escIcon.x, escIcon.y, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
   //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
   escIcon.y += escIcon.gameSpeedESC * direction;
@@ -362,12 +373,12 @@ function drawTeethTop(teeth) {
   fill(255, 0);
   rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
   image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
-  /*fill(50, 30, 60);
+  fill(50, 30, 60);
   textSize(16);
-  text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
-  text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
-  text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
-  text(teeth.endOfFuckingTooth, teeth.x + 50, teeth.teethTop.y + 125);*/
+  // text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
+  //text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
+  //text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
+  text(teeth.teethState, teeth.x + 50, teeth.teethTop.y + 125);
   pop();
 }
 
@@ -378,13 +389,13 @@ function drawTeethTopOnTop(teeth) {
     fill(255, 0);
     rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
     image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
-    /*fill(50, 30, 60);
+    fill(50, 30, 60);
     textSize(16);
-    text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
-    text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
-    text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
+    //text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
+    text(teeth.teethState, teeth.x + 50, teeth.teethTop.y + 90);
+    //text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
     fill(255, 0, 0);
-    text(teeth.begoneTooth, teeth.x + 50, teeth.teethTop.y + 125);*/
+    //text(teeth.begoneTooth, teeth.x + 50, teeth.teethTop.y + 125);
     trayOpacity += 2;
     console.log("tray");
     if (trayOpacity > 255) {
@@ -469,7 +480,87 @@ function blueKeyPressed(event) {
 }
 
 function blueCheckInput(teeth) {
-  let distTrayTop = dist(mouseX, mouseY, tray.x1, tray.y1);
+  const distTeethToTray = dist(teeth.x, teeth.y, tray.x, tray.y);
+
+  const teethMouseOverlapTop =
+    mouseX > teeth.x &&
+    mouseX < teeth.x + teeth.width &&
+    mouseY > teeth.teethTop.y &&
+    mouseY < teeth.teethTop.y + teeth.height &&
+    mouseY < height / 2;
+
+  const teethMouseOverlapDown =
+    mouseX > teeth.x &&
+    mouseX < teeth.x + teeth.width &&
+    mouseY > teeth.teethDown.y &&
+    mouseY < teeth.teethDown.y + teeth.height &&
+    mouseY > height / 2;
+
+  /*if (teethMouseOverlapTop && mouseIsPressed) {
+    teeth.timerBeforeFall = 1;
+  }
+
+  if (teethMouseOverlapDown && mouseIsPressed) {
+    teeth.timerBeforeFall = 1;
+  }*/
+
+  if (teethMouseOverlapTop && mouseIsPressed && teeth.teethState === "idle") {
+    teeth.teethTop.y += 1;
+    if (teeth.teethTop.y >= 300) {
+      teeth.teethState = "removed";
+    }
+  }
+
+  if (teethMouseOverlapTop && teeth.teethState === "removed") {
+    console.log("bag");
+    teeth.x = mouseX - 50;
+    teeth.teethTop.y = mouseY - 50;
+    if (mouseIsPressed) {
+      teeth.x;
+      teeth.teethTop.y += 2;
+    }
+  }
+}
+
+/* if (
+    teethMouseOverlapDown &&
+    mouseIsPressed &&
+    teeth.teethTouchable === true
+  ) {
+    teeth.teethDown.y -= 1;
+  }
+
+  if (teeth.teethTop.readyToMove === true && teethMouseOverlapTop) {
+    teeth.x = mouseX - 50;
+    teeth.teethTop.y = mouseY - 50;
+    if (teeth.x === mouseX - 50) {
+      console.log("bag");
+      teeth.teethTouchable = false;
+    }
+    teeth.teethTouchable = false;
+  } else if (teeth.teethDown.readyToMove === true && teethMouseOverlapDown) {
+    teeth.x = mouseX - 50;
+    teeth.teethDown.y = mouseY - 50;
+  }
+
+  if (teeth.teethTop.readyToMove === true && distTrayTop2) {
+    teeth.teethTop.y = 2000; //get the fridge out!
+    //console.log("end");
+  }
+
+  if (teeth.teethDown.readyToMove === true && distTrayDown2) {
+    teeth.teethDown = 2000; //get the frog out!
+  }
+
+  if (teeth.teethTop.y >= 300) {
+    teeth.teethTop.readyToMove = true;
+  }
+
+  if (teeth.teethDown.y <= 455) {
+    teeth.teethDown.readyToMove = true;
+  }*/
+
+/**let distTrayTop = dist(mouseX, mouseY, tray.x1, tray.y1);
   let distTrayTop2 = distTrayTop < tray.width / 2;
   if (distTrayTop2) {
     console.log("trayClickTop");
@@ -542,8 +633,7 @@ function blueCheckInput(teeth) {
 
   if (teeth.teethDown.y <= 455) {
     teeth.teethDown.readyToMove = true;
-  }
-}
+  } */
 
 /**
  * This will be called whenever the mouse is pressed while the blue variation is active
