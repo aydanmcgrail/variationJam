@@ -52,6 +52,14 @@ let escIcon = {
   gameSpeedESC: 0.08,
 };
 
+let endTitleLogo = {
+  x: 1430,
+  y: 450,
+  size: 230,
+  opacity1: 110,
+  opacity2: 0,
+};
+
 ///////////////////////////CINEMATIC variables////////////////////////////////////
 /////////////////////////////CINEMATIC variables////////////////////////////////////
 let menuTitleTimer = 0; ////starts at zero will go up to the limit that will trigger titleOn = false////
@@ -86,6 +94,7 @@ let readyEndTitles = false;
 let menuSpeed = 0.2;
 let menuSpeed2 = 0.08;
 let menuSpeed3 = 0.6;
+let menuSpeed4 = 0.002;
 let direction = 1;
 let easing = 0.5;
 
@@ -112,6 +121,8 @@ let menuImg16;
 let menuImg17;
 let menuImg18;
 let menuImg19;
+let menuImg20;
+let menuImg21;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
@@ -135,6 +146,8 @@ function preload() {
   menuImg17 = loadImage("./assets/images/cadrecompletsatisfaction.png"); ///frame will glow when levels will be done successfully
   menuImg18 = loadImage("./assets/images/cadrecompletsatisfactionfinal.png"); ///final frame glow to show it is all done
   menuImg19 = loadImage("./assets/images/escbutton.png"); ///escape button
+  menuImg20 = loadImage("./assets/images/jeuFin.png");
+  menuImg21 = loadImage("./assets/images/jeuFinGlow.png");
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -267,6 +280,13 @@ function preload() {
   endImg18 = loadImage("assets/images/fondfin.png");
   endImg19 = loadImage("assets/images/langue.png");
   endImg20 = loadImage("assets/images/topbouche.png");
+  endImg21 = loadImage("assets/images/J1.png");
+  endImg22 = loadImage("assets/images/J2.png");
+  endImg23 = loadImage("assets/images/J3.png");
+  endImg24 = loadImage("assets/images/J4.png");
+  endImg25 = loadImage("assets/images/J5.png");
+  endImg26 = loadImage("assets/images/J6.png");
+
   // texte = [endImg13, endImg14, endImg15, endImg16, endImg17];
 }
 
@@ -346,6 +366,7 @@ function menuDraw() {
   game4Yellow.y += menuSpeed2 * direction;
   game4Yellow.x += menuSpeed2 * direction;
 
+  drawEndTitles();
   drawHandPointing();
 
   menuCinematic();
@@ -375,6 +396,18 @@ function drawHandPointing() {
   push();
   tint(255, 255);
   image(menuImg6, mouseX - 60, mouseY - 60);
+  pop();
+}
+
+function drawEndTitles() {
+  push();
+  fill(255, 0);
+  tint(255, endTitleLogo.opacity1);
+  ellipse(endTitleLogo.x, endTitleLogo.y, endTitleLogo.size);
+  image(menuImg20, endTitleLogo.x - 200, endTitleLogo.y - 150);
+  tint(255, endTitleLogo.opacity2);
+  image(menuImg21, endTitleLogo.x - 200, endTitleLogo.y - 150);
+  endTitleLogo.y -= menuSpeed3 * direction;
   pop();
 }
 

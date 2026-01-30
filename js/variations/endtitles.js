@@ -19,6 +19,16 @@ let torchon = {
   opacity: 255,
 };
 
+let langue = {
+  x: 480,
+  y: -145,
+  maxY: 300,
+  minY: -145,
+  maxX: 500,
+  minX: 480,
+  state: "0",
+};
+
 let poingX = 800;
 let poingY = 0;
 let poingSpeed = 8;
@@ -65,6 +75,12 @@ let endImg17;
 let endImg18;
 let endImg19;
 let endImg20;
+let endImg21;
+let endImg22;
+let endImg23;
+let endImg24;
+let endImg25;
+let endImg26;
 
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
@@ -110,12 +126,7 @@ function endTitlesDraw() {
   tint(255, 255);
   image(endImg9, 0, 0);
   image(endImg7, -15, 0); //femme
-  push();
-  tint(255, femmeOpacity);
-  image(endImg8, 0, 0);
-  image(endImg19, 511, 300); //langue
-  image(endImg20, 0, 0);
-  pop();
+  drawFemmeLangue();
   push();
   drawPoing();
   pop();
@@ -152,13 +163,13 @@ function endTitlesDraw() {
   finFadeIn -= 4;
   fill(0, finFadeIn);
   rect(0, 0, 1600, 900);
-
   push();
   fill(255, 255);
-  textSize();
-  text(startTimerFist, 200, 200);
-  text(timerFistGoLeft, 250, 200);
-  text(poingState, 200, 400);
+  textSize(32);
+  //text(startTimerFist, 200, 200);
+  //text(timerFistGoLeft, 250, 200);
+  //text(langue.state, 1500, 380);
+  //text(femmeOpacity, 1500, 430);
   pop();
 }
 
@@ -224,6 +235,188 @@ function drawPoing() {
 
   if (startTimerFist >= 380) {
     femmeOpacity += 2;
+  }
+}
+
+function drawFemmeLangue() {
+  push();
+  tint(255, femmeOpacity);
+  image(endImg8, 0, 0);
+  image(endImg19, langue.x, langue.y); //langue
+  image(endImg20, 0, 0);
+  pop();
+
+  if (femmeOpacity >= 350 && langue.state === "0") {
+    langue.state = "1";
+  } else if (femmeOpacity >= 800 && langue.state === "1") {
+    langue.state = "2";
+  } else if (femmeOpacity >= 1250 && langue.state === "2") {
+    langue.state = "3";
+  } else if (femmeOpacity >= 1650 && langue.state === "3") {
+    langue.state = "4";
+  } else if (femmeOpacity >= 2100 && langue.state === "4") {
+    langue.state = "5";
+  } else if (femmeOpacity >= 2550 && langue.state === "5") {
+    langue.state = "6";
+  } else if (femmeOpacity >= 3000 && langue.state === "6") {
+    langue.state = "7";
+  } else if (femmeOpacity >= 3450 && langue.state === "7") {
+    langue.state = "8";
+  } else if (femmeOpacity >= 3900 && langue.state === "8") {
+    langue.state = "9";
+  } else if (femmeOpacity >= 4350 && langue.state === "9") {
+    langue.state = "10";
+  } else if (femmeOpacity >= 4800 && langue.state === "10") {
+    langue.state = "11";
+  } else if (femmeOpacity >= 5250 && langue.state === "11") {
+    langue.state = "12";
+  }
+
+  if (femmeOpacity >= 500 && femmeOpacity <= 950) {
+    push();
+    tint(255, 255);
+    image(endImg21, 500, 400);
+    pop();
+  } else if (femmeOpacity >= 1350 && femmeOpacity <= 1700) {
+    push();
+    tint(255, 255);
+    image(endImg22, 500, 400);
+    pop();
+  } else if (femmeOpacity >= 2000 && femmeOpacity <= 2500) {
+    push();
+    tint(255, 255);
+    image(endImg23, 500, 400);
+    pop();
+  } else if (femmeOpacity >= 2900 && femmeOpacity <= 3300) {
+    push();
+    tint(255, 255);
+    image(endImg24, 500, 400);
+    pop();
+  } else if (femmeOpacity >= 3900 && femmeOpacity <= 4350) {
+    push();
+    tint(255, 255);
+    image(endImg25, 500, 400);
+    pop();
+  } else if (femmeOpacity >= 4800 && femmeOpacity <= 5250) {
+    push();
+    tint(255, 255);
+    image(endImg26, 500, 400);
+    pop();
+  }
+
+  if (langue.state === "1") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "2") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
+  }
+  if (langue.state === "3") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "4") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
+  }
+  if (langue.state === "5") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "6") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
+  }
+  if (langue.state === "7") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "8") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
+  }
+  if (langue.state === "9") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "10") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
+  }
+  if (langue.state === "11") {
+    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
+      langue.y = langue.maxY;
+      langue.x = langue.maxX;
+    } else {
+      langue.y += 4;
+      langue.x += 0.18;
+    }
+  }
+  if (langue.state === "12") {
+    if (langue.y <= langue.minY && langue.x <= langue.minX) {
+      langue.y = langue.minY;
+      langue.x = langue.minX;
+      5;
+    } else {
+      langue.y -= 4;
+      langue.x -= 0.18;
+    }
   }
 }
 
