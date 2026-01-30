@@ -182,7 +182,7 @@ function preload() {
   greenImg11 = loadImage("./assets/images/fondjeu22.png");
   greenImg12 = loadImage("./assets/images/piecehautbas1.png");
   greenImg13 = loadImage("./assets/images/piecehaut.png");
-  greenImg14 = loadImage("./assets/images/piecebas.png");
+  greenImg14 = loadImage("./assets/images/piecebas1.png");
   greenImg15 = loadImage("./assets/images/mainplate.png");
   greenImg16 = loadImage("./assets/images/godhandrightSTORM.png"); //ECLAIR
   greenImg17 = loadImage("./assets/images/godhandright.png"); //main pointant no glow
@@ -198,6 +198,8 @@ function preload() {
   greenImg27 = loadImage("./assets/images/BIENbenevolat.png"); /////////texte bien
   greenImg28 = loadImage("./assets/images/BIENchat.png"); /////////texte bien
   greenImg29 = loadImage("./assets/images/BIENroche.png"); /////////texte bien
+  greenImg30 = loadImage("./assets/images/mainplateGLOW.png"); /////////GLOW
+  greenImg31 = loadImage("./assets/images/godhandrightGlow.png"); /////////GLOW
 
   persoArray = [
     //greenImg18,

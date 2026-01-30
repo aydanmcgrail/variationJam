@@ -10,6 +10,10 @@ let fondJeu2opacity = 255; //opacity of the background image when at 0 trigger n
 let greenOpacity = 0;
 let fondBaseOpacity = 235;
 let hideFondBase = 255;
+let rightGlowingHandOpacity = 0;
+let leftGlowingHandOpacity = 0;
+let toucheOpacity1 = 0;
+let toucheOpacity2 = 0;
 ////////////////////images//////////////////////
 let greenImg1;
 let greenImg2;
@@ -40,6 +44,8 @@ let greenImg26;
 let greenImg27;
 let greenImg28;
 let greenImg29;
+let greenImg30;
+let greenImg31;
 
 let words;
 let randomWord = undefined;
@@ -63,6 +69,8 @@ let devotOpacity = 0;
 
 let handX = 1190;
 let handY = 670;
+let handWidth = 1244;
+let handHeight = 248;
 let handMove = "0";
 let handMoving = false;
 let heavenTimer = false;
@@ -70,8 +78,10 @@ let heavenOpacity1 = 0;
 let heavenOpacity2 = 0;
 let heavenStart = false;
 
-let leftHandX = -540; //-130
+let leftHandX = -380; //-130
 let leftHandY = 210; //210
+let leftHandWidth = 1182;
+let leftHandHeight = 506;
 let leftHandMoving = "idle";
 let leftHandOpacity = 0;
 let shockTimer = false;
@@ -110,7 +120,7 @@ function greenDraw() {
   push();
   tint(255, fondBaseOpacity);
   image(greenImg13, 0, -10);
-  image(greenImg14, 0, 690);
+  image(greenImg14, 0, 681);
   pop();
 
   push();
@@ -128,9 +138,11 @@ function greenDraw() {
   rect(0, 0, width, height);
 
   push();
-  tint(255, greenOpacity); //greenOpacity
-  image(greenImg21, 1355, 60, 200, 145);
-  image(greenImg19, 55, 65, 200, 145);
+  tint(255, toucheOpacity1);
+  image(greenImg21, 1355, 500, 200, 145);
+  tint(255, toucheOpacity2);
+  image(greenImg19, 55, 500, 200, 145);
+  tint(255, greenOpacity);
   image(menuImg16, 0, 0); //cadre complet4
   drawEscGreen();
   tint(255, 0); //menuOpacityGlowProgression
@@ -145,13 +157,13 @@ function greenDraw() {
   drawLeftHandPointing();
   pop();
 
-  push();
+  /*push();
   fill(255, 255);
   textSize(42);
   text(leftHandMoving, 200, 200);
   text(fondJeu2opacity, 200, 400);
   //text(randomWord, 200, 600);
-  pop();
+  pop();*/
   push();
   tint(255, texteOpacity);
   drawTextDevot();
@@ -185,7 +197,8 @@ function drawEscGreen() {
 
 function greenCinematic() {
   if (greenFadeIn <= 50) {
-    fondJeu2opacity -= 1;
+    //50
+    fondJeu2opacity -= 1; //2
   }
   if (fondJeu2opacity <= 150) {
     greenOpacity += 2;
@@ -202,10 +215,39 @@ function greenCinematic() {
 }
 
 function drawLeftHandPointing() {
+  tint(255, leftGlowingHandOpacity);
+  image(greenImg31, leftHandX, leftHandY);
   tint(255, greenOpacity);
+
   image(greenImg17, leftHandX, leftHandY);
+
   tint(255, leftHandOpacity);
   image(greenImg16, leftHandX, leftHandY);
+
+  const distMouseLeftHand =
+    mouseX > leftHandX &&
+    mouseX < leftHandX + 574 &&
+    mouseY > leftHandY &&
+    mouseY < leftHandY + 506;
+
+  if (distMouseLeftHand && leftHandMoving === "idle") {
+    leftGlowingHandOpacity += 15;
+    toucheOpacity2 += 15;
+    if (leftGlowingHandOpacity > 255 || toucheOpacity2 > 255) {
+      //cap the glow to 255
+      leftGlowingHandOpacity = 255;
+      toucheOpacity2 = 255;
+    }
+  } else {
+    leftGlowingHandOpacity -= 5; //decrease the glow when mouse is out
+    toucheOpacity2 -= 5;
+    if (leftGlowingHandOpacity < 0 || toucheOpacity2 < 0) {
+      //cap the glow to 0
+      leftGlowingHandOpacity = 0;
+      toucheOpacity2 = 0;
+    }
+  }
+
   if (leftHandMoving === "moving") {
     leftHandX += 4;
     if (leftHandX >= -150) {
@@ -223,10 +265,10 @@ function drawLeftHandPointing() {
     }
   } else if (leftHandMoving === "shockedDone") {
     leftHandX -= 4;
-    fondBaseOpacity = 235;
+    fondBaseOpacity = 255;
     devotState = "shockedToHell";
-    if (leftHandX <= -540) {
-      leftHandX = -540;
+    if (leftHandX <= -380) {
+      leftHandX = -380;
       leftHandMoving = "idle";
     }
   }
@@ -235,6 +277,33 @@ function drawLeftHandPointing() {
 function drawHandOpen() {
   tint(255, greenOpacity);
   image(greenImg15, handX, handY);
+
+  tint(255, rightGlowingHandOpacity); //rightGlowingHandOpacity
+  image(greenImg30, handX, handY);
+
+  const distMouseRightHand =
+    mouseX > handX &&
+    mouseX < handX + handWidth &&
+    mouseY > handY &&
+    mouseY < handY + handHeight;
+
+  if (distMouseRightHand && handMove === "0") {
+    rightGlowingHandOpacity += 15;
+    toucheOpacity1 += 15;
+    if (rightGlowingHandOpacity > 255 || toucheOpacity1 > 255) {
+      //cap the glow to 255
+      rightGlowingHandOpacity = 255;
+      toucheOpacity1 = 255;
+    }
+  } else {
+    rightGlowingHandOpacity -= 5; //decrease the glow when mouse is out
+    toucheOpacity1 -= 5;
+    if (rightGlowingHandOpacity < 0 || toucheOpacity1 < 0) {
+      //cap the glow to 0
+      rightGlowingHandOpacity = 0;
+      toucheOpacity1 = 0;
+    }
+  }
 
   if (handX === 640 && handY === 670) {
     handMove = "2";
@@ -270,7 +339,7 @@ function drawHandOpen() {
     fondBaseOpacity = 0;
     //console.log("hit2");
   } else {
-    fondBaseOpacity = 235;
+    fondBaseOpacity = 255;
   }
   ///////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////
@@ -386,9 +455,9 @@ function cadreColore123() {
  * This will be called whenever the mouse is pressed while the green variation is active
  */
 function greenMousePressed() {
-  persoIndex += 1;
+  /*persoIndex += 1;
 
   if (persoIndex >= 8) {
     persoIndex = 0;
-  }
+  }*/
 }
