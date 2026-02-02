@@ -12,10 +12,10 @@ let targetEnd1 = {
 };
 
 let torchon = {
-  x: 1560,
+  x: 1540,
   y: 550,
-  width: 100,
-  height: 260,
+  width: 300,
+  height: 380,
   opacity: 255,
 };
 
@@ -39,13 +39,18 @@ let timerFistGoLeft = 0;
 let poingOpacity = 0;
 
 let femmeOpacity = 0;
+let endOpacityOpen = 255;
+let endOpacityClosed = 0;
 
 let finFadeIn = 255;
 let introFinOpacity = 255;
 
-let vitreOpacity = 255;
-let vitreWidth = 1600;
-let vitreHeight = 900;
+let vitreOpacity1 = 255;
+let vitreOpacity2 = 255;
+let vitreOpacity3 = 255;
+let vitreOpacity4 = 255;
+let vitreWidth = 800;
+let vitreHeight = 450;
 
 let cadreFrameOpacityHaut = 255;
 let cadreFrameOpacityBas = 255;
@@ -77,10 +82,6 @@ let endImg19;
 let endImg20;
 let endImg21;
 let endImg22;
-let endImg23;
-let endImg24;
-let endImg25;
-let endImg26;
 
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
@@ -97,31 +98,6 @@ function endTitlesDraw() {
   endCinematic();
   endCheckInput();
 
-  // let currentTexte = texte[texteIndex];
-
-  /*ellipse(targetEnd1.x, targetEnd1.y, targetEnd1.size);
-
-  push();
-  tint(255, 255); //blueOpacity
-  image(currentTexte, 0, 0); //cadre complet
-  pop();
-
-  push();
-  let maxHeight = 705;
-  let minHeight = 160;
-  let maxWidth = 1400;
-  let minWidth = 200;
-  tint(0, 0); //blueOpacity
-  let xConstrain = constrain(mouseX, minWidth, maxWidth) - 1400;
-  let yConstrain = constrain(mouseY, minHeight, maxHeight) - 685;
-  image(img6, xConstrain, yConstrain, 2800, 1375); //cadre complet
-  pop();
-
-  push();
-  tint(255, 255); //blueOpacity
-  image(img1, 0, 0); //cadre complet
-  pop();
-*/
   push();
   tint(255, 255);
   image(endImg9, 0, 0);
@@ -132,8 +108,14 @@ function endTitlesDraw() {
   pop();
 
   push();
-  tint(255, vitreOpacity); //vitreOpacity
-  image(endImg11, 0, 0, vitreWidth, vitreHeight); //cadre complet
+  tint(255, vitreOpacity1); //vitreOpacity
+  image(endImg17, 0, 450, vitreWidth, vitreHeight); //cadre gauche haut
+  tint(255, vitreOpacity2); //vitreOpacity
+  image(endImg11, 0, 0, vitreWidth, vitreHeight); //cadre gauche bas
+  tint(255, vitreOpacity3); //vitreOpacity
+  image(endImg21, 800, 450, vitreWidth, vitreHeight); //cadre droite haut
+  tint(255, vitreOpacity4); //vitreOpacity
+  image(endImg22, 800, 0, vitreWidth, vitreHeight); //cadre droite bas
   pop();
 
   push();
@@ -148,6 +130,7 @@ function endTitlesDraw() {
   tint(255, cadreFrameOpacityBas);
   image(endImg2, 0, 0);
   drawTorchon();
+  drawHandEnd();
   pop();
 
   push();
@@ -168,15 +151,34 @@ function endTitlesDraw() {
   textSize(32);
   //text(startTimerFist, 200, 200);
   //text(timerFistGoLeft, 250, 200);
-  //text(langue.state, 1500, 380);
-  //text(femmeOpacity, 1500, 430);
+  text(langue.state, 1500, 380);
+  text(femmeOpacity, 1500, 430);
   pop();
+
+  let fadeOutEnd = 0;
+  if (femmeOpacity >= 3900) {
+    push();
+    fadeOutEnd += 2;
+    tint(255, fadeOutEnd);
+    fill("black");
+    rect(0, 0, 1600, 900);
+    pop();
+  }
 }
 
 function endCinematic() {
   if (finFadeIn <= 25) {
     introFinOpacity -= 4;
   }
+}
+
+function drawHandEnd() {
+  push();
+  tint(255, endOpacityOpen);
+  image(menuImg12, mouseX - 200, mouseY - 100, 380, 920);
+  tint(255, endOpacityClosed);
+  image(menuImg13, mouseX - 200, mouseY - 100, 380, 920);
+  pop();
 }
 function drawPoing() {
   push();
@@ -262,45 +264,27 @@ function drawFemmeLangue() {
     langue.state = "7";
   } else if (femmeOpacity >= 3450 && langue.state === "7") {
     langue.state = "8";
-  } else if (femmeOpacity >= 3900 && langue.state === "8") {
-    langue.state = "9";
-  } else if (femmeOpacity >= 4350 && langue.state === "9") {
-    langue.state = "10";
-  } else if (femmeOpacity >= 4800 && langue.state === "10") {
-    langue.state = "11";
-  } else if (femmeOpacity >= 5250 && langue.state === "11") {
-    langue.state = "12";
   }
 
   if (femmeOpacity >= 500 && femmeOpacity <= 950) {
     push();
     tint(255, 255);
-    image(endImg21, 500, 400);
+    image(endImg13, 500, 400);
     pop();
-  } else if (femmeOpacity >= 1350 && femmeOpacity <= 1700) {
+  } else if (femmeOpacity >= 1450 && femmeOpacity <= 1750) {
     push();
     tint(255, 255);
-    image(endImg22, 500, 400);
+    image(endImg14, 500, 400);
     pop();
-  } else if (femmeOpacity >= 2000 && femmeOpacity <= 2500) {
+  } else if (femmeOpacity >= 2250 && femmeOpacity <= 2600) {
     push();
     tint(255, 255);
-    image(endImg23, 500, 400);
+    image(endImg15, 500, 400);
     pop();
-  } else if (femmeOpacity >= 2900 && femmeOpacity <= 3300) {
+  } else if (femmeOpacity >= 3200 && femmeOpacity <= 3450) {
     push();
     tint(255, 255);
-    image(endImg24, 500, 400);
-    pop();
-  } else if (femmeOpacity >= 3900 && femmeOpacity <= 4350) {
-    push();
-    tint(255, 255);
-    image(endImg25, 500, 400);
-    pop();
-  } else if (femmeOpacity >= 4800 && femmeOpacity <= 5250) {
-    push();
-    tint(255, 255);
-    image(endImg26, 500, 400);
+    image(endImg16, 500, 400);
     pop();
   }
 
@@ -380,51 +364,14 @@ function drawFemmeLangue() {
       langue.x -= 0.18;
     }
   }
-  if (langue.state === "9") {
-    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
-      langue.y = langue.maxY;
-      langue.x = langue.maxX;
-    } else {
-      langue.y += 4;
-      langue.x += 0.18;
-    }
-  }
-  if (langue.state === "10") {
-    if (langue.y <= langue.minY && langue.x <= langue.minX) {
-      langue.y = langue.minY;
-      langue.x = langue.minX;
-      5;
-    } else {
-      langue.y -= 4;
-      langue.x -= 0.18;
-    }
-  }
-  if (langue.state === "11") {
-    if (langue.y >= langue.maxY && langue.x >= langue.maxX) {
-      langue.y = langue.maxY;
-      langue.x = langue.maxX;
-    } else {
-      langue.y += 4;
-      langue.x += 0.18;
-    }
-  }
-  if (langue.state === "12") {
-    if (langue.y <= langue.minY && langue.x <= langue.minX) {
-      langue.y = langue.minY;
-      langue.x = langue.minX;
-      5;
-    } else {
-      langue.y -= 4;
-      langue.x -= 0.18;
-    }
-  }
+
 }
 
 function drawTorchon() {
   push();
   noStroke();
   tint(255, torchon.opacity); //finOpacity
-  image(endImg12, torchon.x - 120, torchon.y - 140);
+  image(endImg12, torchon.x - 120, torchon.y - 140, torchon.width, torchon.height);
   ellipse(torchon.x, torchon.y, torchon.width, torchon.height);
   pop();
 }
@@ -434,26 +381,54 @@ function endCheckInput() {
   const overlapTorchon =
     distanceToTorchon < torchon.width / 2 + torchon.height / 2;
 
-  const overlapVitreTorchon =
-    mouseX > 53 && mouseX < 1479 && mouseY > 80 && mouseY < 749;
+  const overlapVitre1Torchon =//haut gauche
+    mouseX > 53 && mouseX < 800 && mouseY > 80 && mouseY < 450;
 
-  if (overlapTorchon && mouseIsPressed && overlapVitreTorchon) {
-    vitreOpacity -= 2;
-    console.log("wash");
+  const overlapVitre2Torchon =//bas gauche
+    mouseX > 53 && mouseX < 800 && mouseY > 450 && mouseY < 749;
+
+  const overlapVitre3Torchon =//haut droite
+    mouseX > 800 && mouseX < 1479 && mouseY > 80 && mouseY < 450;
+
+  const overlapVitre4Torchon =//haut droite
+    mouseX > 800 && mouseX < 1479 && mouseY > 450 && mouseY < 749;
+
+  if (overlapTorchon && mouseIsPressed && overlapVitre1Torchon) {
+    vitreOpacity1 -= 2;
+    console.log("1");
   }
+  if (overlapTorchon && mouseIsPressed && overlapVitre2Torchon) {
+    vitreOpacity2 -= 2;
+    console.log("2");
+  }
+  if (overlapTorchon && mouseIsPressed && overlapVitre3Torchon) {
+    vitreOpacity3 -= 2;
+    console.log("3");
+  }
+  if (overlapTorchon && mouseIsPressed && overlapVitre4Torchon) {
+    vitreOpacity4 -= 2;
+    console.log("4");
+  }
+
 
   if (overlapTorchon && mouseIsPressed) {
     // console.log("ez");
     torchon.x = mouseX;
     torchon.y = mouseY;
+    endOpacityClosed = 255;
+    endOpacityOpen = 0;
   } else {
     torchon.x;
     torchon.y;
+    endOpacityClosed = 0;
+    endOpacityOpen = 255;
   }
 
-  if (vitreOpacity <= 10) {
+  if (vitreOpacity1 <= 10 && vitreOpacity2 <= 10 && vitreOpacity3 <= 10 && vitreOpacity4 <= 10) {
     torchon.opacity -= 8;
     startTimerFist += 1;
+    endOpacityClosed -= 8;
+    endOpacityOpen -= 8;
   }
 }
 
@@ -468,7 +443,8 @@ function endTitlesKeyPressed(event) {
   }
 }
 
-function endTitlesMousePressed() {}
+function endTitlesMousePressed() {
+}
 
 /**
  * if click on torchontarget = le torchon va suivre

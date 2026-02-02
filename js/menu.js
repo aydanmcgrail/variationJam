@@ -270,24 +270,18 @@ function preload() {
   endImg8 = loadImage("assets/images/femmeboucheouverte.png");
   endImg9 = loadImage("assets/images/fondneige.png");
   endImg10 = loadImage("assets/images/poing.png");
-  endImg11 = loadImage("assets/images/vitre.png");
+  endImg11 = loadImage("assets/images/vitrebasgauche.png");
   endImg12 = loadImage("assets/images/torchon.png");
   endImg13 = loadImage("assets/images/f_bravo.png"); ////texte 1
   endImg14 = loadImage("assets/images/f_reussi.png"); ////texte 2
   endImg15 = loadImage("assets/images/f_jeupar.png"); ////texte 3
   endImg16 = loadImage("assets/images/f_aydan.png"); ////texte 4
-  endImg17 = loadImage("assets/images/f_aydan.png"); ////texte 5
+  endImg17 = loadImage("assets/images/vitrehautgauche.png");
   endImg18 = loadImage("assets/images/fondfin.png");
   endImg19 = loadImage("assets/images/langue.png");
   endImg20 = loadImage("assets/images/topbouche.png");
-  endImg21 = loadImage("assets/images/J1.png");
-  endImg22 = loadImage("assets/images/J2.png");
-  endImg23 = loadImage("assets/images/J3.png");
-  endImg24 = loadImage("assets/images/J4.png");
-  endImg25 = loadImage("assets/images/J5.png");
-  endImg26 = loadImage("assets/images/J6.png");
-
-  // texte = [endImg13, endImg14, endImg15, endImg16, endImg17];
+  endImg21 = loadImage("assets/images/vitrehautdroite.png");
+  endImg22 = loadImage("assets/images/vitrebasdroite.png");
 }
 
 /**
