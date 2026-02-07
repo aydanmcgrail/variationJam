@@ -242,12 +242,27 @@ function preload() {
   redImg2 = loadImage("./assets/images/OPALEmal.png"); ////////////opales
   redImg3 = loadImage("./assets/images/OPALEbleue.png"); ////////////opales
   redImg4 = loadImage("./assets/images/OPALErouge.png"); ////////////opales
-  redImg5 = loadImage("./assets/images/Forge3.png");
   redImg5 = loadImage("./assets/images/gastank.png"); /////////trinket
   redImg6 = loadImage("./assets/images/trumpet.png"); /////////trinket
   redImg7 = loadImage("./assets/images/viking.png"); /////////trinket
   redImg8 = loadImage("./assets/images/krony.png"); /////////trinket
-  redImg9 = loadImage("./assets/images/fondjeu32.png");
+  redImg9 = loadImage("./assets/images/godhandopenleft.png"); ////left
+  redImg10 = loadImage("./assets/images/godhandopenleftCLOSED.png"); //left closed
+  redImg11 = loadImage("./assets/images/godhandopenright.png"); //// right
+  redImg12 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //// right closed
+  redImg13 = loadImage("./assets/images/topGrotte2.png");
+  redImg14 = loadImage("./assets/images/downgrotte.png");
+  redImg15 = loadImage("./assets/images/cauldronback.png");
+  redImg16 = loadImage("./assets/images/cauldronfront.png");
+  redImg17 = loadImage("./assets/images/grotteglow.png");
+  redImg18 = loadImage("./assets/images/grottefinal.png");
+  redImg19 = loadImage("./assets/images/crabe.png"); /////////////////  trinket
+  redImg20 = loadImage("./assets/images/appareilarmee.png"); /////////  trinket
+  redImg21 = loadImage("./assets/images/autruche.png"); //////////////  trinket
+  redImg22 = loadImage("./assets/images/timbre.png"); ////////////////  trinket
+  redImg23 = loadImage("./assets/images/croissant.png"); /////////////  trinket
+  redImg24 = loadImage("./assets/images/offrande1.png"); /////////////  trinket\
+  redImg25 = loadImage("./assets/images/grotteglowCACHEOFFRANDE.png");
 
   ////////////////////yellow variation images//////////////////////
   yellowImg1 = loadImage("./assets/images/decor11.png");
@@ -270,18 +285,18 @@ function preload() {
   endImg8 = loadImage("assets/images/femmeboucheouverte.png");
   endImg9 = loadImage("assets/images/fondneige.png");
   endImg10 = loadImage("assets/images/poing.png");
-  endImg11 = loadImage("assets/images/vitrebasgauche.png");
+  endImg11 = loadImage("assets/images/vitrebasgauche.png"); ///////////VITRE
   endImg12 = loadImage("assets/images/torchon.png");
   endImg13 = loadImage("assets/images/f_bravo.png"); ////texte 1
   endImg14 = loadImage("assets/images/f_reussi.png"); ////texte 2
   endImg15 = loadImage("assets/images/f_jeupar.png"); ////texte 3
   endImg16 = loadImage("assets/images/f_aydan.png"); ////texte 4
-  endImg17 = loadImage("assets/images/vitrehautgauche.png");
+  endImg17 = loadImage("assets/images/vitrehautgauche.png"); ///////////VITRE
   endImg18 = loadImage("assets/images/fondfin.png");
   endImg19 = loadImage("assets/images/langue.png");
   endImg20 = loadImage("assets/images/topbouche.png");
-  endImg21 = loadImage("assets/images/vitrehautdroite.png");
-  endImg22 = loadImage("assets/images/vitrebasdroite.png");
+  endImg21 = loadImage("assets/images/vitrehautdroite.png"); ///////////VITRE
+  endImg22 = loadImage("assets/images/vitrebasdroite.png"); ///////////VITRE
 }
 
 /**

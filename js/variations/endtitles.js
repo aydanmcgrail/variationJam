@@ -29,6 +29,8 @@ let langue = {
   state: "0",
 };
 
+let mainY;
+
 let poingX = 800;
 let poingY = 0;
 let poingSpeed = 8;
@@ -49,7 +51,8 @@ let vitreOpacity1 = 255;
 let vitreOpacity2 = 255;
 let vitreOpacity3 = 255;
 let vitreOpacity4 = 255;
-let vitreWidth = 800;
+let vitreWidthGauche = 754;
+let vitreWidthDroite = 846;
 let vitreHeight = 450;
 
 let cadreFrameOpacityHaut = 255;
@@ -109,13 +112,13 @@ function endTitlesDraw() {
 
   push();
   tint(255, vitreOpacity1); //vitreOpacity
-  image(endImg17, 0, 450, vitreWidth, vitreHeight); //cadre gauche haut
+  image(endImg17, 0, 0, vitreWidthGauche, vitreHeight); //cadre gauche haut
   tint(255, vitreOpacity2); //vitreOpacity
-  image(endImg11, 0, 0, vitreWidth, vitreHeight); //cadre gauche bas
+  image(endImg11, 0, 450, vitreWidthGauche, vitreHeight); //cadre gauche bas
   tint(255, vitreOpacity3); //vitreOpacity
-  image(endImg21, 800, 450, vitreWidth, vitreHeight); //cadre droite haut
+  image(endImg21, 754, 0, vitreWidthDroite, vitreHeight); //cadre droite haut
   tint(255, vitreOpacity4); //vitreOpacity
-  image(endImg22, 800, 0, vitreWidth, vitreHeight); //cadre droite bas
+  image(endImg22, 754, 450, vitreWidthDroite, vitreHeight); //cadre droite bas
   pop();
 
   push();
@@ -175,9 +178,12 @@ function endCinematic() {
 function drawHandEnd() {
   push();
   tint(255, endOpacityOpen);
-  image(menuImg12, mouseX - 200, mouseY - 100, 380, 920);
+  let minHeightHand = 50;
+  let maxHeightHand = 900;
+  let yConstrainHand = constrain(mouseY, minHeightHand, maxHeightHand);
+  image(menuImg12, mouseX - 200, yConstrainHand, 380, 920);
   tint(255, endOpacityClosed);
-  image(menuImg13, mouseX - 200, mouseY - 100, 380, 920);
+  image(menuImg13, mouseX - 200, yConstrainHand - 100, 380, 920);
   pop();
 }
 function drawPoing() {
@@ -364,14 +370,19 @@ function drawFemmeLangue() {
       langue.x -= 0.18;
     }
   }
-
 }
 
 function drawTorchon() {
   push();
   noStroke();
   tint(255, torchon.opacity); //finOpacity
-  image(endImg12, torchon.x - 120, torchon.y - 140, torchon.width, torchon.height);
+  image(
+    endImg12,
+    torchon.x - 120,
+    torchon.y - 140,
+    torchon.width,
+    torchon.height,
+  );
   ellipse(torchon.x, torchon.y, torchon.width, torchon.height);
   pop();
 }
@@ -381,40 +392,54 @@ function endCheckInput() {
   const overlapTorchon =
     distanceToTorchon < torchon.width / 2 + torchon.height / 2;
 
-  const overlapVitre1Torchon =//haut gauche
+  const overlapVitre1Torchon = //haut gauche
     mouseX > 53 && mouseX < 800 && mouseY > 80 && mouseY < 450;
 
-  const overlapVitre2Torchon =//bas gauche
+  const overlapVitre2Torchon = //bas gauche
     mouseX > 53 && mouseX < 800 && mouseY > 450 && mouseY < 749;
 
-  const overlapVitre3Torchon =//haut droite
+  const overlapVitre3Torchon = //haut droite
     mouseX > 800 && mouseX < 1479 && mouseY > 80 && mouseY < 450;
 
-  const overlapVitre4Torchon =//haut droite
+  const overlapVitre4Torchon = //haut droite
     mouseX > 800 && mouseX < 1479 && mouseY > 450 && mouseY < 749;
 
   if (overlapTorchon && mouseIsPressed && overlapVitre1Torchon) {
-    vitreOpacity1 -= 2;
-    console.log("1");
+    vitreOpacity1 -= 1;
+    if (vitreOpacity1 <= 80) {
+      vitreOpacity1 = 80;
+    }
   }
   if (overlapTorchon && mouseIsPressed && overlapVitre2Torchon) {
-    vitreOpacity2 -= 2;
-    console.log("2");
+    vitreOpacity2 -= 1;
+    if (vitreOpacity2 <= 80) {
+      vitreOpacity2 = 80;
+    }
   }
   if (overlapTorchon && mouseIsPressed && overlapVitre3Torchon) {
-    vitreOpacity3 -= 2;
-    console.log("3");
+    vitreOpacity3 -= 1;
+    if (vitreOpacity3 <= 80) {
+      vitreOpacity3 = 80;
+    }
   }
   if (overlapTorchon && mouseIsPressed && overlapVitre4Torchon) {
-    vitreOpacity4 -= 2;
-    console.log("4");
+    vitreOpacity4 -= 1;
+    if (vitreOpacity4 <= 80) {
+      vitreOpacity4 = 80;
+    }
   }
-
 
   if (overlapTorchon && mouseIsPressed) {
     // console.log("ez");
+    let minHeightTorchon = 100;
+    let maxHeightTorchon = 900;
+    let yConstrainTorchon = constrain(
+      mouseY,
+      minHeightTorchon,
+      maxHeightTorchon,
+    );
     torchon.x = mouseX;
-    torchon.y = mouseY;
+    torchon.y = yConstrainTorchon;
     endOpacityClosed = 255;
     endOpacityOpen = 0;
   } else {
@@ -424,11 +449,20 @@ function endCheckInput() {
     endOpacityOpen = 255;
   }
 
-  if (vitreOpacity1 <= 10 && vitreOpacity2 <= 10 && vitreOpacity3 <= 10 && vitreOpacity4 <= 10) {
+  if (
+    vitreOpacity1 <= 80 &&
+    vitreOpacity2 <= 80 &&
+    vitreOpacity3 <= 80 &&
+    vitreOpacity4 <= 80
+  ) {
     torchon.opacity -= 8;
     startTimerFist += 1;
     endOpacityClosed -= 8;
     endOpacityOpen -= 8;
+    vitreOpacity1 = 0;
+    vitreOpacity2 = 0;
+    vitreOpacity3 = 0;
+    vitreOpacity4 = 0;
   }
 }
 
@@ -443,8 +477,7 @@ function endTitlesKeyPressed(event) {
   }
 }
 
-function endTitlesMousePressed() {
-}
+function endTitlesMousePressed() {}
 
 /**
  * if click on torchontarget = le torchon va suivre
