@@ -4,6 +4,8 @@
  * This keeps the stuff the menu needs to do *separate* from the rest of the program.
  */
 
+let cadreCounter = 0;
+
 let game1Blue = {
   x: 450,
   y: 250,

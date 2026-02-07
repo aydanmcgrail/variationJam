@@ -279,6 +279,9 @@ function blueDraw() {
   push();
   tint(255, trayOpacity);
   image(blueImg30, tray.x - 85, tray.y - 40);
+  textSize(42);
+  fill("blue");
+  text(cadreCounter, 1500, 800);
   pop();
 
   blueCinematic();
@@ -493,6 +496,12 @@ function blueKeyPressed(event) {
     menuClicked = false;
     readyGame1 = false;
     fadeOutToGame = 0;
+  }
+
+  if (event.keyCode === 66) {//b
+    cadreCounter += 1;
+  } else {
+    cadreCounter = cadreCounter;
   }
 }
 

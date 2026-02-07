@@ -87,7 +87,7 @@ let decor = [];
 let decorIndex = 0;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-function yellowSetup() {}
+function yellowSetup() { }
 
 function yellowDraw() {
   background("black");
@@ -116,6 +116,9 @@ function yellowDraw() {
   image(menuImg17, 0, 0); //cadre glow
   tint(255, 0); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
+  textSize(42);
+  fill("blue");
+  text(cadreCounter, 1500, 800);
   pop();
 
   yellowCinematic();
@@ -169,6 +172,7 @@ function yellowCinematic() {
     decor1Done = false;
     fondNoirOpacity = 255;
     decorIndex = 1;
+    cadreCounter += 1;
   }
 
   if (decorSpacing2 >= 275) {
@@ -176,6 +180,7 @@ function yellowCinematic() {
     decor2Done = false;
     fondNoirOpacity = 255;
     decorIndex = 2;
+    cadreCounter += 1;
   }
 
   if (decorSpacing3 >= 275) {
@@ -183,6 +188,7 @@ function yellowCinematic() {
     decor3Done = false;
     fondNoirOpacity = 255;
     decorIndex = 3;
+    cadreCounter += 1;
   }
 
   if (decorSpacing4 >= 275) {
@@ -190,6 +196,8 @@ function yellowCinematic() {
     decor4Done = false;
     fondNoirOpacity = 255;
     decorIndex = 0;
+    cadreCounter += 1;
+
   }
 }
 
@@ -236,6 +244,14 @@ function yellowKeyPressed(event) {
     readyGame4 = false;
     fadeOutToGame = 0;
   }
+
+  if (event.keyCode === 89) {//y
+    cadreCounter += 1;
+  } else {
+    cadreCounter = cadreCounter;
+  }
+
+
 }
 
 /**

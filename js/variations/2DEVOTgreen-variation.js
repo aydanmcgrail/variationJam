@@ -89,7 +89,7 @@ let shockTimer = false;
 /**
  * This will be called just before the green variation starts
  */
-function greenSetup() {}
+function greenSetup() { }
 
 /**
  * This will be called every frame when the green variation is active
@@ -166,6 +166,9 @@ function greenDraw() {
   pop();*/
   push();
   tint(255, texteOpacity);
+  textSize(42);
+  fill("blue");
+  text(cadreCounter, 1500, 800);
   drawTextDevot();
   pop();
 }
@@ -431,6 +434,12 @@ function greenKeyPressed(event) {
   if (event.keyCode === 32) {
     randomIndex = floor(random(words.length));
     randomWord = words[randomIndex];
+  }
+
+  if (event.keyCode === 71) {//g
+    cadreCounter += 1;
+  } else {
+    cadreCounter = cadreCounter;
   }
 }
 

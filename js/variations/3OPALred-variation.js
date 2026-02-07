@@ -117,6 +117,9 @@ function redDraw() {
   image(menuImg17, 0, 0); //cadre glow
   tint(255, 0); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
+  textSize(42);
+  fill("blue");
+  text(cadreCounter, 1500, 800);
   pop();
 
   redCinematic();
@@ -302,6 +305,12 @@ function redKeyPressed(event) {
     readyGame3 = false;
     fadeOutToGame = 0;
   }
+
+  if (event.keyCode === 82) {//r
+    cadreCounter += 1;
+  } else {
+    cadreCounter = cadreCounter;
+  }
 }
 
 /**
@@ -312,4 +321,4 @@ function redMousePressed() {
   addOpals();
 }
 
-function opalFallingLoop() {}
+function opalFallingLoop() { }
