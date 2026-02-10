@@ -26,21 +26,24 @@ let grotteTopY = 0;
 let hand = {
   hand1X: 200,
   hand2X: 1200,
-  handY: 600,
-  handSize: 200,
+  handY: 900,
+  handSize: 180,
   speed1: 2,
   direction1: 1,
-  speed2: 3,
+  speed2: 4,
   direction2: 1,
   maxX1: 700,
-  minX1: 100,
+  minX1: 150,
   maxX2: 1500,
   minX2: 900,
-  maxY1: 700,
-  minY1: 100,
-  maxY2: 700,
-  minY2: 100,
-}
+  maxY: 800,
+  minY: 100,
+  opacityLeftOpen: 255,
+  opacityLeftClosed: 0,
+  opacityRightOpen: 255,
+  opacityLeftClosed: 0,
+  ready: "false",
+};
 
 let offrande1Y = 300; //////1
 let offrande1X = 750; //
@@ -141,22 +144,38 @@ function redDraw() {
   text(cadreCounter, 1500, 800);
   pop();
 
-  drawHands();
+  //drawHands();
 
   redCinematic();
 }
 
 function drawHands() {
+  if (fondJeu3opacity <= -6600 && fondJeu3opacity >= -6800) {
+    if (hand.handY <= hand.maxY) {
+      hand.handY = hand.handY;
+    } else {
+      hand.handY -= 2;
+    }
+  }
+
   if (hand.hand1X <= hand.minX1 || hand.hand1X >= hand.maxX1) {
     hand.direction1 *= -1;
   }
+  if (hand.hand2X <= hand.minX2 || hand.hand2X >= hand.maxX2) {
+    hand.direction2 *= -1;
+  }
   hand.hand1X += hand.speed1 * hand.direction1;
-  hand.hand2X += hand.speed1 * hand.direction1;
+  hand.hand2X += hand.speed2 * hand.direction2;
+
   push();
-  tint(255, 255);
-  fill("red");
-  ellipse(hand.hand1X, hand.handY, hand.handSize);
-  ellipse(hand.hand2X, hand.handY, hand.handSize);
+  fill(0, 100, 0, 100);
+  tint(255, hand.opacityLeftOpen);
+  image(redImg9, hand.hand1X - 373, hand.handY - 200);
+  image(redImg10, hand.hand1X - 400, hand.handY - 200);
+  ellipse(hand.hand1X, hand.handY, hand.handSize); //left
+  image(redImg11, hand.hand2X - 280, hand.handY - 200);
+  image(redImg12, hand.hand2X - 280, hand.handY - 200);
+  ellipse(hand.hand2X, hand.handY, hand.handSize); //right
   pop();
 }
 
@@ -196,6 +215,10 @@ function redCinematic() {
   }
   if (grotteTopY <= -3500) {
     offrandeBrightness += 0.8;
+  }
+
+  if (fondJeu3opacity <= -6700) {
+    drawHands();
   }
 }
 
@@ -341,7 +364,8 @@ function redKeyPressed(event) {
     fadeOutToGame = 0;
   }
 
-  if (event.keyCode === 82) {//r
+  if (event.keyCode === 82) {
+    //r
     cadreCounter += 1;
   } else {
     cadreCounter = cadreCounter;
@@ -356,4 +380,4 @@ function redMousePressed() {
   addOpals();
 }
 
-function opalFallingLoop() { }
+function opalFallingLoop() {}
