@@ -26,7 +26,7 @@ let grotteTopY = 0;
 let hand = {
   hand1X: 200,
   hand2X: 1200,
-  handY: 900,
+  handY: 1100,
   handSize: 180,
   speed1: 2,
   direction1: 1,
@@ -36,13 +36,14 @@ let hand = {
   minX1: 150,
   maxX2: 1500,
   minX2: 900,
-  maxY: 800,
+  maxY: 600,
   minY: 100,
   opacityLeftOpen: 255,
   opacityLeftClosed: 0,
   opacityRightOpen: 255,
   opacityLeftClosed: 0,
   ready: "false",
+  side: "none"
 };
 
 let offrande1Y = 300; //////1
@@ -120,7 +121,8 @@ function redDraw() {
   drawCauldronFront();
   push();
   fill(255);
-  text(targetY, 300, 100);
+  text(hand.side, 300, 100);
+  text(hand.ready, 400, 100);
   fill("red");
   text(fondJeu3opacity, 100, 200);
   fill("green");
@@ -150,23 +152,43 @@ function redDraw() {
 }
 
 function drawHands() {
-  if (fondJeu3opacity <= -6600 && fondJeu3opacity >= -6800) {
+  if (fondJeu3opacity <= 0 && fondJeu3opacity >= -800) {
     if (hand.handY <= hand.maxY) {
+      //console.log("lebag");
       hand.handY = hand.handY;
+      hand.ready = "true";
     } else {
-      hand.handY -= 2;
+      hand.handY -= 4;
+      // hand.ready = "false";
     }
   }
 
-  if (hand.hand1X <= hand.minX1 || hand.hand1X >= hand.maxX1) {
-    hand.direction1 *= -1;
+  if (mouseX < width / 2) {
+    hand.side = "left";             // Mouse is on the left half
+  } else {
+    hand.side = "right";            // Mouse is on the right half
   }
-  if (hand.hand2X <= hand.minX2 || hand.hand2X >= hand.maxX2) {
-    hand.direction2 *= -1;
-  }
-  hand.hand1X += hand.speed1 * hand.direction1;
-  hand.hand2X += hand.speed2 * hand.direction2;
 
+  if (hand.side === "left" && hand.ready) {
+    console.log("left");
+    hand.hand1X = constrain(mouseX, hand.minX1, hand.maxX1);
+  } else {
+    if (hand.hand1X <= hand.minX1 || hand.hand1X >= hand.maxX1) {
+      hand.direction1 *= -1;
+    }
+    hand.hand1X += hand.speed1 * hand.direction1;
+  }
+
+  /*if (hand.ready === "true") {
+    if (hand.hand1X <= hand.minX1 || hand.hand1X >= hand.maxX1) {
+      hand.direction1 *= -1;
+    }
+    if (hand.hand2X <= hand.minX2 || hand.hand2X >= hand.maxX2) {
+      hand.direction2 *= -1;
+    }
+    hand.hand1X += hand.speed1 * hand.direction1;
+    hand.hand2X += hand.speed2 * hand.direction2;
+}*/
   push();
   fill(0, 100, 0, 100);
   tint(255, hand.opacityLeftOpen);
@@ -217,7 +239,7 @@ function redCinematic() {
     offrandeBrightness += 0.8;
   }
 
-  if (fondJeu3opacity <= -6700) {
+  if (fondJeu3opacity <= 0) {//-6700
     drawHands();
   }
 }
@@ -380,4 +402,4 @@ function redMousePressed() {
   addOpals();
 }
 
-function opalFallingLoop() {}
+function opalFallingLoop() { }
