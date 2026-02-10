@@ -23,6 +23,25 @@ let offrandeBrightness = 230;
 
 let grotteTopY = 0;
 
+let hand = {
+  hand1X: 200,
+  hand2X: 1200,
+  handY: 600,
+  handSize: 200,
+  speed1: 2,
+  direction1: 1,
+  speed2: 3,
+  direction2: 1,
+  maxX1: 700,
+  minX1: 100,
+  maxX2: 1500,
+  minX2: 900,
+  maxY1: 700,
+  minY1: 100,
+  maxY2: 700,
+  minY2: 100,
+}
+
 let offrande1Y = 300; //////1
 let offrande1X = 750; //
 let offrande2Y = 300; //////2
@@ -122,7 +141,23 @@ function redDraw() {
   text(cadreCounter, 1500, 800);
   pop();
 
+  drawHands();
+
   redCinematic();
+}
+
+function drawHands() {
+  if (hand.hand1X <= hand.minX1 || hand.hand1X >= hand.maxX1) {
+    hand.direction1 *= -1;
+  }
+  hand.hand1X += hand.speed1 * hand.direction1;
+  hand.hand2X += hand.speed1 * hand.direction1;
+  push();
+  tint(255, 255);
+  fill("red");
+  ellipse(hand.hand1X, hand.handY, hand.handSize);
+  ellipse(hand.hand2X, hand.handY, hand.handSize);
+  pop();
 }
 
 function redCinematic() {
