@@ -5,6 +5,7 @@
  */
 
 let cadreCounter = 0;
+let cadreCounterFinal = 0;
 
 let game1Blue = {
   x: 450,
@@ -38,20 +39,21 @@ let game3Red = {
 let game4Yellow = {
   x: 1000,
   y: 580,
-  width: 290,
-  height: 180,
+  width: 175,
+  height: 160,
   maxY: 620,
   minY: 520,
 };
 
 let escIcon = {
-  x: 1360,
-  y: 0,
-  width: 250,
-  height: 170,
-  maxY: 5,
-  minY: -10,
-  gameSpeedESC: 0.08,
+  x: 1400,
+  y: -20,
+  width: 230,
+  height: 150,
+  maxY: -8,
+  minY: -25,
+  gameSpeedESC: 0.25,
+  direction: 1,
 };
 
 let endTitleLogo = {
@@ -125,6 +127,7 @@ let menuImg18;
 let menuImg19;
 let menuImg20;
 let menuImg21;
+let menuImg22;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
@@ -150,6 +153,7 @@ function preload() {
   menuImg19 = loadImage("./assets/images/escbutton.png"); ///escape button
   menuImg20 = loadImage("./assets/images/jeuFin.png");
   menuImg21 = loadImage("./assets/images/jeuFinGlow.png");
+  menuImg22 = loadImage("./assets/images/cursor.png");
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -307,6 +311,10 @@ function preload() {
 function menuDraw() {
   background(0);
 
+  if (cadreCounter === 255) {
+    cadreCounterFinal += 25;
+  }
+
   push();
   tint(255, 255);
   //fill(0, 255, 0, 0);
@@ -389,7 +397,6 @@ function menuDraw() {
   rect(0, 0, width, height);
   /*fill(255);
   text(fadeOutToGame, 50, 200);
-
   text(fadeOutToGame1, 100, 100);
   fill(255, 0, 0);
   text(fadeOutToGame2, 300, 100);
@@ -408,6 +415,15 @@ function drawHandPointing() {
   tint(255, 255);
   image(menuImg6, mouseX - 60, mouseY - 60);
   pop();
+}
+
+function cadreCounterCheck() {
+  if (cadreCounter >= 255) {
+    cadreCounterFinal += 20;
+    if (cadreCounterFinal >= 255) {
+      cadreCounterFinal = 255;
+    }
+  }
 }
 
 function drawEndTitles() {
@@ -572,6 +588,19 @@ function menuCheckInput() {
       fadeInToGame4 = 0;
     }
   }
+  /////////////////////////////////fin icon/////////////////////////////
+  let dFin = dist(mouseX, mouseY, endTitleLogo.x, endTitleLogo.y);
+  if (dFin < endTitleLogo.size / 2) {
+    fadeInToEndTitles += 15;
+    if (fadeInToEndTitles > 255) {
+      fadeInToEndTitles = 255;
+    }
+  } else {
+    fadeInToEndTitles -= 5;
+    if (fadeInToEndTitles < 0) {
+      fadeInToEndTitles = 0;
+    }
+  }
 }
 /**
  * This will be called whenever the mouse is pressed while the menu is active
@@ -604,6 +633,13 @@ function menuMousePressed() {
     let d4Yellow = dist(mouseX, mouseY, game4Yellow.x, game4Yellow.y);
     if (d4Yellow < game4Yellow.width / 2) {
       fadeOutToGame4 += 1;
+      fadeOutToGame += 1;
+    }
+
+    //end game//
+    let dFin = dist(mouseX, mouseY, endTitleLogo.x, endTitleLogo.y);
+    if (dFin < endTitleLogo.size / 2 && cadreCounterFinal === 255) {
+      fadeOutToEndTitles += 1;
       fadeOutToGame += 1;
     }
   }

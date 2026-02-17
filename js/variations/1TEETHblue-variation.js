@@ -26,19 +26,19 @@ let mouthOpacity = 0;
 let blueInputEnabled = false; //no clicks at first
 
 let tray = {
-  x: 180,
-  x2: 180,
-  x3: 180,
+  x: 400,
+  x2: undefined,
+  x3: undefined,
   y: 840,
-  y2: 780,
+  y2: 810,
   direction: 1,
   width: 290,
-  width2: 70,
+  width2: 50,
   height: 100,
-  height2: 120,
+  height2: 140,
   velocity: 2,
+  updateVelocity: 0,
 };
-
 let carMover = {
   x: 1620,
   x2: 900,
@@ -53,6 +53,7 @@ let carMover = {
   size: 500,
   width: 890,
   height: 350,
+  direction: 1,
 };
 
 let teeth1TopRight = undefined;
@@ -143,26 +144,38 @@ function blueSetup() {
   function createTeeth(x, y, fill, tint, img) {
     const teeth = {
       teethTop: {
+        x: x,
         y: y, //will be set for each teeth
         readyToMove: false,
-        bouncable: false,
+        hasBounced: false,
+        teethState: "idle",
+        timerBeforeFall: 0, //starts at zero
+        direction: 0,
+        vy: 0, // vertical velocity
+        vx: 0, // horizontal velocity
+        point: true,
       },
       teethDown: {
+        x: x,
         y: y, //will be set for each teeth
         readyToMove: false,
-        bouncable: false,
+        hasBounced: false,
+        teethState: "idle",
+        timerBeforeFall: 0, //starts at zero
+        direction: 0,
+        vy: 0, // vertical velocity
+        vx: 0, // horizontal velocity
+        point: true,
       },
-      teethState: "untouchable",
-      x: x, //will be set for each teeth
       fill: fill, //will be 0                     3
       width: 100, //they should all be the same
       height: 180, //they should all be the same
       tint: tint, //                               4
-      timerBeforeFall: 0, //starts at zero
-      speed: 24,
-      teethTouchable: true,
-      randomVelocityTeeth: random(-1, 1),
-      //begoneTooth: 0, //does it have an end? not sure
+      //physics when droppping/////////////////////
+      ////////////
+      gravity: 0.6,
+      bounceStrength: -10,
+      sidePush: 10,
       image: {
         //this is where i cross my fingers. I want to add a different img to each teeth
         img: img, //                                5
@@ -179,6 +192,7 @@ function blueSetup() {
  */
 function blueDraw() {
   background("black");
+  noStroke();
 
   push();
   tint(255, fondJeu1opacity);
@@ -249,9 +263,9 @@ function blueDraw() {
   push();
   tint(255, blueOpacity); //blueOpacity
   image(menuImg16, 0, 0); //cadre complet4
-  tint(255, 0); //menuOpacityGlowProgression
+  tint(255, cadreCounter); //menuOpacityGlowProgression
   image(menuImg17, 0, 0); //cadre glow
-  tint(255, 0); //menuOpacityGlowFinal
+  tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
   pop();
 
@@ -277,11 +291,14 @@ function blueDraw() {
   drawTeethDownOnTop(teeth4DownLeft);
 
   push();
-  tint(255, trayOpacity);
-  image(blueImg30, tray.x - 85, tray.y - 40);
+  tint(255, trayOpacity); //trayOpacity
+  image(blueImg30, tray.x - 70, tray.y - 40);
   textSize(42);
   fill("blue");
-  text(cadreCounter, 1500, 800);
+  text(tray.UpdatableVelocityLow, 1500, 800);
+  text(cadreCounter, 1500, 700);
+  text(tray.velocity, 1500, 750);
+  text(tray.UpdatableVelocityTop, 1500, 850);
   pop();
 
   blueCinematic();
@@ -302,26 +319,26 @@ function blueDraw() {
 }
 
 function moveTray() {
-  tray.velocity;
+  tray.x2 = tray.x + tray.width / 2 + tray.width2; // right rim
+  tray.x3 = tray.x - tray.width / 2 - tray.width2; // left rim
   if (frameCount % 70 === 0) {
     randomVelocity = random(1, 6);
-    tray.velocity = int(randomVelocity);
+    tray.velocity = int(randomVelocity) + tray.updateVelocity;
   }
   push();
-  tint(255, 1); //trayOpacity
-  if (tray.x <= 90 || tray.x >= 1520) {
+  tint(255, trayOpacity); //trayOpacity
+  if (tray.x <= 90 || tray.x >= 1250) {
     tray.direction *= -1;
   }
   tray.x += tray.velocity * tray.direction;
-  tray.x2 = tray.x + 290;
-  tray.x3 = tray.x - 70;
-  image(blueImg29, tray.x - 65, tray.y - 40);
-  fill(255, 100);
-  rect(tray.x, tray.y, tray.width, tray.height); ///size of a teeth
-  fill(255, 0, 0, 100);
+  tray.x2 = tray.x + 300;
+  tray.x3 = tray.x - 60;
+  image(blueImg29, tray.x - 70, tray.y - 40);
+  /*fill(255, 0, 0, 50);
+  rect(tray.x, tray.y, tray.width, tray.height);
+  fill(0, 255, 0, 50);
   rect(tray.x2, tray.y2, tray.width2, tray.height2);
-  fill(0, 255, 0, 100);
-  rect(tray.x3, tray.y2, tray.width2, tray.height2);
+  rect(tray.x3, tray.y2, tray.width2, tray.height2);*/
   pop();
 }
 
@@ -368,9 +385,9 @@ function drawFirstTimeCar() {
   image(blueImg9, carMover.x, carMover.y - 250, width, height);
   tint(255, MainCarOpacity); //starts visible and will become invisible
   image(blueImg1, carMover.x, carMover.y - 250, width, height);
-  carMover.y += carMover.speedY * direction;
+  carMover.y += carMover.speedY * carMover.direction;
   if (carMover.y > carMover.maxY || carMover.y < carMover.minY) {
-    direction *= -1;
+    carMover.direction *= -1;
   }
 
   if (carMover.x <= -200) {
@@ -387,9 +404,9 @@ function drawEscBlue() {
   image(blueImg2, escIcon.x, escIcon.y, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
   //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
-  escIcon.y += escIcon.gameSpeedESC * direction;
+  escIcon.y += escIcon.gameSpeedESC * escIcon.direction;
   if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
-    direction *= -1;
+    escIcon.direction *= -1;
   }
   pop();
 }
@@ -398,14 +415,8 @@ function drawTeethTop(teeth) {
   push();
   noStroke();
   fill(255, 0);
-  rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
-  image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
-  //fill(50, 30, 60);
-  //textSize(16);
-  // text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
-  //text(teeth.teethTop.y, teeth.x + 50, teeth.teethTop.y + 90);
-  //text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
-  text(teeth.teethState, teeth.x + 50, teeth.teethTop.y + 125);
+  rect(teeth.teethTop.x, teeth.teethTop.y, teeth.width, teeth.height);
+  image(teeth.image.img, teeth.teethTop.x - 50, teeth.teethTop.y - 70);
   pop();
 }
 
@@ -413,17 +424,12 @@ function drawTeethTopOnTop(teeth) {
   if (teeth.teethTop.readyToMove === true) {
     push();
     noStroke();
-    fill(255, 255, 0, 100);
-
-    rect(teeth.x, teeth.teethTop.y, teeth.width, teeth.height);
-    //image(teeth.image.img, teeth.x - 50, teeth.teethTop.y - 70);
-    //fill(50, 30, 60);
-    //textSize(16);
-    //text(teeth.teethTop.readyToMove, teeth.x + 50, teeth.teethTop.y + 110);
-    //text(teeth.timerBeforeFall, teeth.x + 50, teeth.teethTop.y + 90);
-    //text(teeth.fall, teeth.x + 50, teeth.teethTop.y + 80);
-    //fill(255, 0, 0);
-    //text(teeth.begoneTooth, teeth.x + 50, teeth.teethTop.y + 125);
+    fill(255, 0);
+    rect(teeth.teethTop.x, teeth.teethTop.y, teeth.width, teeth.height);
+    image(teeth.image.img, teeth.teethTop.x - 50, teeth.teethTop.y - 70);
+    //fill(255);
+    //textSize(24);
+    //text(teeth.teethTop.x, teeth.teethTop.x + 100, teeth.teethTop.y);
     pop();
   }
 }
@@ -432,13 +438,8 @@ function drawTeethDown(teeth) {
   push();
   noStroke();
   fill(255, 0);
-  rect(teeth.x, teeth.teethDown.y, teeth.width, teeth.height);
-  image(teeth.image.img, teeth.x - 50, teeth.teethDown.y - 70);
-  fill(50, 30, 60);
-  textSize(16);
-  text(teeth.teethState, teeth.x + 50, teeth.teethDown.y + 110);
-  //text(teeth.teethDown.y, teeth.x + 50, teeth.teethDown.y + 90);
-  //text(teeth.fall, teeth.x + 50, teeth.teethDown.y + 80);*/
+  rect(teeth.teethDown.x, teeth.teethDown.y, teeth.width, teeth.height);
+  image(teeth.image.img, teeth.teethDown.x - 50, teeth.teethDown.y - 70);
   pop();
 }
 
@@ -447,13 +448,8 @@ function drawTeethDownOnTop(teeth) {
     push();
     noStroke();
     fill(255, 0);
-    rect(teeth.x, teeth.teethDown.y, teeth.width, teeth.height);
-    image(teeth.image.img, teeth.x - 50, teeth.teethDown.y - 70);
-    /*fill(50, 30, 60);
-    textSize(16);
-    text(teeth.randomVelocityTeeth, teeth.x + 50, teeth.teethDown.y + 110);
-    //text(teeth.teethDown.y, teeth.x + 50, teeth.teethDown.y + 90);
-    //text(teeth.fall, teeth.x + 50, teeth.teethDown.y + 80);*/
+    rect(teeth.teethDown.x, teeth.teethDown.y, teeth.width, teeth.height);
+    image(teeth.image.img, teeth.teethDown.x - 50, teeth.teethDown.y - 70);
     pop();
   }
 }
@@ -497,134 +493,264 @@ function blueKeyPressed(event) {
     readyGame1 = false;
     fadeOutToGame = 0;
   }
-
-  if (event.keyCode === 66) {//b
-    cadreCounter += 1;
-  } else {
-    cadreCounter = cadreCounter;
-  }
 }
 
 function blueCheckInput(teeth) {
-  const distTeethTopToTray =
-    teeth.x + teeth.width / 2 > tray.x - tray.width / 2 &&
-    teeth.x - teeth.width / 2 < tray.x + tray.width / 2 &&
-    teeth.teethTop.y + teeth.height / 2 > tray.y - tray.height / 2 &&
-    teeth.teethTop.y - teeth.height / 2 < tray.y + tray.height / 2;
+  if (teethOpacity >= 255) {
+    const hitCenterT =
+      teeth.teethTop.x + teeth.width > tray.x && // right edge of teeth
+      teeth.teethTop.x < tray.x + tray.width && // left edge of teeth
+      teeth.teethTop.y + teeth.height > tray.y && // bottom edge
+      teeth.teethTop.y < tray.y + tray.height; // top edge
 
-  const distTeethTopToTrayRightSide =
-    teeth.x + teeth.width / 2 > tray.x2 - tray.width2 &&
-    teeth.x - teeth.width / 2 < tray.x2 + tray.width2 &&
-    teeth.teethTop.y + teeth.height / 2 > tray.y2 - tray.height2 / 2 &&
-    teeth.teethTop.y - teeth.height / 2 < tray.y2 + tray.height2 / 2;
+    const hitRightT =
+      teeth.teethTop.x + teeth.width > tray.x2 &&
+      teeth.teethTop.x < tray.x2 + tray.width2 &&
+      teeth.teethTop.y + teeth.height > tray.y2 &&
+      teeth.teethTop.y < tray.y2 + tray.height2;
 
-  const distTeethTopToTrayLeftSide =
-    teeth.x + teeth.width / 2 > tray.x3 - tray.width2 &&
-    teeth.x - teeth.width / 2 < tray.x3 + tray.width2 &&
-    teeth.teethTop.y + teeth.height / 2 > tray.y2 - tray.height2 / 2 &&
-    teeth.teethTop.y - teeth.height / 2 < tray.y2 + tray.height2 / 2;
+    const hitLeftT =
+      teeth.teethTop.x + teeth.width > tray.x3 &&
+      teeth.teethTop.x < tray.x3 + tray.width2 &&
+      teeth.teethTop.y + teeth.height > tray.y2 &&
+      teeth.teethTop.y < tray.y2 + tray.height2;
 
-  /*if (distTeethTopToTrayRightSide) {
-    console.log("tray touch teeth RIGHT");
-  }
+    let goLeft = false;
+    let goRight = false;
 
-  if (distTeethTopToTrayLeftSide) {
-    console.log("tray touch teeth LEFT");
-  }*/
-
-  if (distTeethTopToTray) {
-    console.log("tray touch teeth TOP");
-  }
-
-  const teethMouseOverlapTop =
-    mouseX > teeth.x &&
-    mouseX < teeth.x + teeth.width &&
-    mouseY > teeth.teethTop.y &&
-    mouseY < teeth.teethTop.y + teeth.height; //
-  //useY < height / 2.1;
-
-  const teethMouseOverlapDown =
-    mouseX > teeth.x &&
-    mouseX < teeth.x + teeth.width &&
-    mouseY > teeth.teethDown.y &&
-    mouseY < teeth.teethDown.y + teeth.height &&
-    mouseY > height / 1.9 &&
-    mouseY < height / 1.05;
-
-  if (teethOpacity === 255) {
-    // console.log("all teeth visible");
-    teeth.teethState = "idle";
-  } else if (
-    teethMouseOverlapTop &&
-    mouseIsPressed &&
-    teeth.teethState === "idle"
-  ) {
-    teeth.teethTop.y += 1;
-    if (teeth.teethTop.y >= 300) {
-      teeth.teethState = "removed";
-    }
-  } else if (teethMouseOverlapTop && teeth.teethState === "removed") {
-    teeth.x = mouseX - 50;
-    teeth.teethTop.y = mouseY - 50;
-    teeth.teethTop.readyToMove = true;
-    teeth.timerBeforeFall += 1;
-    trayOpacity += 2;
-    if (trayOpacity > 255) {
-      trayOpacity = 255;
-    }
-    if (teeth.timerBeforeFall >= 50 && mouseIsPressed) {
-      teeth.teethState = "drop";
-    }
-  } else if (teeth.teethState === "drop") {
-    teeth.teethTop.y += 8;
+    /////////////////////////////////top////////////////////////////////////////
+    const teethMouseOverlapTop =
+      mouseX > teeth.teethTop.x &&
+      mouseX < teeth.teethTop.x + teeth.width &&
+      mouseY > teeth.teethTop.y &&
+      mouseY < teeth.teethTop.y + teeth.height;
+    /////////////////////////////////////////////////////////////////
+    //////////////////first click/////////////////////////
     if (
-      (distTeethTopToTrayRightSide && !distTeethTopToTray) ||
-      (distTeethTopToTrayLeftSide && !distTeethTopToTray)
+      teethMouseOverlapTop &&
+      mouseIsPressed &&
+      teeth.teethTop.teethState === "idle"
     ) {
-      console.log("tray touch teeth SIDES");
-      teeth.teethState = "bounce";
+      teeth.teethTop.teethState = "removing";
     }
-  } else if (teeth.teethState === "bounce") {
-    teeth.teethTop.bouncable = true;
-    teeth.teethTop.y -= 8;
-    if (teeth.teethTop.bouncable === true) {
-      teeth.randomVelocityTeeth;
-      teeth.x += teeth.speed * teeth.randomVelocityTeeth;
-    }
-    if (teeth.teethTop.y <= 575) {
-      console.log("top limit");
-      teeth.teethState = "finalDrop";
-    }
-  } else if (teeth.teethState === "finalDrop") {
-    teeth.teethTop.y += 8;
-  }
+    //////////////////removing the tooth/////////////////////
+    if (
+      teethMouseOverlapTop &&
+      mouseIsPressed &&
+      teeth.teethTop.teethState === "removing"
+    ) {
+      teeth.teethTop.y += 0.5;
+      if (teeth.teethTop.y >= 300) {
+        teeth.teethTop.teethState = "removed";
+      }
+    } //////////////////////////////////////////////////////////////////////////////
+    if (teethMouseOverlapTop && teeth.teethTop.teethState === "removed") {
+      teeth.teethTop.x = mouseX - 50;
+      teeth.teethTop.y = mouseY - 50;
+      teeth.teethTop.readyToMove = true;
+      teeth.teethTop.timerBeforeFall += 1;
+      trayOpacity += 2;
+      if (trayOpacity > 255) {
+        trayOpacity = 255;
+      } /////////////////////////////////////////////////////////////////////////
+      if (
+        teeth.teethTop.timerBeforeFall >= 60 &&
+        mouseIsPressed &&
+        mouseY < 450
+      ) {
+        teeth.teethTop.teethState = "drop";
+      }
+    } else if (teeth.teethTop.teethState === "drop") {
+      teeth.teethTop.y += 0.5;
+      //gravity
+      teeth.teethTop.vy += teeth.gravity;
+      teeth.teethTop.y += teeth.teethTop.vy;
+      //limit
+      let groundY = 885;
+      let groundedTeeth = teeth.teethTop.y >= groundY;
 
-  if (teethOpacity === 255) {
-    // console.log("all teeth visible");
-    teeth.teethState = "idle";
-  } else if (
-    teethMouseOverlapDown &&
-    mouseIsPressed &&
-    teeth.teethState === "idle"
-  ) {
-    teeth.teethDown.y -= 1;
-    if (teeth.teethDown.y <= 450) {
-      teeth.teethState = "removed";
+      if (teeth.teethTop.y > groundY) {
+        teeth.teethTop.y = groundY;
+      }
+
+      if (
+        (hitRightT || hitLeftT) &&
+        !teeth.teethTop.hasBounced &&
+        !groundedTeeth
+      ) {
+        teeth.teethTop.vy = teeth.bounceStrength;
+        teeth.teethTop.direction = random(-1, 1);
+        ///////////horizontally///////////////////
+        teeth.teethTop.hasBounced = true;
+      }
+
+      if (hitLeftT && groundedTeeth) {
+        //console.log("groundteethleft");
+        goLeft = true;
+        if (goLeft) {
+          teeth.teethTop.x -= 5;
+        }
+      }
+
+      if (hitRightT && groundedTeeth) {
+        //console.log("groundteethright");
+        goRight = true;
+        if (goRight) {
+          teeth.teethTop.x += 5;
+        }
+      }
+
+      if (teeth.teethTop.hasBounced === true) {
+        teeth.teethTop.vx = teeth.sidePush * teeth.teethTop.direction;
+        teeth.teethTop.x += teeth.teethTop.vx;
+      }
+
+      if (!hitRightT && !hitLeftT && hitCenterT && !groundedTeeth) {
+        teeth.teethTop.teethState = "caught";
+      }
     }
-  } else if (teethMouseOverlapDown && teeth.teethState === "removed") {
-    teeth.x = mouseX - 50;
-    teeth.teethDown.y = mouseY - 50;
-    teeth.teethDown.readyToMove = true;
-    teeth.timerBeforeFall += 1;
-    trayOpacity += 2;
-    if (trayOpacity > 255) {
-      trayOpacity = 255;
+    if (teeth.teethTop.teethState === "caught" && hitCenterT) {
+      let groundYTray = 850;
+      teeth.teethTop.y += 4;
+      if (teeth.teethTop.point) {
+        cadreCounter += 2;
+        tray.updateVelocity += 0.25;
+        endTitleLogo.opacity2 += 1;
+        teeth.teethTop.point = false;
+      }
+      if (teeth.teethTop.y > groundYTray) {
+        teeth.teethTop.y = groundYTray;
+      }
+      teeth.teethTop.x += tray.velocity * tray.direction;
     }
-    if (teeth.timerBeforeFall >= 50 && mouseIsPressed) {
-      teeth.teethState = "drop";
+
+    ///////////////////////////////////////////down/////////////////////////////////
+    ///////////////////////////////////////////down/////////////////////////////////
+    ///////////////////////////////////////////down/////////////////////////////////
+    const hitCenterD =
+      teeth.teethDown.x + teeth.width > tray.x && // right edge of teeth
+      teeth.teethDown.x < tray.x + tray.width && // left edge of teeth
+      teeth.teethDown.y + teeth.height > tray.y && // bottom edge
+      teeth.teethDown.y < tray.y + tray.height; // top edge
+
+    const hitRightD =
+      teeth.teethDown.x + teeth.width > tray.x2 &&
+      teeth.teethDown.x < tray.x2 + tray.width2 &&
+      teeth.teethDown.y + teeth.height > tray.y2 &&
+      teeth.teethDown.y < tray.y2 + tray.height2;
+
+    const hitLeftD =
+      teeth.teethDown.x + teeth.width > tray.x3 &&
+      teeth.teethDown.x < tray.x3 + tray.width2 &&
+      teeth.teethDown.y + teeth.height > tray.y2 &&
+      teeth.teethDown.y < tray.y2 + tray.height2;
+
+    const teethMouseOverlapDown =
+      mouseX > teeth.teethDown.x &&
+      mouseX < teeth.teethDown.x + teeth.width &&
+      mouseY > teeth.teethDown.y &&
+      mouseY < teeth.teethDown.y + teeth.height;
+
+    /////////////////////////////////////////////////////////////////
+    //////////////////first click/////////////////////////
+    if (
+      teethMouseOverlapDown &&
+      mouseIsPressed &&
+      teeth.teethDown.teethState === "idle"
+    ) {
+      teeth.teethDown.teethState = "removing";
     }
-  } else if (teeth.teethState === "drop") {
-    teeth.teethDown.y += 6.5;
+    //////////////////removing the tooth/////////////////////
+    if (
+      teethMouseOverlapDown &&
+      mouseIsPressed &&
+      teeth.teethDown.teethState === "removing"
+    ) {
+      teeth.teethDown.y -= 0.5;
+      if (teeth.teethDown.y <= 450) {
+        teeth.teethDown.teethState = "removed";
+      }
+    } //////////////////////////////////////////////////////////////////////////////
+    if (teethMouseOverlapDown && teeth.teethDown.teethState === "removed") {
+      teeth.teethDown.x = mouseX - 50;
+      teeth.teethDown.y = mouseY - 50;
+      teeth.teethDown.readyToMove = true;
+      teeth.teethDown.timerBeforeFall += 1;
+      trayOpacity += 2;
+      if (trayOpacity > 255) {
+        trayOpacity = 255;
+      } /////////////////////////////////////////////////////////////////////////
+      if (
+        teeth.teethDown.timerBeforeFall >= 60 &&
+        mouseIsPressed &&
+        mouseY < 600
+      ) {
+        teeth.teethDown.teethState = "drop";
+      }
+    } else if (teeth.teethDown.teethState === "drop") {
+      teeth.teethDown.y += 0.5;
+      //gravity
+      teeth.teethDown.vy += teeth.gravity;
+      teeth.teethDown.y += teeth.teethDown.vy;
+      //limit
+      let groundY = 885;
+      let groundedTeeth = teeth.teethDown.y >= groundY;
+
+      if (teeth.teethDown.y > groundY) {
+        teeth.teethDown.y = groundY;
+      }
+
+      if (
+        (hitRightD || hitLeftD) &&
+        !teeth.teethDown.hasBounced &&
+        !groundedTeeth
+      ) {
+        teeth.teethDown.vy = teeth.bounceStrength;
+        teeth.teethDown.direction = random(-1, 1);
+        ///////////horizontally///////////////////
+        teeth.teethDown.hasBounced = true;
+      }
+
+      if (hitLeftD && groundedTeeth) {
+        //console.log("groundteethleft");
+        goLeft = true;
+        if (goLeft) {
+          teeth.teethDown.x -= 5;
+        }
+      }
+
+      if (hitRightD && groundedTeeth) {
+        //console.log("groundteethright");
+        goRight = true;
+        if (goRight) {
+          teeth.teethDown.x += 5;
+        }
+      }
+
+      if (teeth.teethDown.hasBounced === true) {
+        teeth.teethDown.vx = teeth.sidePush * teeth.teethDown.direction;
+        teeth.teethDown.x += teeth.teethDown.vx;
+      }
+
+      if (!hitRightD && !hitLeftD && hitCenterD && !groundedTeeth) {
+        teeth.teethDown.teethState = "caught";
+      }
+    }
+    if (teeth.teethDown.teethState === "caught" && hitCenterD) {
+      let groundYTray = 850;
+      teeth.teethDown.y += 4;
+      if (teeth.teethDown.point) {
+        cadreCounter += 1;
+        tray.updateVelocity += 0.25;
+        tray.updateVelocity += 0.25;
+        endTitleLogo.opacity2 += 1;
+        teeth.teethDown.point = false;
+      }
+      if (teeth.teethDown.y > groundYTray) {
+        teeth.teethDown.y = groundYTray;
+      }
+      teeth.teethDown.x += tray.velocity * tray.direction;
+    }
   }
 }
 

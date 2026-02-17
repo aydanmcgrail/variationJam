@@ -87,7 +87,7 @@ let decor = [];
 let decorIndex = 0;
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-function yellowSetup() { }
+function yellowSetup() {}
 
 function yellowDraw() {
   background("black");
@@ -109,12 +109,12 @@ function yellowDraw() {
   yellowDrawHandPointing();
 
   push();
-  tint(255, 255); //yellowOpacity
+  tint(255, yellowOpacity); //yellowOpacity
   image(menuImg16, 0, 0); //cadre complet4
   drawEscYellow();
-  tint(255, 0); //menuOpacityGlowProgression
+  tint(255, cadreCounter); //menuOpacityGlowProgression
   image(menuImg17, 0, 0); //cadre glow
-  tint(255, 0); //menuOpacityGlowFinal
+  tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
   textSize(42);
   fill("blue");
@@ -134,12 +134,11 @@ function yellowDraw() {
 function drawEscYellow() {
   push();
   tint(255, yellowOpacity - 100);
-  image(blueImg2, escIcon.x, escIcon.y - 110, escIcon.width, escIcon.height);
+  image(blueImg2, escIcon.x, escIcon.y, escIcon.width, escIcon.height);
   fill(255, 0, 0, 0);
-  //ellipse(rightSideFraming.x, escIcon.y, escIcon.width, escIcon.height);
-  escIcon.y += escIcon.gameSpeedESC * direction;
+  escIcon.y += escIcon.gameSpeedESC * escIcon.direction;
   if (escIcon.y > escIcon.maxY || escIcon.y < escIcon.minY) {
-    direction *= -1;
+    escIcon.direction *= -1;
   }
   pop();
 }
@@ -147,6 +146,10 @@ function drawEscYellow() {
 function yellowCinematic() {
   if (yellowFadeIn <= 50) {
     fondJeu4opacity -= 0.5;
+  }
+
+  if (fondJeu4opacity <= 150) {
+    yellowOpacity += 2;
   }
 
   if (decor1Done === true) {
@@ -172,7 +175,6 @@ function yellowCinematic() {
     decor1Done = false;
     fondNoirOpacity = 255;
     decorIndex = 1;
-    cadreCounter += 1;
   }
 
   if (decorSpacing2 >= 275) {
@@ -180,7 +182,6 @@ function yellowCinematic() {
     decor2Done = false;
     fondNoirOpacity = 255;
     decorIndex = 2;
-    cadreCounter += 1;
   }
 
   if (decorSpacing3 >= 275) {
@@ -188,7 +189,6 @@ function yellowCinematic() {
     decor3Done = false;
     fondNoirOpacity = 255;
     decorIndex = 3;
-    cadreCounter += 1;
   }
 
   if (decorSpacing4 >= 275) {
@@ -196,14 +196,12 @@ function yellowCinematic() {
     decor4Done = false;
     fondNoirOpacity = 255;
     decorIndex = 0;
-    cadreCounter += 1;
-
   }
 }
 
 function yellowDrawHandPointing() {
   push();
-  tint(255, 255);
+  tint(255, yellowOpacity);
   image(menuImg6, mouseX - 45, mouseY - 60, 300, 920);
   pop();
 }
@@ -223,7 +221,7 @@ function yellowTargets() {
 
   push();
 
-  let maxHeight = 705;
+  let maxHeight = 730;
   let minHeight = 160;
   let maxWidth = 1400;
   let minWidth = 200;
@@ -244,14 +242,6 @@ function yellowKeyPressed(event) {
     readyGame4 = false;
     fadeOutToGame = 0;
   }
-
-  if (event.keyCode === 89) {//y
-    cadreCounter += 1;
-  } else {
-    cadreCounter = cadreCounter;
-  }
-
-
 }
 
 /**
@@ -274,19 +264,22 @@ function yellowMousePressed() {
 
   if (overlaptarget1 && decorIndex === 0) {
     decor1Done = true;
-
-    //decorIndex = 1; //trigger event that will make yellowimg5 transparent. wh ndone = decorindex += 1;
+    cadreCounter += 10;
+    endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget2 && decorIndex === 1) {
     decor2Done = true;
-    //decorIndex = 2;
+    cadreCounter += 10;
+    endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget3 && decorIndex === 2) {
     decor3Done = true;
-    //decorIndex = 3;
+    cadreCounter += 10;
+    endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget4 && decorIndex === 3) {
     decor4Done = true;
-    //decorIndex = 0;
+    cadreCounter += 10;
+    endTitleLogo.opacity2 += 10;
   }
 }

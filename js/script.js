@@ -16,7 +16,7 @@ let state = "menu";
  */
 function setup() {
   createCanvas(1600, 900);
-  //noCursor();
+  noCursor();
 }
 
 /**
@@ -70,8 +70,12 @@ function mousePressed() {
       endTitlesMousePressed();
       break;
   }
+  redMousePressed();
 }
 
+function mouseReleased() {
+  redMouseReleased();
+}
 /**
  * Listen for keypressed and call the function for it in the
  * current state
