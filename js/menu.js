@@ -244,7 +244,7 @@ function preload() {
     greenImg28, //7
     greenImg29, //8
   ];
-
+  /////
   ////////////////////red variation images//////////////////////
   redImg1 = loadImage("./assets/images/fondjeu32.png");
   redImg2 = loadImage("./assets/images/OPALEmal.png"); ////////////opales
@@ -280,7 +280,7 @@ function preload() {
   yellowImg5 = loadImage("./assets/images/noiravectrou.png");
   //yellowImg6 = loadImage("./assets/images/jeu1.png");
   yellowImg7 = loadImage("./assets/images/fondjeu42.png");
-  //img8 = loadImage("./assets/images/frogidlestone.png");
+  //yellowImg8 = loadImage("./assets/images/frogidlestone.png");
   decor = [yellowImg1, yellowImg2, yellowImg3, yellowImg4];
 
   endImg1 = loadImage("assets/images/cadre.png"); //cadre complet
