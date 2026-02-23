@@ -253,12 +253,12 @@ function preload() {
   redImg5 = loadImage("./assets/images/gastank.png"); /////////trinket
   redImg6 = loadImage("./assets/images/trumpet.png"); /////////trinket
   redImg7 = loadImage("./assets/images/viking.png"); /////////trinket
-  redImg8 = loadImage("./assets/images/krony.png"); /////////trinket
+  redImg8 = loadImage("./assets/images/krony1.png"); /////////trinket
   redImg9 = loadImage("./assets/images/godhandopenleft.png"); ////left
   redImg10 = loadImage("./assets/images/godhandopenleftCLOSED.png"); //left closed
   redImg11 = loadImage("./assets/images/godhandopenright.png"); //// right
   redImg12 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //// right closed
-  redImg13 = loadImage("./assets/images/topGrotte2.png");
+  redImg13 = loadImage("./assets/images/topGrotte21.png");
   redImg14 = loadImage("./assets/images/downgrotte.png");
   redImg15 = loadImage("./assets/images/cauldronback.png");
   redImg16 = loadImage("./assets/images/cauldronfront.png");
