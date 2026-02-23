@@ -106,13 +106,7 @@ let redImg23;
 let redImg24;
 let redImg25;
 
-//This will be called just before the red variation starts
-
-function redSetup() {
-  /*setTimeout(addOpalMal, opalDelayM);
-  setTimeout(addOpalRouge, opalDelayR);
-  setTimeout(addOpalBleu, opalDelayB);*/
-}
+function redSetup() {}
 
 /**
  * This will be called every frame when the red variation is active
@@ -160,22 +154,17 @@ function redDraw() {
 
   push();
   tint(255, redOpacity); //redOpacity
-  image(menuImg16, 0, 0); //cadre complet4
+  image(menuImg17, 0, 0); //cadre complet4
+  drawCounterBar();
+  image(menuImg16, 0, 0); //cadre glow
   drawEscRed();
-  tint(255, cadreCounter); //menuOpacityGlowProgression
-  image(menuImg17, 0, 0); //cadre glow
   tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
-
-  textSize(42);
-  fill("blue");
-  text(cadreCounter, 1500, 800);
   pop();
 
   redCinematic();
   drawCursor();
-
-  //console.log(opalsBleu.length, opalsRouge.length, opalsMal.length);
+  cadreCounterCheck();
 }
 
 function drawEscRed() {
@@ -260,7 +249,6 @@ function drawHands() {
     }
     hand.hand2X += hand.speed2 * hand.direction2;
   }
-
   push();
   fill(0, 0, 0, 0);
   tint(hand.brightness, hand.opacityLeftOpen);
@@ -566,7 +554,7 @@ function createOpalM() {
       x: 0,
       y: random(6, 8),
     },
-    size: 80,
+    size: 100,
     fill: "#43bb57",
     img: redImg2,
   };
@@ -606,7 +594,6 @@ function redKeyPressed(event) {
     fadeOutToGame = 0;
   }
 }
-
 /**
  * This will be called whenever the mouse is pressed while the red variation is active
  */
@@ -627,7 +614,8 @@ function redMousePressed() {
       // And remove it
       opalsRouge.splice(indexR, 1);
       cadreCounter += 1;
-      endTitleLogo.opacity2 += 1;
+      endTitleLogo.opacity1 += 2;
+      endTitleLogo.opacity2 += 10;
     }
   }
 
@@ -641,7 +629,8 @@ function redMousePressed() {
       // And remove it
       opalsBleu.splice(indexB, 1);
       cadreCounter += 1;
-      endTitleLogo.opacity2 += 1;
+      endTitleLogo.opacity1 += 2;
+      endTitleLogo.opacity2 += 10;
     }
   }
 
@@ -656,6 +645,9 @@ function redMousePressed() {
       // And remove it
       opalsMal.splice(indexM, 1);
       cadreCounter -= 1;
+      if (cadreCounter < 1) {
+        cadreCounter = 1;
+      }
       endTitleLogo.opacity2 -= 1;
     }
   }
@@ -683,6 +675,9 @@ function checkRedInput() {
   // trigger only once when touch starts
   if (touching && !opalMalTouching) {
     cadreCounter -= 2;
+    if (cadreCounter < 1) {
+      cadreCounter = 1;
+    }
   }
   opalMalTouching = touching;
   if (touching) {

@@ -146,7 +146,7 @@ function endTitlesDraw() {
   image(endImg18, 0, 0);
   pop();
 
-  finFadeIn -= 4;
+  finFadeIn -= 2;
   fill(0, finFadeIn);
   rect(0, 0, 1600, 900);
   push();
@@ -154,8 +154,8 @@ function endTitlesDraw() {
   textSize(32);
   //text(startTimerFist, 200, 200);
   //text(timerFistGoLeft, 250, 200);
-  text(langue.state, 1500, 380);
-  text(femmeOpacity, 1500, 430);
+  //text(langue.state, 1500, 380);
+  //text(femmeOpacity, 1500, 430);
   pop();
 
   let fadeOutEnd = 0;

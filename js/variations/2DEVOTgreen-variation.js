@@ -14,6 +14,8 @@ let rightGlowingHandOpacity = 0;
 let leftGlowingHandOpacity = 0;
 let toucheOpacity1 = 0;
 let toucheOpacity2 = 0;
+let pointWon = false;
+let pointLost = false;
 ////////////////////images//////////////////////
 let greenImg1;
 let greenImg2;
@@ -54,6 +56,9 @@ let devotswitch = false;
 let texteOpacity = 255;
 let showText = false;
 
+let impairIndex = [4, 5, 6, 7]; ////////////////////good
+let pairIndex = [0, 1, 2, 3]; //////////////////////evil
+
 let persoArray = [];
 let persoIndex = 0; //starts with first image
 ///for the up and down of the devots
@@ -89,7 +94,9 @@ let shockTimer = false;
 /**
  * This will be called just before the green variation starts
  */
-function greenSetup() {}
+function greenSetup() {
+  console.log(cadreCounter);
+}
 
 /**
  * This will be called every frame when the green variation is active
@@ -142,11 +149,14 @@ function greenDraw() {
   image(greenImg21, 1355, 500, 200, 145);
   tint(255, toucheOpacity2);
   image(greenImg19, 55, 500, 200, 145);
+  pop();
+
+  push();
   tint(255, greenOpacity);
+  image(menuImg17, 0, 0);
+  drawCounterBar();
   image(menuImg16, 0, 0); //cadre complet4
   drawEscGreen();
-  tint(255, cadreCounter); //menuOpacityGlowProgression
-  image(menuImg17, 0, 0); //cadre glow2
   tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
   pop();
@@ -160,9 +170,7 @@ function greenDraw() {
   push();
   fill(255, 255);
   textSize(42);
-  //text(leftHandMoving, 200, 200);
-  text(fondJeu2opacity, 200, 400);
-  //text(randomWord, 200, 600);
+  //text(fondJeu2opacity, 200, 400);
   pop();
   push();
   tint(255, texteOpacity);
@@ -176,6 +184,7 @@ function greenDraw() {
   tint(255, greenOpacity);
   image(menuImg22, mouseX, mouseY);
   pop();
+  cadreCounterCheck();
 }
 
 function drawTextDevot() {
@@ -188,11 +197,9 @@ function drawTextDevot() {
     randomIndex = floor(random(words.length));
     randomWord = words[randomIndex];
   }
-  let pairIndex = [0, 1, 2, 3];
   if (pairIndex.includes(randomIndex)) {
     console.log("pair");
   }
-  let impairIndex = [4, 5, 6, 7];
   if (impairIndex.includes(randomIndex)) {
     console.log("impair");
   }
@@ -228,9 +235,6 @@ function greenCinematic() {
   } else {
     showText = false;
   }
-
-  if (fondJeu2opacity <= 150) {
-  }
 }
 
 function drawLeftHandPointing() {
@@ -249,7 +253,12 @@ function drawLeftHandPointing() {
     mouseY > leftHandY &&
     mouseY < leftHandY + 506;
 
-  if (distMouseLeftHand && leftHandMoving === "idle") {
+  if (
+    (distMouseLeftHand &&
+      leftHandMoving === "idle" &&
+      fondJeu2opacity <= 150) ||
+    (fondJeu2opacity <= -20 && fondJeu2opacity >= -180)
+  ) {
     leftGlowingHandOpacity += 15;
     toucheOpacity2 += 15;
     if (leftGlowingHandOpacity > 255 || toucheOpacity2 > 255) {
@@ -306,7 +315,10 @@ function drawHandOpen() {
     mouseY > handY &&
     mouseY < handY + handHeight;
 
-  if (distMouseRightHand && handMove === "0") {
+  if (
+    (distMouseRightHand && handMove === "0" && fondJeu2opacity <= 150) ||
+    (fondJeu2opacity <= -20 && fondJeu2opacity >= -180)
+  ) {
     rightGlowingHandOpacity += 15;
     toucheOpacity1 += 15;
     if (rightGlowingHandOpacity > 255 || toucheOpacity1 > 255) {
@@ -388,6 +400,9 @@ function drawHandOpen() {
       handMoving = false;
     }
   }
+
+  if (fondJeu2opacity <= 180) {
+  }
 }
 
 function drawDevots() {
@@ -439,24 +454,39 @@ function greenKeyPressed(event) {
     readyGame2 = false;
     fadeOutToGame = 0;
   }
+  //////////////////////////////good////////////////////////////////////
+  //////////////////////////////good////////////////////////////////////
   if (event.keyCode === 38 && handMoving === false) {
+    //////good
     handMove = "1";
     handMoving = true;
+    if (impairIndex.includes(randomIndex)) {
+      cadreCounter += 5;
+      endTitleLogo.opacity1 += 2;
+      endTitleLogo.opacity2 += 10;
+    }
+    if (pairIndex.includes(randomIndex)) {
+      cadreCounter -= 5;
+      if (cadreCounter < 1) {
+        cadreCounter = 1;
+      }
+    }
   }
+  ///////////////////////////////evil///////////////////////////////////////////
+  ///////////////////////////////evil///////////////////////////////////////////
   if (event.keyCode === 40 && handMoving === false) {
     leftHandMoving = "moving";
-  }
-
-  if (event.keyCode === 32) {
-    randomIndex = floor(random(words.length));
-    randomWord = words[randomIndex];
-  }
-
-  if (event.keyCode === 71) {
-    //g
-    cadreCounter += 1;
-  } else {
-    cadreCounter = cadreCounter;
+    if (pairIndex.includes(randomIndex)) {
+      cadreCounter += 5;
+      endTitleLogo.opacity1 += 2;
+      endTitleLogo.opacity2 += 10;
+    }
+    if (impairIndex.includes(randomIndex)) {
+      cadreCounter -= 5;
+      if (cadreCounter < 1) {
+        cadreCounter = 1;
+      }
+    }
   }
 }
 

@@ -262,9 +262,9 @@ function blueDraw() {
 
   push();
   tint(255, blueOpacity); //blueOpacity
-  image(menuImg16, 0, 0); //cadre complet4
-  tint(255, cadreCounter); //menuOpacityGlowProgression
-  image(menuImg17, 0, 0); //cadre glow
+  image(menuImg17, 0, 0); //cadre complet4
+  drawCounterBar();
+  image(menuImg16, 0, 0);
   tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
   pop();
@@ -293,17 +293,18 @@ function blueDraw() {
   push();
   tint(255, trayOpacity); //trayOpacity
   image(blueImg30, tray.x - 70, tray.y - 40);
-  textSize(42);
+  /*textSize(42);
   fill("blue");
   text(tray.UpdatableVelocityLow, 1500, 800);
   text(cadreCounter, 1500, 700);
   text(tray.velocity, 1500, 750);
-  text(tray.UpdatableVelocityTop, 1500, 850);
+  text(tray.UpdatableVelocityTop, 1500, 850);*/
   pop();
 
   blueCinematic();
 
   drawEscBlue();
+  cadreCounterCheck();
 
   /*push();
   fill("green");
@@ -316,6 +317,12 @@ function blueDraw() {
   fill(255, 0, 0);
   text(tray.velocity, 500, 440);
   pop();*/
+}
+
+function drawCounterBar() {
+  let counterX = map(cadreCounter, 0, 255, 0, 202, true);
+  let counterY = map(cadreCounter, 0, 30, 0, 48, true);
+  image(menuImg23, 699, 737, counterX, counterY);
 }
 
 function moveTray() {
@@ -613,7 +620,9 @@ function blueCheckInput(teeth) {
       let groundYTray = 850;
       teeth.teethTop.y += 4;
       if (teeth.teethTop.point) {
-        cadreCounter += 2;
+        cadreCounter += 4;
+        endTitleLogo.opacity1 += 2;
+        endTitleLogo.opacity2 += 10;
         tray.updateVelocity += 0.25;
         endTitleLogo.opacity2 += 1;
         teeth.teethTop.point = false;
@@ -740,10 +749,11 @@ function blueCheckInput(teeth) {
       let groundYTray = 850;
       teeth.teethDown.y += 4;
       if (teeth.teethDown.point) {
-        cadreCounter += 1;
+        cadreCounter += 2;
+        endTitleLogo.opacity1 += 2;
+        endTitleLogo.opacity2 += 10;
         tray.updateVelocity += 0.25;
         tray.updateVelocity += 0.25;
-        endTitleLogo.opacity2 += 1;
         teeth.teethDown.point = false;
       }
       if (teeth.teethDown.y > groundYTray) {

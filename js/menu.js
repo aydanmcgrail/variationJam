@@ -4,7 +4,7 @@
  * This keeps the stuff the menu needs to do *separate* from the rest of the program.
  */
 
-let cadreCounter = 0;
+let cadreCounter = 1;
 let cadreCounterFinal = 0;
 
 let game1Blue = {
@@ -128,6 +128,7 @@ let menuImg19;
 let menuImg20;
 let menuImg21;
 let menuImg22;
+let menuImg23;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
@@ -147,13 +148,14 @@ function preload() {
   menuImg13 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //tied to mouse move
   menuImg14 = loadImage("./assets/images/godhandopenleft.png"); //tied to mouse move
   menuImg15 = loadImage("./assets/images/godhandopenleftCLOSED.png"); //tied to mouse move
-  menuImg16 = loadImage("./assets/images/cadrecomplet.png"); ///BASE FRAME
-  menuImg17 = loadImage("./assets/images/cadrecompletsatisfaction.png"); ///frame will glow when levels will be done successfully
+  menuImg16 = loadImage("./assets/images/cadrecomplet2.png"); ///BASE FRAME
+  menuImg17 = loadImage("./assets/images/cadrecomplet4.png"); ///frame will glow when levels will be done successfully
   menuImg18 = loadImage("./assets/images/cadrecompletsatisfactionfinal.png"); ///final frame glow to show it is all done
   menuImg19 = loadImage("./assets/images/escbutton.png"); ///escape button
   menuImg20 = loadImage("./assets/images/jeuFin.png");
   menuImg21 = loadImage("./assets/images/jeuFinGlow.png");
   menuImg22 = loadImage("./assets/images/cursor.png");
+  menuImg23 = loadImage("./assets/images/cadreglow.png");
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -385,6 +387,13 @@ function menuDraw() {
   game4Yellow.y += menuSpeed2 * direction;
   game4Yellow.x += menuSpeed2 * direction;
 
+  if (cadreCounterFinal >= 255) {
+    endTitleLogo.opacity1 = 255;
+  }
+  if (endTitleLogo.opacity1 === 255) {
+    endTitleLogo.opacity2 += 10;
+  }
+
   drawEndTitles();
   drawHandPointing();
 
@@ -410,6 +419,13 @@ function menuDraw() {
   text(fadeInToGame2, 300, 400);*/
   pop();
 }
+
+function drawCounterBar() {
+  let counterX = map(cadreCounter, 0, 255, 0, 202, true);
+  let counterY = map(cadreCounter, 0, 30, 0, 48, true);
+  image(menuImg23, 699, 737, counterX, counterY);
+}
+
 function drawHandPointing() {
   push();
   tint(255, 255);
@@ -418,6 +434,9 @@ function drawHandPointing() {
 }
 
 function cadreCounterCheck() {
+  if (cadreCounter <= 0) {
+    cadreCounter = 0;
+  }
   if (cadreCounter >= 255) {
     cadreCounterFinal += 20;
     if (cadreCounterFinal >= 255) {

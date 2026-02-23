@@ -110,10 +110,10 @@ function yellowDraw() {
 
   push();
   tint(255, yellowOpacity); //yellowOpacity
-  image(menuImg16, 0, 0); //cadre complet4
+  image(menuImg17, 0, 0); //cadre complet4
+  drawCounterBar();
+  image(menuImg16, 0, 0);
   drawEscYellow();
-  tint(255, cadreCounter); //menuOpacityGlowProgression
-  image(menuImg17, 0, 0); //cadre glow
   tint(255, cadreCounterFinal); //menuOpacityGlowFinal
   image(menuImg18, 0, 0); //cadre final glow
   textSize(42);
@@ -122,6 +122,7 @@ function yellowDraw() {
   pop();
 
   yellowCinematic();
+  cadreCounterCheck();
 
   /*fill("green");
   textSize(42);
@@ -220,14 +221,13 @@ function yellowTargets() {
   pop();
 
   push();
-
   let maxHeight = 730;
   let minHeight = 160;
   let maxWidth = 1400;
   let minWidth = 200;
-  tint(255, fondNoirOpacity); //blueOpacity
   let xConstrain = constrain(mouseX, minWidth, maxWidth) - 1400;
   let yConstrain = constrain(mouseY, minHeight, maxHeight) - 685;
+  tint(255, fondNoirOpacity); //blueOpacity
   image(yellowImg5, xConstrain, yConstrain, 2800, 1375); //cadre complet
   pop();
 }
@@ -264,22 +264,26 @@ function yellowMousePressed() {
 
   if (overlaptarget1 && decorIndex === 0) {
     decor1Done = true;
-    cadreCounter += 10;
+    cadreCounter += 150;
+    endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget2 && decorIndex === 1) {
     decor2Done = true;
-    cadreCounter += 10;
+    cadreCounter += 150;
+    endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget3 && decorIndex === 2) {
     decor3Done = true;
-    cadreCounter += 10;
+    cadreCounter += 50;
+    endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget4 && decorIndex === 3) {
     decor4Done = true;
-    cadreCounter += 10;
+    cadreCounter += 50;
+    endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
 }
