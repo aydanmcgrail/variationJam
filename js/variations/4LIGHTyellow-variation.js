@@ -86,6 +86,8 @@ let target4 = {
 let decor = [];
 let decorIndex = 0;
 ///////////////////////////////////////////////////////////////////////////////////////////
+let noirX = 0;
+let noirY = 0;
 
 function yellowSetup() {}
 
@@ -118,7 +120,7 @@ function yellowDraw() {
   image(menuImg18, 0, 0); //cadre final glow
   textSize(42);
   fill("blue");
-  text(cadreCounter, 1500, 800);
+  //text(cadreCounter, 1500, 800);
   pop();
 
   yellowCinematic();
@@ -225,10 +227,12 @@ function yellowTargets() {
   let minHeight = 160;
   let maxWidth = 1400;
   let minWidth = 200;
-  let xConstrain = constrain(mouseX, minWidth, maxWidth) - 1400;
-  let yConstrain = constrain(mouseY, minHeight, maxHeight) - 685;
+  let targetX = constrain(mouseX, minWidth, maxWidth) - 1400;
+  let targetY = constrain(mouseY, minHeight, maxHeight) - 685;
+  noirX = lerp(noirX, targetX, 0.05);
+  noirY = lerp(noirY, targetY, 0.05);
   tint(255, fondNoirOpacity); //blueOpacity
-  image(yellowImg5, xConstrain, yConstrain, 2800, 1375); //cadre complet
+  image(yellowImg5, noirX, noirY, 2800, 1375); //cadre complet
   pop();
 }
 
@@ -264,25 +268,25 @@ function yellowMousePressed() {
 
   if (overlaptarget1 && decorIndex === 0) {
     decor1Done = true;
-    cadreCounter += 150;
+    cadreCounter += 25;
     endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget2 && decorIndex === 1) {
     decor2Done = true;
-    cadreCounter += 150;
+    cadreCounter += 25;
     endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget3 && decorIndex === 2) {
     decor3Done = true;
-    cadreCounter += 50;
+    cadreCounter += 25;
     endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }
   if (overlaptarget4 && decorIndex === 3) {
     decor4Done = true;
-    cadreCounter += 50;
+    cadreCounter += 25;
     endTitleLogo.opacity1 += 2;
     endTitleLogo.opacity2 += 10;
   }

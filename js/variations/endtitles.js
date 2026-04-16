@@ -86,17 +86,36 @@ let endImg20;
 let endImg21;
 let endImg22;
 
+let petoncleLoop;
+let endAudioStarted = false;
+
 /**
  * OH LOOK I DIDN'T DESCRIBE SETUP!!
  */
 function endTitlesSetup() {
   createCanvas(1600, 900);
+
+  if (kremerloopSound1 && kremerloopSound1.isPlaying()) {
+    kremerloopSound1.stop();
+  }
+  if (kremerloopSound2 && kremerloopSound2.isPlaying()) {
+    kremerloopSound2.stop();
+  }
+
+  if (typeof startEndAudio === "function") {
+    startEndAudio();
+  }
 }
 
 /**
  * OOPS I DIDN'T DESCRIBE WHAT MY DRAW DOES!
  */
 function endTitlesDraw() {
+  if (!menuKremerloopStarted && kremerloopSound1.isLoaded()) {
+    kremerloopSound1.setLoop(true);
+    kremerloopSound1.loop(0, 1, kremerloopVolume);
+    menuKremerloopStarted = true;
+  }
   background("black");
   endCinematic();
   endCheckInput();
@@ -172,6 +191,18 @@ function endTitlesDraw() {
 function endCinematic() {
   if (finFadeIn <= 25) {
     introFinOpacity -= 4;
+    startEndAudio();
+  }
+}
+
+function startEndAudio() {
+  if (!endAudioStarted && petoncleloopSound && petoncleloopSound.isLoaded()) {
+    userStartAudio();
+
+    petoncleloopSound.setLoop(true);
+    petoncleloopSound.loop(0, 1, petoncleloopVolume);
+
+    endAudioStarted = true;
   }
 }
 
@@ -468,16 +499,25 @@ function endCheckInput() {
 
 function endTitlesKeyPressed(event) {
   if (event.keyCode === 27) {
-    //&& other condition now uncreated
+    if (petoncleloopSound && petoncleloopSound.isPlaying()) {
+      petoncleloopSound.stop();
+    }
+
     state = "menu";
     menuClicked = false;
-    5;
     readyEndTitles = false;
+
+    audioStarted = false;
+
     fadeOutToGame = 0;
   }
 }
 
-function endTitlesMousePressed() {}
+function endTitlesMousePressed() {
+  if (!petoncleLoop.isPlaying()) {
+    petoncleLoop.loop();
+  }
+}
 
 /**
  * if click on torchontarget = le torchon va suivre

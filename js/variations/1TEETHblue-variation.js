@@ -23,7 +23,8 @@ let paysageOpacity = 0;
 let teethOpacity = 0;
 let mouthOpacity = 0;
 
-let blueInputEnabled = false; //no clicks at first
+let carIdlePlaying = false;
+let firstToothMoved = false;
 
 let tray = {
   x: 400,
@@ -109,6 +110,11 @@ let blueImg30;
  * This will be called just before the blue variation starts
  */
 function blueSetup() {
+  if (carIdleSound) {
+    carIdleSound.stop();
+  }
+  carIdlePlaying = false;
+  setKremerloopVolume(blueKremerloopVolume);
   ////////////                  1    2        3             4             5
   ////////////                  x,   y,      fill,         tint,         img
   teeth1TopRight = createTeeth(840, 240, "#e8e9dcff", teethOpacity, blueImg17);
@@ -154,6 +160,7 @@ function blueSetup() {
         vy: 0, // vertical velocity
         vx: 0, // horizontal velocity
         point: true,
+        hasPlayedRemoveSound: false,
       },
       teethDown: {
         x: x,
@@ -166,6 +173,7 @@ function blueSetup() {
         vy: 0, // vertical velocity
         vx: 0, // horizontal velocity
         point: true,
+        hasPlayedRemoveSound: false,
       },
       fill: fill, //will be 0                     3
       width: 100, //they should all be the same
@@ -193,6 +201,19 @@ function blueSetup() {
 function blueDraw() {
   background("black");
   noStroke();
+
+  // Car idle sound
+  if (carMover.x > -200) {
+    if (!carIdlePlaying) {
+      carIdleSound.loop(0, 1, carIdleVolume);
+      carIdlePlaying = true;
+    }
+  } else {
+    if (carIdlePlaying) {
+      carIdleSound.stop();
+      carIdlePlaying = false;
+    }
+  }
 
   push();
   tint(255, fondJeu1opacity);
@@ -494,11 +515,33 @@ function drawGlowCar() {
  */
 function blueKeyPressed(event) {
   if (event.keyCode === 27) {
-    state = "menu";
-    blueFadeIn = 255;
-    menuClicked = false;
+    // Stop sounds
+    if (carIdleSound && carIdlePlaying) {
+      carIdleSound.stop();
+    }
+    carIdlePlaying = false;
+
+    // 🔥 VERY IMPORTANT: reset menu triggers
     readyGame1 = false;
+    fadeOutToGame1 = 0;
+    fadeInToGame1 = 0;
+
+    // Reset global fade
     fadeOutToGame = 0;
+
+    // Reset menu state
+    menuClicked = false;
+
+    // Reset visuals
+    blueFadeIn = 255;
+
+    // Go back to menu
+    state = "menu";
+
+    // Restore menu music volume
+    setKremerloopVolume(normalKremerloopVolume);
+
+    return; //
   }
 }
 
@@ -549,11 +592,22 @@ function blueCheckInput(teeth) {
       teeth.teethTop.y += 0.5;
       if (teeth.teethTop.y >= 300) {
         teeth.teethTop.teethState = "removed";
+        if (!teeth.teethTop.hasPlayedRemoveSound) {
+          dentcraqueSound.play(0, 1, dentcraqueVolume);
+          angrysoundSound.play(0, 1, angrysoundVolume);
+          teeth.teethTop.hasPlayedRemoveSound = true;
+        }
       }
     } //////////////////////////////////////////////////////////////////////////////
     if (teethMouseOverlapTop && teeth.teethTop.teethState === "removed") {
       teeth.teethTop.x = mouseX - 50;
-      teeth.teethTop.y = mouseY - 50;
+      let topYLimit = height * 0.7;
+      let targetY = mouseY - 50;
+      let maxY = topYLimit - teeth.height;
+      if (targetY > maxY) {
+        targetY = maxY;
+      }
+      teeth.teethTop.y = targetY;
       teeth.teethTop.readyToMove = true;
       teeth.teethTop.timerBeforeFall += 1;
       trayOpacity += 2;
@@ -620,7 +674,7 @@ function blueCheckInput(teeth) {
       let groundYTray = 850;
       teeth.teethTop.y += 4;
       if (teeth.teethTop.point) {
-        cadreCounter += 4;
+        cadreCounter += 6;
         endTitleLogo.opacity1 += 2;
         endTitleLogo.opacity2 += 10;
         tray.updateVelocity += 0.25;
@@ -678,11 +732,20 @@ function blueCheckInput(teeth) {
       teeth.teethDown.y -= 0.5;
       if (teeth.teethDown.y <= 450) {
         teeth.teethDown.teethState = "removed";
+        if (!teeth.teethDown.hasPlayedRemoveSound) {
+          dentcraqueSound.play(0, 1, dentcraqueVolume);
+          angrysoundSound.play(0, 1, angrysoundVolume);
+          teeth.teethDown.hasPlayedRemoveSound = true;
+        }
       }
     } //////////////////////////////////////////////////////////////////////////////
     if (teethMouseOverlapDown && teeth.teethDown.teethState === "removed") {
       teeth.teethDown.x = mouseX - 50;
-      teeth.teethDown.y = mouseY - 50;
+      let targetY = mouseY - 50;
+      if (targetY > teeth.teethDown.y) {
+        targetY = teeth.teethDown.y;
+      }
+      teeth.teethDown.y = targetY;
       teeth.teethDown.readyToMove = true;
       teeth.teethDown.timerBeforeFall += 1;
       trayOpacity += 2;
@@ -749,7 +812,7 @@ function blueCheckInput(teeth) {
       let groundYTray = 850;
       teeth.teethDown.y += 4;
       if (teeth.teethDown.point) {
-        cadreCounter += 2;
+        cadreCounter += 8;
         endTitleLogo.opacity1 += 2;
         endTitleLogo.opacity2 += 10;
         tray.updateVelocity += 0.25;

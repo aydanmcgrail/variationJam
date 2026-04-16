@@ -24,6 +24,9 @@ const minimumOpalDelayM = 1000;
 const maximumOpalDelayM = 4000;
 let opalDelayM = maximumOpalDelayM;
 let opalMalTouching = false;
+let opalRougeTouching = false;
+let opalBleuTouching = false;
+
 ////////////////////////////////////
 let opalsRouge = [];
 let maxOpalsRouge = 4;
@@ -613,9 +616,10 @@ function redMousePressed() {
       const indexR = opalsRouge.indexOf(opalR);
       // And remove it
       opalsRouge.splice(indexR, 1);
-      cadreCounter += 1;
+      cadreCounter += 5;
       endTitleLogo.opacity1 += 2;
       endTitleLogo.opacity2 += 10;
+      sonraseSound.play(0, 1, sonraseVolume);
     }
   }
 
@@ -628,9 +632,10 @@ function redMousePressed() {
       const indexB = opalsBleu.indexOf(opalB);
       // And remove it
       opalsBleu.splice(indexB, 1);
-      cadreCounter += 1;
+      cadreCounter += 5;
       endTitleLogo.opacity1 += 2;
       endTitleLogo.opacity2 += 10;
+      sonraseSound.play(0, 1, sonraseVolume);
     }
   }
 
@@ -644,7 +649,7 @@ function redMousePressed() {
       const indexM = opalsMal.indexOf(opalM);
       // And remove it
       opalsMal.splice(indexM, 1);
-      cadreCounter -= 1;
+      cadreCounter -= 4;
       if (cadreCounter < 1) {
         cadreCounter = 1;
       }
@@ -674,10 +679,11 @@ function checkRedInput() {
   }
   // trigger only once when touch starts
   if (touching && !opalMalTouching) {
-    cadreCounter -= 2;
+    cadreCounter -= 4;
     if (cadreCounter < 1) {
       cadreCounter = 1;
     }
+    angrysoundSound.play(0, 1, angrysoundVolume);
   }
   opalMalTouching = touching;
   if (touching) {

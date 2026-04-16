@@ -39,6 +39,9 @@ function draw() {
     case "4LIGHTyellow-variation":
       yellowDraw();
       break;
+    case "5PLANES-variation":
+      planesDraw();
+      break;
     case "endTitles":
       endTitlesDraw();
       break;
@@ -66,6 +69,9 @@ function mousePressed() {
     case "4LIGHTyellow-variation":
       yellowMousePressed();
       break;
+    /*case "5PLANES-variation":
+      planesMousePressed();
+      break;*/
     case "endTitles":
       endTitlesMousePressed();
       break;
@@ -97,6 +103,9 @@ function keyPressed(event) {
     case "4LIGHTyellow-variation":
       yellowKeyPressed(event);
       break;
+    /*case "5PLANES-variation":
+      planesKeyPressed();
+      break;*/
     case "endTitles":
       endTitlesKeyPressed(event);
       break;

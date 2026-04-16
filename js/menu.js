@@ -45,6 +45,23 @@ let game4Yellow = {
   minY: 520,
 };
 
+let game5Planes = {
+  x: 450,
+  y: 580,
+  width: 290,
+  height: 180,
+  maxY: 620,
+  minY: 520,
+  maxX: 480,
+  minX: 420,
+  // Plane movement properties
+  vx: 2,
+  baseY: 580,
+  hoverOffset: Math.random() * 1000,
+};
+
+let game5PlaneImg;
+
 let escIcon = {
   x: 1400,
   y: -20,
@@ -90,6 +107,10 @@ let fadeOutToGame4 = 0;
 let fadeInToGame4 = 0;
 let readyGame4 = false;
 
+let fadeOutToGame5 = 0;
+let fadeInToGame5 = 0;
+let readyGame5 = false;
+
 let fadeOutToEndTitles = 0;
 let fadeInToEndTitles = 0;
 let readyEndTitles = false;
@@ -101,6 +122,9 @@ let menuSpeed3 = 0.6;
 let menuSpeed4 = 0.002;
 let direction = 1;
 let easing = 0.5;
+
+// Time counter for plane movement
+let timePlane = 0;
 
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
@@ -130,6 +154,56 @@ let menuImg21;
 let menuImg22;
 let menuImg23;
 
+//////////////////////////////////sounds////////////////////////////////////////////////////////////////
+// Volume variables for each sound
+let kremerloopVolume = 0.5;
+let normalKremerloopVol1ume = 0.5;
+let blueKremerloopVolume = 0.2;
+let endTitlesKremerloopVolume = 0;
+let carIdleVolume = 0.5;
+let dentcraqueVolume = 0.5;
+let angrysoundVolume = 0.5;
+let sonraseVolume = 0.9;
+let thunderVolume = 0.5;
+let choirVolume = 0.5;
+let petoncleaudioVolume = 0.5;
+let petoncleloopVolume = 0.5;
+let lickVolume = 0.5;
+let wipingVolume = 0.5;
+let knockVolume = 0.5;
+
+function setKremerloopVolume(volume) {
+  kremerloopVolume = volume;
+  if (kremerloopSound1) {
+    kremerloopSound1.setVolume(volume);
+  }
+  if (kremerloopSound2) {
+    kremerloopSound2.setVolume(volume);
+  }
+}
+
+// Sound objects
+let kremerloopSound1;
+let kremerloopSound2;
+let carIdleSound;
+let dentcraqueSound;
+let angrysoundSound;
+let sonraseSound;
+let thunderSound;
+let choirSound;
+let petoncleaudioSound;
+let petoncleloopSound;
+let lickSound;
+let wipingSound;
+let knockSound;
+
+// For looping with crossfade
+let kremerloopDuration = 0; // will be set after loading
+let kremerloopStartTime = 0;
+let menuKremerloopStarted = false;
+let currentKremerloop = 1;
+let audioStarted = false;
+
 //////////////////////////////////images and visuals////////////////////////////////////////////////////////////////
 function preload() {
   ////////////////////menu images//////////////////////
@@ -143,6 +217,9 @@ function preload() {
   menuImg8 = loadImage("./assets/images/jeu22.png");
   menuImg9 = loadImage("./assets/images/jeu32.png");
   menuImg10 = loadImage("./assets/images/jeu42.png");
+
+  // Load plane5.png for the 5th game icon
+  game5PlaneImg = loadImage("./assets/images/plane5.png");
   menuImg11 = loadImage("./assets/images/jeu1.png");
   menuImg12 = loadImage("./assets/images/godhandopenright.png"); //tied to mouse move
   menuImg13 = loadImage("./assets/images/godhandopenrightCLOSED.png"); //tied to mouse move
@@ -156,6 +233,21 @@ function preload() {
   menuImg21 = loadImage("./assets/images/jeuFinGlow.png");
   menuImg22 = loadImage("./assets/images/cursor.png");
   menuImg23 = loadImage("./assets/images/cadreglow.png");
+
+  ////////////////////sounds//////////////////////
+  kremerloopSound1 = loadSound("./assets/sounds/kremerloop.mp3");
+  kremerloopSound2 = loadSound("./assets/sounds/kremerloop.mp3");
+  carIdleSound = loadSound("./assets/sounds/car idle.mp3");
+  dentcraqueSound = loadSound("./assets/sounds/dentcraque.mp3");
+  angrysoundSound = loadSound("./assets/sounds/angrysound.mp3");
+  sonraseSound = loadSound("./assets/sounds/sonrase.mp3");
+  thunderSound = loadSound("./assets/sounds/thunder.mp3");
+  choirSound = loadSound("./assets/sounds/choir.mp3");
+  petoncleaudioSound = loadSound("./assets/sounds/petoncleaudio.mp3");
+  petoncleloopSound = loadSound("./assets/sounds/petoncleloop.mp3");
+  lickSound = loadSound("./assets/sounds/lick.mp3");
+  wipingSound = loadSound("./assets/sounds/wiping.mp3");
+  knockSound = loadSound("./assets/sounds/knock.mp3");
 
   ////////////////////blue variation images//////////////////////
   blueImg1 = loadImage("./assets/images/auto.png"); //auto qui bouge
@@ -221,6 +313,8 @@ function preload() {
   greenImg29 = loadImage("./assets/images/BIENroche.png"); /////////texte bien
   greenImg30 = loadImage("./assets/images/mainplateGLOW.png"); /////////GLOW
   greenImg31 = loadImage("./assets/images/godhandrightGlow.png"); /////////GLOW
+  greenImg32 = loadImage("./assets/images/bobcreme.png");
+  greenImg33 = loadImage("./assets/images/pouleman.png");
 
   persoArray = [
     //greenImg18,
@@ -232,6 +326,8 @@ function preload() {
     greenImg8,
     greenImg9,
     greenImg10,
+    greenImg32,
+    greenImg33,
   ];
 
   words = [
@@ -311,7 +407,12 @@ function preload() {
  * Display the main menu
  */
 function menuDraw() {
+  // Handle kremerloop crossfade looping
+
   background(0);
+
+  // Increment time for plane movement
+  timePlane++;
 
   if (cadreCounter === 255) {
     cadreCounterFinal += 25;
@@ -387,6 +488,37 @@ function menuDraw() {
   game4Yellow.y += menuSpeed2 * direction;
   game4Yellow.x += menuSpeed2 * direction;
 
+  ////////////////////////5PLANES-variation//////////////////////////
+  // Move the plane like in the game (right to left with wobble)
+  game5Planes.x -= game5Planes.vx;
+  game5Planes.y =
+    game5Planes.baseY +
+    Math.sin(timePlane * 0.05 + game5Planes.hoverOffset) * 10;
+
+  // Wrap around when it goes off screen
+  if (game5Planes.x < -200) {
+    // plane width is about 200
+    game5Planes.x = 1600 + 100; // reset to right side
+    game5Planes.baseY = random(height * 0.05, height * 0.95); // random Y between 5% and 95% of height
+    game5Planes.hoverOffset = Math.random() * 1000; // new random offset
+  }
+
+  // Draw plane5.png image
+  push();
+  tint(255, 255);
+  image(game5PlaneImg, game5Planes.x, game5Planes.y, 200, 90);
+
+  pop();
+
+  // Invisible ellipse for mouse interaction (positioned at plane center)
+  fill(0, 0);
+  ellipse(
+    game5Planes.x + 100,
+    game5Planes.y + 45,
+    game5Planes.width * 0.5,
+    game5Planes.height * 0.5,
+  );
+
   if (cadreCounterFinal >= 255) {
     endTitleLogo.opacity1 = 255;
   }
@@ -418,6 +550,18 @@ function menuDraw() {
   text(fadeInToGame3, 200, 400);
   text(fadeInToGame2, 300, 400);*/
   pop();
+}
+
+function startMenuAudio() {
+  if (!audioStarted && kremerloopSound1 && kremerloopSound1.isLoaded()) {
+    userStartAudio();
+
+    kremerloopSound1.setLoop(true);
+    kremerloopSound1.loop(0, 1, kremerloopVolume);
+
+    audioStarted = true;
+    menuKremerloopStarted = true;
+  }
 }
 
 function drawCounterBar() {
@@ -481,6 +625,9 @@ function menuCinematic() {
   if (fadeOutToGame4 >= 1) {
     fadeOutToGame4 += 1.5;
   }
+  if (fadeOutToGame5 >= 1) {
+    fadeOutToGame5 += 1.5;
+  }
   if (fadeOutToEndTitles >= 1) {
     fadeOutToEndTitles += 1.5;
   }
@@ -508,6 +655,12 @@ function menuCinematic() {
     readyGame4 = true;
     fadeInToGame4 = 270;
   }
+
+  if (fadeOutToGame5 >= 270) {
+    readyGame5 = true;
+    fadeInToGame5 = 270;
+  }
+
   if (fadeOutToEndTitles >= 270) {
     readyEndTitles = true;
     fadeInToEndTitles = 270;
@@ -543,6 +696,13 @@ function menuGoToGame() {
     fadeOutToGame4 = 0;
     rect(0, 0, width, height);
   }
+
+  if (fadeOutToGame5 >= 270) {
+    state = "5PLANES-variation";
+    fadeOutToGame5 = 0;
+    rect(0, 0, width, height);
+  }
+
   if (fadeOutToEndTitles >= 270) {
     state = "endTitles";
     endTitlesSetup();
@@ -607,6 +767,21 @@ function menuCheckInput() {
       fadeInToGame4 = 0;
     }
   }
+
+  /////////////////////////planes icon/////////////////////////
+  /*let d5Planes = dist(mouseX, mouseY, game5Planes.x + 100, game5Planes.y + 45);
+  if (d5Planes < game5Planes.width / 2) {
+    fadeInToGame5 += 15;
+    if (fadeInToGame5 > 255) {
+      fadeInToGame5 = 255;
+    }
+  } else {
+    fadeInToGame5 -= 5;
+    if (fadeInToGame5 < 0) {
+      fadeInToGame5 = 0;
+    }
+  }*/
+
   /////////////////////////////////fin icon/////////////////////////////
   let dFin = dist(mouseX, mouseY, endTitleLogo.x, endTitleLogo.y);
   if (dFin < endTitleLogo.size / 2) {
@@ -625,6 +800,8 @@ function menuCheckInput() {
  * This will be called whenever the mouse is pressed while the menu is active
  */
 function menuMousePressed() {
+  startMenuAudio();
+
   if (!menuInputEnabled === false && menuClicked === false) {
     //after the && this is to prevent clicking on another menu that will send to next game.
     //1 blue game//
@@ -655,6 +832,18 @@ function menuMousePressed() {
       fadeOutToGame += 1;
     }
 
+    /*//5 planes game//
+    let d5Planes = dist(
+      mouseX,
+      mouseY,
+      game5Planes.x + 100,
+      game5Planes.y + 45,
+    );
+    if (d5Planes < game5Planes.width / 2) {
+      fadeOutToGame5 += 1;
+      fadeOutToGame += 1;
+    }*/
+
     //end game//
     let dFin = dist(mouseX, mouseY, endTitleLogo.x, endTitleLogo.y);
     if (dFin < endTitleLogo.size / 2 && cadreCounterFinal === 255) {
@@ -667,6 +856,8 @@ function menuMousePressed() {
  * Listen to the keyboard
  */
 function menuKeyPressed(event) {
+  startMenuAudio();
+
   switch (event.keyCode) {
     case 51:
       1;

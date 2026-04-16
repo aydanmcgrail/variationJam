@@ -56,8 +56,8 @@ let devotswitch = false;
 let texteOpacity = 255;
 let showText = false;
 
-let impairIndex = [4, 5, 6, 7]; ////////////////////good
-let pairIndex = [0, 1, 2, 3]; //////////////////////evil
+let impairIndex = [5, 6, 7, 8, 9]; ////////////////////good
+let pairIndex = [0, 1, 2, 3, 4]; //////////////////////evil
 
 let persoArray = [];
 let persoIndex = 0; //starts with first image
@@ -90,12 +90,14 @@ let leftHandHeight = 506;
 let leftHandMoving = "idle";
 let leftHandOpacity = 0;
 let shockTimer = false;
+let thunderPlayed = false;
 
 /**
  * This will be called just before the green variation starts
  */
 function greenSetup() {
   console.log(cadreCounter);
+  thunderPlayed = false;
 }
 
 /**
@@ -176,7 +178,7 @@ function greenDraw() {
   tint(255, texteOpacity);
   textSize(42);
   fill("blue");
-  text(cadreCounter, 1500, 800);
+  //text(cadreCounter, 1500, 800);
   drawTextDevot();
   pop();
 
@@ -291,6 +293,12 @@ function drawLeftHandPointing() {
       shockTimer = 0;
       leftHandOpacity = 0;
     }
+    if (leftHandOpacity >= 255 && !thunderPlayed) {
+      if (thunderSound) {
+        thunderSound.play(0, 1, thunderVolume);
+      }
+      thunderPlayed = true;
+    }
   } else if (leftHandMoving === "shockedDone") {
     leftHandX -= 4;
     fondBaseOpacity = 255;
@@ -339,6 +347,9 @@ function drawHandOpen() {
   if (handX === 640 && handY === 670) {
     handMove = "2";
     devotState = "up";
+    if (choirSound) {
+      choirSound.play(0, 1, choirVolume);
+    }
   } else if (handX === 640 && handY === 170) {
     handMove = "3";
   } else if (handX === 1190 && handY === 170) {
@@ -425,7 +436,7 @@ function drawDevots() {
       devotState = "float";
       persoIndex += 1;
       devotOpacity = 0;
-      if (persoIndex >= 9) {
+      /*if (persoIndex >= 10) {
         persoIndex = 1;
       }*/
   }
@@ -437,7 +448,7 @@ function drawDevots() {
     randomIndex = floor(random(words.length));
     randomWord = words[randomIndex];
     texteOpacity += 1;
-    if (persoIndex >= 8) {
+    if (persoIndex >= 10) {
       persoIndex = 0;
     }
   }
@@ -461,12 +472,12 @@ function greenKeyPressed(event) {
     handMove = "1";
     handMoving = true;
     if (impairIndex.includes(randomIndex)) {
-      cadreCounter += 5;
+      cadreCounter += 10;
       endTitleLogo.opacity1 += 2;
       endTitleLogo.opacity2 += 10;
     }
     if (pairIndex.includes(randomIndex)) {
-      cadreCounter -= 5;
+      cadreCounter -= 10;
       if (cadreCounter < 1) {
         cadreCounter = 1;
       }
@@ -477,12 +488,12 @@ function greenKeyPressed(event) {
   if (event.keyCode === 40 && handMoving === false) {
     leftHandMoving = "moving";
     if (pairIndex.includes(randomIndex)) {
-      cadreCounter += 5;
+      cadreCounter += 10;
       endTitleLogo.opacity1 += 2;
       endTitleLogo.opacity2 += 10;
     }
     if (impairIndex.includes(randomIndex)) {
-      cadreCounter -= 5;
+      cadreCounter -= 10;
       if (cadreCounter < 1) {
         cadreCounter = 1;
       }
@@ -513,7 +524,7 @@ function cadreColore123() {
 function greenMousePressed() {
   /*persoIndex += 1;
 
-  if (persoIndex >= 8) {
+  /*if (persoIndex >= 10) {
     persoIndex = 0;
   }*/
 }
